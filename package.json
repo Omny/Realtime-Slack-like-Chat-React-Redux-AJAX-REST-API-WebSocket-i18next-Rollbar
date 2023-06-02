@@ -1,0 +1,22 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Realtime Chat on React/Redux, using AJAX, REST, websockets, React Hooks and Redux",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Omny/frontend-project-12.git"
+  },
+  "author": "Artem Petrishchev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Omny/frontend-project-12/issues"
+  },
+  "homepage": "https://github.com/Omny/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.6"
+  }
+}
