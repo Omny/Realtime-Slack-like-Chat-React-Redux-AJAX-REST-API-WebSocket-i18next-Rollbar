@@ -1,18 +1,24 @@
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import Toast from 'react-bootstrap/Toast';
 
-const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <p>
-        Edit
-        {' '}
-        <code>src/App.js</code>
-        {' '}
-        and save to reload.
-      </p>
-    </header>
-  </div>
-);
+const App = (props) => {
+  const { children } = props;
+
+  return (
+    <body className="h-100 bg-light">
+      <div className="h-100">
+        <div className="h-100" id="chat">
+          <div className="d-flex flex-column h-100">
+            <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+              <div className="container">
+                <a className="navbar-brand" href="/">Hexlet Chat</a>
+              </div>
+            </nav>
+            {children}
+          </div>
+        </div>
+      </div>
+    </body>
+  );
+};
 
 export default App;
