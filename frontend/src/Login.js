@@ -1,36 +1,79 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+} from 'formik';
+import * as Yup from 'yup';
+import cn from 'classnames';
 import login from './login.jpg';
 
+const SignupSchema = Yup.object().shape({
+  username: Yup.string()
+    // .min(3, 'Минимум 3 символа')
+    // .max(50, 'Максимум 50 символов')
+    .required('Обязательное поле'),
+  password: Yup.string()
+    // .min(6, 'Минимум 6 символов')
+    // .max(50, 'Максимум 50 символов')
+    // .matches(/\d+/, 'Одна или более цифра')
+    .required('Обязательное поле'),
+});
+
 const LoginForm = () => (
-  <form className="col-12 col-md-6 mt-3 mt-mb-0">
-    <h1 className="text-center mb-4">Войти</h1>
-    <div className="form-floating mb-3">
-      <input
-        name="username"
-        autoComplete="username"
-        required
-        placeholder="Ваш ник"
-        id="username"
-        className="form-control"
-        value=""
-        data-last-active-input=""
-      />
-      {/* <label htmlFor="username">Ваш ник</label> */}
-    </div>
-    <div className="form-floating mb-4">
-      <input
-        name="password"
-        autoComplete="current-password"
-        required
-        placeholder="Пароль"
-        type="password"
-        id="password"
-        className="form-control"
-        value=""
-      />
-      {/* <label className="form-label" htmlFor="password">Пароль</label> */}
-    </div>
-    <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
-  </form>
+  <Formik
+    initialValues={{ username: '', password: '' }}
+    validationSchema={SignupSchema}
+    onSubmit={(values) => {
+      console.log(values);
+    }}
+  >
+    {({ errors, touched }) => (
+      <Form className="col-12 col-md-6 mt-3 mt-mb-0">
+        <h1 className="text-center mb-4">Войти</h1>
+        <div className="form-floating mb-3">
+          <Field
+            type="username"
+            name="username"
+            autoComplete="username"
+            required
+            placeholder="Ваш ник"
+            id="username"
+            className={cn('form-control', {
+              'is-invalid': errors.username && touched.username,
+            })}
+            data-last-active-input
+            autoFocus
+          />
+          <label className="form-label" htmlFor="username">Ваш ник</label>
+          <ErrorMessage name="username" component="div" className="invalid-tooltip" />
+        </div>
+        <div className="form-floating mb-4">
+          <Field
+            type="password"
+            name="password"
+            autoComplete="current-password"
+            required
+            placeholder="Пароль"
+            id="password"
+            className={cn('form-control', {
+              'is-invalid': errors.password && touched.password,
+            })}
+          />
+          <label className="form-label" htmlFor="password">Пароль</label>
+          <ErrorMessage name="password" component="div" className="invalid-tooltip" />
+        </div>
+        <button
+          type="submit"
+          // disabled={errors.username || errors.password}
+          className="w-100 mb-3 btn btn-outline-primary"
+        >
+          Войти
+        </button>
+      </Form>
+    )}
+  </Formik>
 );
 
 const Login = () => (
