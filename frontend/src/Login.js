@@ -7,7 +7,7 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import cn from 'classnames';
-import login from './login.jpg';
+import loginImg from './login.jpg';
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
@@ -83,7 +83,7 @@ const Login = () => (
         <div className="card shadow-sm">
           <div className="card-body row p-5">
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <img src={login} className="rounded-circle" alt="Войти" />
+              <img src={loginImg} className="rounded-circle" alt="Войти" />
             </div>
             <LoginForm />
           </div>
