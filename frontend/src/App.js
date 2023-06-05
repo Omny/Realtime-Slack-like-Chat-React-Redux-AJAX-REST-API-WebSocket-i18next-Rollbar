@@ -1,5 +1,3 @@
-// import Toast from 'react-bootstrap/Toast';
-
 const App = (props) => {
   const { children } = props;
 
