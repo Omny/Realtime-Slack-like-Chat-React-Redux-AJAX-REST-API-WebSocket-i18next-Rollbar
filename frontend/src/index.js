@@ -6,11 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from './Nav';
 import Login from './Login';
 import NotFound from './NotFound';
+import Chat from './Chat';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login />,
+    element: <Chat />,
     errorElement: <NotFound />,
   },
   {
@@ -19,11 +20,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
+const App = () => (
   <React.StrictMode>
     <Nav />
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
