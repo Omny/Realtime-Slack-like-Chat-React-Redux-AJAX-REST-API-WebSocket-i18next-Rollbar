@@ -26,7 +26,7 @@ const AppProvider = ({ children }) => {
   );
 };
 
-const Redirect = () => {
+const GuestsRedirect = () => {
   const { userStatus } = useContext(AppContext);
   console.log(userStatus);
   return userStatus === 'user' ? <Chat /> : <Navigate to="/login" />;
@@ -39,7 +39,7 @@ const App = () => (
         <Nav />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Redirect />} />
+          <Route path="/" element={<GuestsRedirect />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
