@@ -1,29 +1,49 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Route, Routes, Navigate,
+} from 'react-router-dom';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from './Nav';
 import Login from './Login';
 import NotFound from './NotFound';
 import Chat from './Chat';
+import AppContext from './contexts';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Chat />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: 'login',
-    element: <Login />,
-  },
-]);
+const AppProvider = ({ children }) => {
+  const token = localStorage.getItem('token');
+  const [userStatus, setUserStatus] = useState(token ? 'user' : 'guest');
+
+  return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <AppContext.Provider value={{
+      userStatus, setUserStatus,
+    }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+const Redirect = () => {
+  const { userStatus } = useContext(AppContext);
+  console.log(userStatus);
+  return userStatus === 'user' ? <Chat /> : <Navigate to="/login" />;
+};
 
 const App = () => (
   <React.StrictMode>
-    <Nav />
-    <RouterProvider router={router} />
+    <AppProvider>
+      <Router>
+        <Nav />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Redirect />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </AppProvider>
   </React.StrictMode>
 );
 

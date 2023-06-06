@@ -1,14 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import {
-  Formik,
-  Form,
-  Field,
-  ErrorMessage,
-} from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AppContext from './contexts';
 
 import loginImg from './login.jpg';
 
@@ -29,9 +26,7 @@ const loginUsingApi = async (username, password) => {
     console.log(username, password);
     const response = await axios.post('/api/v1/login', { username, password });
     console.log(response);
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('username', response.data.username);
-    return true;
+    return { token: response.data.token, user: response.data.username };
   } catch (error) {
     console.log(error);
     return false;
@@ -40,69 +35,83 @@ const loginUsingApi = async (username, password) => {
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { setUserStatus } = useContext(AppContext);
 
-  const handleSubmit = async (values) => {
-    const { username, password } = values;
-    try {
-      if (await loginUsingApi(username, password)) {
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: SignupSchema,
+    onSubmit: async (values) => {
+      const { username, password } = values;
+      const { token, user } = await loginUsingApi(username, password);
+      if (token && user) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', user);
+        setUserStatus('user');
         navigate('/');
+      } else {
+        formik.setFieldError('username', 'Неверные имя пользователя или пароль');
+        formik.setFieldError('password', 'Неверные имя пользователя или пароль');
       }
-    } catch (error) {
-      console.log('Неверные имя пользователя или пароль');
-    }
-  };
+    },
+  });
+
+  const { errors, touched } = formik;
 
   return (
-    <Formik
-      initialValues={{ username: '', password: '' }}
-      validationSchema={SignupSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ errors, touched }) => (
-        <Form className="col-12 col-md-6 mt-3 mt-mb-0">
-          <h1 className="text-center mb-4">Войти</h1>
-          <div className="form-floating mb-3">
-            <Field
-              type="username"
-              name="username"
-              autoComplete="username"
-              required
-              placeholder="Ваш ник"
-              id="username"
-              className={cn('form-control', {
-                'is-invalid': errors.username && touched.username,
-              })}
-              data-last-active-input
-              autoFocus
-            />
-            <label className="form-label" htmlFor="username">Ваш ник</label>
-            <ErrorMessage name="username" component="div" className="invalid-tooltip" />
-          </div>
-          <div className="form-floating mb-4">
-            <Field
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              required
-              placeholder="Пароль"
-              id="password"
-              className={cn('form-control', {
-                'is-invalid': errors.password && touched.password,
-              })}
-            />
-            <label className="form-label" htmlFor="password">Пароль</label>
-            <ErrorMessage name="password" component="div" className="invalid-tooltip" />
-          </div>
-          <button
-            type="submit"
-            // disabled={errors.username || errors.password}
-            className="w-100 mb-3 btn btn-outline-primary"
-          >
-            Войти
-          </button>
-        </Form>
-      )}
-    </Formik>
+    <form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+      <h1 className="text-center mb-4">Войти</h1>
+      <div className="form-floating mb-3">
+        <input
+          type="text"
+          name="username"
+          value={formik.values.username}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          autoComplete="username"
+          required
+          placeholder="Ваш ник"
+          id="username"
+          className={cn('form-control', {
+            'is-invalid': errors.username && touched.username,
+          })}
+          data-last-active-input
+        />
+        <label className="form-label" htmlFor="username">
+          Ваш ник
+        </label>
+        {errors.username && touched.username ? <div className="invalid-tooltip">{errors.username}</div> : null}
+      </div>
+      <div className="form-floating mb-4">
+        <input
+          type="password"
+          name="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          autoComplete="current-password"
+          required
+          placeholder="Пароль"
+          id="password"
+          className={cn('form-control', {
+            'is-invalid': errors.password && touched.password,
+          })}
+        />
+        <label className="form-label" htmlFor="password">
+          Пароль
+        </label>
+        {errors.password && touched.password ? <div className="invalid-tooltip">{errors.password}</div> : null}
+      </div>
+      <button
+        type="submit"
+        // disabled={errors.username || errors.password}
+        className="w-100 mb-3 btn btn-outline-primary"
+      >
+        Войти
+      </button>
+    </form>
   );
 };
 

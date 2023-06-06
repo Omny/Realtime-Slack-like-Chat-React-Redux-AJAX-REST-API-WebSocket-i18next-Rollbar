@@ -1,16 +1,25 @@
+import { useContext } from 'react';
+import AppContext from './contexts';
+
 const Chat = () => {
-  const username = localStorage.getItem('username');
+  const { userStatus } = useContext(AppContext);
+  const user = localStorage.getItem('user');
   const token = localStorage.getItem('token');
+
   return (
     <div>
       Chat
       <div>
-        Username:
-        {username}
+        User:
+        {user}
       </div>
       <div>
-        Token:
+        loggedIn:
         {token}
+      </div>
+      <div>
+        userStatus:
+        {userStatus}
       </div>
     </div>
   );
