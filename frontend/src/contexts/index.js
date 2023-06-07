@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
 const AppContext = createContext({
-  userStatus: null,
-  setUserStatus: () => {},
+  userGroup: null,
+  setUserGroup: () => {},
 });
 
 export default AppContext;

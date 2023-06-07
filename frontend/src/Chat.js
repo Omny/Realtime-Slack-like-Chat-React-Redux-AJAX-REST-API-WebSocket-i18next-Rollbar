@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import AppContext from './contexts';
 
 const Chat = () => {
-  const { userStatus } = useContext(AppContext);
+  const { userGroup } = useContext(AppContext);
   const user = localStorage.getItem('user');
   const token = localStorage.getItem('token');
 
@@ -18,8 +18,8 @@ const Chat = () => {
         {token}
       </div>
       <div>
-        userStatus:
-        {userStatus}
+        userGroup:
+        {userGroup}
       </div>
     </div>
   );

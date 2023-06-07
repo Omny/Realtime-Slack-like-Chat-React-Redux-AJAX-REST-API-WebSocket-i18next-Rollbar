@@ -13,12 +13,12 @@ import AppContext from './contexts';
 
 const AppProvider = ({ children }) => {
   const token = localStorage.getItem('token');
-  const [userStatus, setUserStatus] = useState(token ? 'user' : 'guest');
+  const [userGroup, setUserGroup] = useState(token ? 'user' : 'guest');
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <AppContext.Provider value={{
-      userStatus, setUserStatus,
+      userGroup, setUserGroup,
     }}
     >
       {children}
@@ -27,9 +27,9 @@ const AppProvider = ({ children }) => {
 };
 
 const GuestsRedirect = () => {
-  const { userStatus } = useContext(AppContext);
-  console.log(userStatus);
-  return userStatus === 'user' ? <Chat /> : <Navigate to="/login" />;
+  const { userGroup } = useContext(AppContext);
+  console.log(userGroup);
+  return userGroup === 'user' ? <Chat /> : <Navigate to="/login" />;
 };
 
 const App = () => (
