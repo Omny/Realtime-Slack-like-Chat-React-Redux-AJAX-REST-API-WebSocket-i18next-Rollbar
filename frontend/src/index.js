@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import store from './slices';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Nav from './Nav';
-import Login from './Login';
-import NotFound from './NotFound';
-import Chat from './Chat';
+import Nav from './components/Nav';
+import Login from './components/Login';
+import NotFound from './components/NotFound';
+import Chat from './components/Chat';
 import AppContext from './contexts';
 
 const AppProvider = ({ children }) => {

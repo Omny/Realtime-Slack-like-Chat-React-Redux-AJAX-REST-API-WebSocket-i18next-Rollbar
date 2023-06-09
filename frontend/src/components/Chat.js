@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { add, remove, doneToggle } from './slices/chat';
-import AppContext from './contexts';
+import { add, remove, doneToggle } from '../slices/chat';
+import AppContext from '../contexts';
 
 const Chat = () => {
   const { userGroup } = useContext(AppContext);
