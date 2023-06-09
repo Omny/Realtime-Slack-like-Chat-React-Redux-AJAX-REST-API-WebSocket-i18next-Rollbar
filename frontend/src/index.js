@@ -26,26 +26,24 @@ const AppProvider = ({ children }) => {
   );
 };
 
-const GuestsRedirect = () => {
+const ChatOrLogin = () => {
   const { userGroup } = useContext(AppContext);
-  console.log(userGroup);
   return userGroup === 'user' ? <Chat /> : <Navigate to="/login" />;
 };
 
-const App = () => (
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
   <React.StrictMode>
     <AppProvider>
       <Router>
         <Nav />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<GuestsRedirect />} />
+          <Route path="/" element={<ChatOrLogin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AppProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
