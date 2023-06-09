@@ -5,13 +5,13 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './slices';
+import AppContext from './contexts';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from './components/Nav';
 import Login from './components/Login';
 import NotFound from './components/NotFound';
 import Chat from './components/Chat';
-import AppContext from './contexts';
 
 const AppProvider = ({ children }) => {
   const token = localStorage.getItem('token');
