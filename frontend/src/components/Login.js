@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import AppContext from '../contexts';
 
-import loginImg from './login.jpg';
+import loginImg from '../images/login.jpg';
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
