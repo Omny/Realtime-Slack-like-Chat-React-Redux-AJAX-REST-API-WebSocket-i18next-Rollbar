@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import AppContext from '../contexts';
+import routes from '../routes';
 
 import loginImg from '../images/login.jpg';
 
@@ -29,7 +30,7 @@ const SignupSchema = Yup.object().shape({
 const loginUsingApi = async (username, password) => {
   try {
     console.log(username, password);
-    const response = await axios.post('/api/v1/login', { username, password });
+    const response = await axios.post(routes.login(), { username, password });
     console.log(response);
     return { token: response.data.token, user: response.data.username };
   } catch (error) {
