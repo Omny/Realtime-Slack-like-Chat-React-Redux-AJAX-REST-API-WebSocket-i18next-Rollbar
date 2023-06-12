@@ -1,6 +1,6 @@
 const routes = {
-  login: () => '/api/v1/login',
-  getData: () => '/api/v1/data',
+  loginPath: () => '/api/v1/login',
+  dataPath: () => '/api/v1/data',
   // taskPath: (id) => `/api/tasks/${id}`,
 };
 
