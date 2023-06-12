@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-// import { normalize, schema } from 'normalizr';
 
 import { useContext, useEffect } from 'react';
 import AppContext from '../contexts';
@@ -16,6 +15,7 @@ const Chat = () => {
   const token = localStorage.getItem('token');
 
   const dispatch = useDispatch();
+
   const items = useSelector((state) => state.chat);
   console.log(items, dispatch);
 
