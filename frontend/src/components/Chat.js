@@ -1,13 +1,12 @@
+import { useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-
-import { useContext, useEffect } from 'react';
 import AppContext from '../contexts';
-
 import routes from '../routes';
 import getAuthHeader from '../helpers/auth';
 
-// import { actions as channelsActions } from '../slices/channelsSlice';
+import { actions as channelsActions } from '../slices/channelsSlice';
+import { actions as messagesActions } from '../slices/messagesSlice';
 
 const Chat = () => {
   const { userGroup } = useContext(AppContext);
@@ -25,14 +24,18 @@ const Chat = () => {
         const authHeader = getAuthHeader();
         const response = await axios.get(routes.dataPath(), { headers: authHeader });
         console.log(response.data);
-        return response.data;
+        const {
+          channels,
+          messages,
+        } = response.data;
+        dispatch(channelsActions.addChannels(channels));
+        dispatch(messagesActions.addMessages(messages));
       } catch (error) {
         console.log(error);
-        return false;
       }
     };
     fetchData();
-  }, [token]);
+  }, [dispatch]);
 
   return (
     <div>
