@@ -1,31 +1,38 @@
-// import axios from 'axios';
-import { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { add, remove, doneToggle } from '../slices/chat';
-import AppContext from '../contexts';
-// import routes from '../routes';
+import axios from 'axios';
+// import { normalize, schema } from 'normalizr';
 
-// const getDataUsingApi = async () => {
-//   try {
-//     const response = await axios.get(routes.getData());
-//     console.log(response);
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// };
+import { useContext, useEffect } from 'react';
+import AppContext from '../contexts';
+
+import routes from '../routes';
+import getAuthHeader from '../helpers/auth';
+
+// import { actions as channelsActions } from '../slices/channelsSlice';
 
 const Chat = () => {
   const { userGroup } = useContext(AppContext);
-
-  const items = useSelector((state) => state.chat);
-  const dispatch = useDispatch();
-  console.log(items, dispatch);
-  console.log(add, remove, doneToggle);
-
   const user = localStorage.getItem('user');
   const token = localStorage.getItem('token');
+
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.chat);
+  console.log(items, dispatch);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const authHeader = getAuthHeader();
+        const response = await axios.get(routes.dataPath(), { headers: authHeader });
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    };
+    fetchData();
+  }, [token]);
 
   return (
     <div>

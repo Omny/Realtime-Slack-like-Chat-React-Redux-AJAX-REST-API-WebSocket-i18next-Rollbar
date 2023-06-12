@@ -30,7 +30,7 @@ const SignupSchema = Yup.object().shape({
 const loginUsingApi = async (username, password) => {
   try {
     console.log(username, password);
-    const response = await axios.post(routes.login(), { username, password });
+    const response = await axios.post(routes.loginPath(), { username, password });
     console.log(response);
     return { token: response.data.token, user: response.data.username };
   } catch (error) {
