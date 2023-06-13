@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter as Router, Route, Routes, Navigate,
 } from 'react-router-dom';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Provider } from 'react-redux';
 import store from './slices';
 import AppContext from './contexts';
-
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Nav from './components/Nav';
 import Login from './components/Login';

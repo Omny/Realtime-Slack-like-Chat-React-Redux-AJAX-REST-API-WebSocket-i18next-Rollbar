@@ -1,9 +1,10 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import AppContext from '../contexts';
 import routes from '../routes';
 import getAuthHeader from '../helpers/auth';
+import AppContext from '../contexts';
+
 import Channels from './Channels';
 import Messages from './Messages';
 
