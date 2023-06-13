@@ -14,13 +14,13 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 const Chat = () => {
   const { userGroup } = useContext(AppContext);
-  const user = localStorage.getItem('user');
-  const token = localStorage.getItem('token');
-  console.log(user, token, userGroup);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (userGroup === 'guest') {
+      return;
+    }
     const fetchData = async () => {
       try {
         const authHeader = getAuthHeader();
@@ -39,7 +39,7 @@ const Chat = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, userGroup]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
