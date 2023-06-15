@@ -13,7 +13,7 @@ const channelsSlice = createSlice({
       channelsAdapter.removeOne(state, action.payload.id);
     },
     renameChannel: channelsAdapter.upsertOne,
-    sendChannel: () => { },
+    sendNewChannel: () => { },
     sendRemoveChannel: () => { },
     sendRenameChannel: () => { },
   },
@@ -24,7 +24,7 @@ export const {
   newChannels,
   removeChannel,
   renameChannel,
-  sendChannel,
+  sendNewChannel,
   sendRemoveChannel,
   sendRenameChannel,
 } = channelsSlice.actions;

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
-import { sendMessage } from '../slices/messagesSlice';
+import { sendNewMessage } from '../slices/messagesSlice';
 
 const MessageForm = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const MessageForm = () => {
 
   const handleSubmit = (values, { resetForm }) => {
     const { body } = values;
-    dispatch(sendMessage({ body, channelId: currentChannelId, username }));
+    dispatch(sendNewMessage({ body, channelId: currentChannelId, username }));
     resetForm();
   };
 

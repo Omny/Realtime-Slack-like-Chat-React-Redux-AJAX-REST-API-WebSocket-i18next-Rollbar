@@ -4,23 +4,23 @@ import channelsReducer, {
   newChannel,
   removeChannel,
   renameChannel,
-  sendChannel,
+  sendNewChannel,
   sendRemoveChannel,
   sendRenameChannel,
 } from './channelsSlice';
 import messagesReducer, {
   newMessage,
-  sendMessage,
+  sendNewMessage,
 } from './messagesSlice';
 import setCurrentChannelIdReducer from './currentChannelIdSlice';
 
 const socket = io();
 
 const socketMiddleware = (socketManager) => () => (next) => (action) => {
-  if (action.type === sendMessage.type) {
+  if (action.type === sendNewMessage.type) {
     console.log('Sending newMessage:', action.payload);
     socketManager.emit('newMessage', action.payload);
-  } else if (action.type === sendChannel.type) {
+  } else if (action.type === sendNewChannel.type) {
     console.log('Sending newChannel:', action.payload);
     socketManager.emit('newChannel', action.payload);
   } else if (action.type === sendRemoveChannel.type) {
