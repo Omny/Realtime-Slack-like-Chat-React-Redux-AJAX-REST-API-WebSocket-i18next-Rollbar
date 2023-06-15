@@ -10,10 +10,12 @@ const messagesSlice = createSlice({
   reducers: {
     addMessage: messagesAdapter.addOne,
     addMessages: messagesAdapter.addMany,
-    removeMessage: messagesAdapter.removeOne,
+    sendMessage: (state, action) => {
+      console.log('Slice sendMessage:', action.payload);
+    },
   },
 });
 
-export const { actions } = messagesSlice;
+export const { addMessage, addMessages, sendMessage } = messagesSlice.actions;
 export const selectors = messagesAdapter.getSelectors((state) => state.messages);
 export default messagesSlice.reducer;

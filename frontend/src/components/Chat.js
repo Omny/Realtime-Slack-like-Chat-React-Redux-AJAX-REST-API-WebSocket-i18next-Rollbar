@@ -7,9 +7,10 @@ import AppContext from '../contexts';
 
 import Channels from './Channels';
 import Messages from './Messages';
+import ChatComponent from './ChatComponent';
 
-import { actions as channelsActions } from '../slices/channelsSlice';
-import { actions as messagesActions } from '../slices/messagesSlice';
+import { addChannels } from '../slices/channelsSlice';
+import { addMessages } from '../slices/messagesSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 const Chat = () => {
@@ -31,8 +32,8 @@ const Chat = () => {
           messages,
           currentChannelId,
         } = response.data;
-        dispatch(channelsActions.addChannels(channels));
-        dispatch(messagesActions.addMessages(messages));
+        dispatch(addChannels(channels));
+        dispatch(addMessages(messages));
         dispatch(setCurrentChannelId(currentChannelId));
       } catch (error) {
         console.log(error);
@@ -44,6 +45,7 @@ const Chat = () => {
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
+        <ChatComponent />
         <Channels />
         <Messages />
       </div>
