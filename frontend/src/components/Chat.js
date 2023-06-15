@@ -1,17 +1,67 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import routes from '../routes';
 import getAuthHeader from '../helpers/auth';
 import AppContext from '../contexts';
 
+import { sendMessage, addMessages } from '../slices/messagesSlice';
+import {
+  addChannels, createChannel, removeChannel, renameChannel,
+} from '../slices/channelsSlice';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+
 import Channels from './Channels';
 import Messages from './Messages';
-import ChatComponent from './ChatComponent';
 
-import { addChannels } from '../slices/channelsSlice';
-import { addMessages } from '../slices/messagesSlice';
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+const ChatComponent = () => {
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState('');
+  const [channelName, setChannelName] = useState('');
+
+  const handleSendMessage = () => {
+    dispatch(sendMessage({ body: message, channelId: 1, username: 'admin' }));
+    setMessage('');
+  };
+
+  const handleCreateChannel = () => {
+    dispatch(createChannel({ name: channelName }));
+    setChannelName('');
+  };
+
+  const handleRemoveChannel = () => {
+    dispatch(removeChannel({ id: 6 }));
+  };
+
+  const handleRenameChannel = () => {
+    dispatch(renameChannel({ id: 7, name: 'new name channel' }));
+  };
+  return (
+    <div>
+      <h2>Chat Component</h2>
+      <div>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Enter message"
+        />
+        <button type="button" onClick={handleSendMessage}>Send Message</button>
+      </div>
+      <div>
+        <input
+          type="text"
+          value={channelName}
+          onChange={(e) => setChannelName(e.target.value)}
+          placeholder="Enter channel name"
+        />
+        <button type="button" onClick={handleCreateChannel}>Create Channel</button>
+        <button type="button" onClick={handleRemoveChannel}>Remove Channel</button>
+        <button type="button" onClick={handleRenameChannel}>Rename Channel</button>
+      </div>
+    </div>
+  );
+};
 
 const Chat = () => {
   const { userGroup } = useContext(AppContext);
