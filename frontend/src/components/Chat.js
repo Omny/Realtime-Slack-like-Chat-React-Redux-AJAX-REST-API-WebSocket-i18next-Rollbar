@@ -72,11 +72,11 @@ const Chat = () => {
     if (userGroup === 'guest') {
       return;
     }
+
     const fetchData = async () => {
       try {
         const authHeader = getAuthHeader();
         const response = await axios.get(routes.dataPath(), { headers: authHeader });
-        console.log(response.data);
         const {
           channels,
           messages,
@@ -89,6 +89,7 @@ const Chat = () => {
         console.log(error);
       }
     };
+
     fetchData();
   }, [dispatch, userGroup]);
 
