@@ -5,9 +5,9 @@ import routes from '../routes';
 import getAuthHeader from '../helpers/auth';
 import AppContext from '../contexts';
 
-import { sendMessage, addMessages } from '../slices/messagesSlice';
+import { sendMessage, newMessages } from '../slices/messagesSlice';
 import {
-  addChannels, createChannel, removeChannel, renameChannel,
+  newChannels, sendChannel, sendRemoveChannel, sendRenameChannel,
 } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
@@ -25,16 +25,16 @@ const ChatComponent = () => {
   };
 
   const handleCreateChannel = () => {
-    dispatch(createChannel({ name: channelName }));
+    dispatch(sendChannel({ name: channelName }));
     setChannelName('');
   };
 
   const handleRemoveChannel = () => {
-    dispatch(removeChannel({ id: 6 }));
+    dispatch(sendRemoveChannel({ id: 6 }));
   };
 
   const handleRenameChannel = () => {
-    dispatch(renameChannel({ id: 7, name: 'new name channel' }));
+    dispatch(sendRenameChannel({ id: 7, name: 'new name channel' }));
   };
   return (
     <div>
@@ -82,8 +82,8 @@ const Chat = () => {
           messages,
           currentChannelId,
         } = response.data;
-        dispatch(addChannels(channels));
-        dispatch(addMessages(messages));
+        dispatch(newChannels(channels));
+        dispatch(newMessages(messages));
         dispatch(setCurrentChannelId(currentChannelId));
       } catch (error) {
         console.log(error);

@@ -1,50 +1,46 @@
 import { configureStore } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
-import channelsReducer, { addChannel, deleteChannel, changeChannelName } from './channelsSlice';
-import messagesReducer, { addMessage } from './messagesSlice';
+import channelsReducer, {
+  newChannel,
+  removeChannel,
+  renameChannel,
+  sendChannel,
+  sendRemoveChannel,
+  sendRenameChannel,
+} from './channelsSlice';
+import messagesReducer, {
+  newMessage,
+  sendMessage,
+} from './messagesSlice';
 import setCurrentChannelIdReducer from './currentChannelIdSlice';
 
 const socket = io();
 
-const socketMiddleware = (store) => {
-  // Подписка на новые сообщения
-  socket.on('newMessage', (payload) => {
-    console.log('Received newMessage:', payload);
-    store.dispatch(addMessage(payload));
-  });
+const socketMiddleware = (socketManager) => () => (next) => (action) => {
+  if (action.type === sendMessage.type) {
+    console.log('Sending newMessage:', action.payload);
+    socketManager.emit('newMessage', action.payload);
+  } else if (action.type === sendChannel.type) {
+    console.log('Sending newChannel:', action.payload);
+    socketManager.emit('newChannel', action.payload);
+  } else if (action.type === sendRemoveChannel.type) {
+    console.log('Sending removeChannel:', action.payload);
+    socketManager.emit('removeChannel', action.payload);
+  } else if (action.type === sendRenameChannel.type) {
+    console.log('Sending renameChannel:', action.payload);
+    socketManager.emit('renameChannel', action.payload);
+  }
 
-  socket.on('newChannel', (payload) => {
-    console.log('Received newChannel:', payload);
-    store.dispatch(addChannel(payload));
-  });
+  return next(action);
+};
 
-  socket.on('removeChannel', (payload) => {
-    console.log('Received removeChannel:', payload);
-    store.dispatch(deleteChannel(payload));
-  });
-
-  socket.on('renameChannel', (payload) => {
-    console.log('Received renameChannel:', payload);
-    store.dispatch(changeChannelName(payload));
-  });
-
-  return (next) => (action) => {
-    if (action.type === 'messages/sendMessage') {
-      console.log('Sending newMessage:', action.payload);
-      socket.emit('newMessage', action.payload);
-    } else if (action.type === 'channels/createChannel') {
-      console.log('Sending newChannel:', action.payload);
-      socket.emit('newChannel', action.payload);
-    } else if (action.type === 'channels/removeChannel') {
-      console.log('Sending removeChannel:', action.payload);
-      socket.emit('removeChannel', action.payload);
-    } else if (action.type === 'channels/renameChannel') {
-      console.log('Sending renameChannel:', action.payload);
-      socket.emit('renameChannel', action.payload);
-    }
-
-    return next(action);
-  };
+const socketManager = {
+  subscribe: (event, callback) => {
+    socket.on(event, callback);
+  },
+  emit: (event, payload) => {
+    socket.emit(event, payload);
+  },
 };
 
 const store = configureStore({
@@ -53,7 +49,27 @@ const store = configureStore({
     messages: messagesReducer,
     currentChannelId: setCurrentChannelIdReducer,
   },
-  middleware: [socketMiddleware],
+  middleware: [socketMiddleware(socketManager)],
+});
+
+socketManager.subscribe('newMessage', (payload) => {
+  console.log('Received newMessage:', payload);
+  store.dispatch(newMessage(payload));
+});
+
+socketManager.subscribe('newChannel', (payload) => {
+  console.log('Received newChannel:', payload);
+  store.dispatch(newChannel(payload));
+});
+
+socketManager.subscribe('removeChannel', (payload) => {
+  console.log('Received removeChannel:', payload);
+  store.dispatch(removeChannel(payload));
+});
+
+socketManager.subscribe('renameChannel', (payload) => {
+  console.log('Received renameChannel:', payload);
+  store.dispatch(renameChannel(payload));
 });
 
 export default store;

@@ -7,36 +7,30 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    addChannels: channelsAdapter.addMany,
-    addChannel: channelsAdapter.addOne,
-    deleteChannel: channelsAdapter.removeOne,
-    changeChannelName: (state, action) => {
+    newChannels: channelsAdapter.addMany,
+    newChannel: channelsAdapter.addOne,
+    removeChannel: channelsAdapter.removeOne,
+    renameChannel: (state, action) => {
       const { id, name } = action.payload;
       const existingChannel = state.entities[id];
       if (existingChannel) {
         existingChannel.name = name;
       }
     },
-    createChannel: (state, action) => {
-      console.log('createChannel: ', action.payload);
-    },
-    removeChannel: (state, action) => {
-      console.log('removeChannel: ', action.payload);
-    },
-    renameChannel: (state, action) => {
-      console.log('processRenameChannel: ', action.payload);
-    },
+    sendChannel: () => {},
+    sendRemoveChannel: () => {},
+    sendRenameChannel: () => {},
   },
 });
 
 export const {
-  addChannel,
-  addChannels,
-  deleteChannel,
-  changeChannelName,
-  createChannel,
+  newChannel,
+  newChannels,
   removeChannel,
   renameChannel,
+  sendChannel,
+  sendRemoveChannel,
+  sendRenameChannel,
 } = channelsSlice.actions;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 export default channelsSlice.reducer;
