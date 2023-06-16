@@ -31,6 +31,7 @@ const MessageForm = () => {
         <Form noValidate className="py-1 border rounded-2">
           <div className={cn('input-group', { 'has-validation': errors.body })}>
             <Field
+              type="text"
               name="body"
               aria-label="Новое сообщение"
               placeholder="Введите сообщение…"
