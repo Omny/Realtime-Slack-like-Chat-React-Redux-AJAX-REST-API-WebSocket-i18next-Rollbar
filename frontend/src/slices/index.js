@@ -56,17 +56,14 @@ socketManager.subscribe('newMessage', (payload) => {
   console.log('Received newMessage:', payload);
   store.dispatch(newMessage(payload));
 });
-
 socketManager.subscribe('newChannel', (payload) => {
   console.log('Received newChannel:', payload);
   store.dispatch(newChannel(payload));
 });
-
 socketManager.subscribe('removeChannel', (payload) => {
   console.log('Received removeChannel:', payload);
   store.dispatch(removeChannel(payload));
 });
-
 socketManager.subscribe('renameChannel', (payload) => {
   console.log('Received renameChannel:', payload);
   store.dispatch(renameChannel(payload));

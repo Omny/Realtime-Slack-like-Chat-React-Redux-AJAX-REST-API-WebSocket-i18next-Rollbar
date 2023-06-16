@@ -43,9 +43,10 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { setUserGroup } = useContext(AppContext);
 
-  const handleSubmit = async (values, { setFieldError }) => {
+  const handleSubmit = async (values, { setFieldError, setSubmitting }) => {
     const { username, password } = values;
     const { token, user } = await loginUsingApi(username, password);
+    setSubmitting(false);
     if (token && user) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', user);
@@ -63,7 +64,7 @@ const LoginForm = () => {
       validationSchema={SignupSchema}
       onSubmit={handleSubmit}
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
           <h1 className="text-center mb-4">Войти</h1>
           <div className="form-floating mb-3">
@@ -75,7 +76,7 @@ const LoginForm = () => {
               placeholder="Ваш ник"
               id="username"
               className={cn('form-control', {
-                'is-invalid': errors.username && touched.username,
+                'is-invalid': (errors.username && touched.username),
               })}
               data-last-active-input
               autoFocus
@@ -94,7 +95,7 @@ const LoginForm = () => {
               placeholder="Пароль"
               id="password"
               className={cn('form-control', {
-                'is-invalid': errors.password && touched.password,
+                'is-invalid': (errors.password && touched.password),
               })}
             />
             <label className="form-label" htmlFor="password">
@@ -104,6 +105,7 @@ const LoginForm = () => {
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-100 mb-3 btn btn-outline-primary"
           >
             Войти
