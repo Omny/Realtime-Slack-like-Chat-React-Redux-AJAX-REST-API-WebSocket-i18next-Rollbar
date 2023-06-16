@@ -43,26 +43,24 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { setUserGroup } = useContext(AppContext);
 
-  const handleSubmit = async (values, { setFieldError, setSubmitting }) => {
-    const { username, password } = values;
-    const { token, user } = await loginUsingApi(username, password);
-    setSubmitting(false);
-    if (token && user) {
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', user);
-      setUserGroup('user');
-      navigate('/');
-    } else {
-      setFieldError('username', 'Неверные имя пользователя или пароль');
-      setFieldError('password', 'Неверные имя пользователя или пароль');
-    }
-  };
-
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={SignupSchema}
-      onSubmit={handleSubmit}
+      onSubmit={async (values, { setFieldError, setSubmitting }) => {
+        const { username, password } = values;
+        const { token, user } = await loginUsingApi(username, password);
+        setSubmitting(false);
+        if (token && user) {
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', user);
+          setUserGroup('user');
+          navigate('/');
+        } else {
+          setFieldError('username', 'Неверные имя пользователя или пароль');
+          setFieldError('password', 'Неверные имя пользователя или пароль');
+        }
+      }}
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
