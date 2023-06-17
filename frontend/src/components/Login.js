@@ -47,10 +47,9 @@ const LoginForm = () => {
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={SignupSchema}
-      onSubmit={async (values, { setFieldError, setSubmitting }) => {
+      onSubmit={async (values, { setFieldError }) => {
         const { username, password } = values;
         const { token, user } = await loginUsingApi(username, password);
-        setSubmitting(false);
         if (token && user) {
           localStorage.setItem('token', token);
           localStorage.setItem('user', user);
