@@ -9,6 +9,9 @@ const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector((state) => state.currentChannelId);
+  const handleChannelClick = (selectedID) => {
+    dispatch(setCurrentChannelId(selectedID));
+  };
   const handleCreateChannel = () => {
     dispatch(sendNewChannel({ name: 'channelName' }));
   };
@@ -26,9 +29,6 @@ const Channels = () => {
         <li className="nav-item w-100">
           {channels.map(({ id, name }) => {
             const btnClassName = cn('w-100 rounded-0 text-start btn', { 'btn-secondary': id === currentChannelId });
-            const handleChannelClick = (selectedID) => {
-              dispatch(setCurrentChannelId(selectedID));
-            };
 
             return (
               <button key={id} type="button" className={btnClassName} onClick={() => handleChannelClick(id)}>
