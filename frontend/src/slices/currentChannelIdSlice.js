@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { newChannel, removeChannel } from './channelsSlice';
 
-const initialState = 1;
+const initialId = 1;
 
 const currentChannelIdSlice = createSlice({
   name: 'currentChannelId',
-  initialState,
+  initialState: initialId,
   reducers: {
     setCurrentChannelId(state, action) {
       return action.payload;
@@ -13,7 +13,7 @@ const currentChannelIdSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(newChannel, (state, action) => action.payload.id);
-    builder.addCase(removeChannel, () => initialState);
+    builder.addCase(removeChannel, () => initialId);
   },
 });
 
