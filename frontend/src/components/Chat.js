@@ -13,7 +13,7 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 import Channels from './Channels';
 import Messages from './Messages';
-import ModalFrame from './Modal';
+import ModalFrame from './ModalFrame';
 
 // const ChatComponent = () => {
 //   const dispatch = useDispatch();

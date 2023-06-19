@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import { setModalVisibility } from '../slices/modalStateSlice';
+import { setModalVisibility, setModalType } from '../slices/modalStateSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const Channels = () => {
 
   const isModalVisible = useSelector((state) => state.modalState.isModalVisible);
   const handleShowModal = () => {
+    dispatch(setModalType('addChannel'));
     dispatch(setModalVisibility(!isModalVisible));
   };
 
@@ -43,7 +44,6 @@ const Channels = () => {
                 <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleChannelClick(id)}>
                   <span className="me-1">#</span>
                   {name}
-                  remove
                 </Button>
                 <DropdownButton title="" as={ButtonGroup} variant={btnVariant} id="bg-nested-dropdown">
                   <Dropdown.Item eventKey="1">Удалить</Dropdown.Item>

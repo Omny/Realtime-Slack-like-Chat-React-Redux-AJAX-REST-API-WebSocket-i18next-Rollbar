@@ -5,16 +5,20 @@ import {
 } from 'formik';
 import cn from 'classnames';
 import { sendNewChannel } from '../slices/channelsSlice';
-import { setModalVisibility } from '../slices/modalStateSlice';
+import { setModalVisibility, setModalType } from '../slices/modalStateSlice';
 
 const ModalFrame = () => {
+  // const modalType = useSelector((state) => state.modalState.modalType);
+
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modalState.isModalVisible);
-  console.log(isModalVisible);
 
-  const handleClose = () => dispatch(setModalVisibility(false));
+  const handleClose = () => {
+    dispatch(setModalVisibility(false));
+    dispatch(setModalType(null));
+  };
 
-  return (
+  const ModalAdd = (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Добавить канал</Modal.Title>
@@ -71,6 +75,7 @@ const ModalFrame = () => {
       </Formik>
     </Modal>
   );
+  return ModalAdd;
 };
 
 export default ModalFrame;

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+// import { newChannel, removeChannel } from './channelsSlice';
 
 const modalStateSlice = createSlice({
   name: 'modalState',
@@ -14,6 +15,17 @@ const modalStateSlice = createSlice({
     setModalType: (state, action) => {
       state.modalType = action.payload;
     },
+    // extraReducers: (builder) => {
+    //   builder
+    //     .addCase(newChannel, (state) => {
+    //       state.modalType = null;
+    //       state.isModalVisible = false;
+    //     })
+    //     .addCase(removeChannel, (state) => {
+    //       state.modalType = null;
+    //       state.isModalVisible = false;
+    //     });
+    // },
   },
 });
 
