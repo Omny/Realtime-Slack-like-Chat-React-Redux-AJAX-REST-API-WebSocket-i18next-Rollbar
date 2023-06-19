@@ -1,18 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import io from 'socket.io-client';
 import channelsReducer, {
-  newChannel,
-  removeChannel,
-  renameChannel,
   sendNewChannel,
   sendRemoveChannel,
   sendRenameChannel,
+  newChannel,
+  removeChannel,
+  renameChannel,
 } from './channelsSlice';
 import messagesReducer, {
-  newMessage,
   sendNewMessage,
+  newMessage,
 } from './messagesSlice';
 import setCurrentChannelIdReducer from './currentChannelIdSlice';
+import modalVisibilityReducer from './modalVisibilitySlice';
 
 const socket = io();
 
@@ -48,6 +49,7 @@ const store = configureStore({
     channels: channelsReducer,
     messages: messagesReducer,
     currentChannelId: setCurrentChannelIdReducer,
+    modalVisibility: modalVisibilityReducer,
   },
   middleware: [socketMiddleware(socketManager)],
 });
