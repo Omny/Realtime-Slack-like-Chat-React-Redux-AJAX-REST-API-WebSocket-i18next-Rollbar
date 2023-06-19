@@ -1,10 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { PlusSquare } from 'react-bootstrap-icons';
+import Button from 'react-bootstrap/Button';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import { setModalVisibility } from '../slices/modalVisibilitySlice';
+import { setModalVisibility } from '../slices/modalStateSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -15,7 +19,7 @@ const Channels = () => {
     dispatch(setCurrentChannelId(selectedID));
   };
 
-  const isModalVisible = useSelector((state) => state.modalVisibility);
+  const isModalVisible = useSelector((state) => state.modalState.isModalVisible);
   const handleShowModal = () => {
     dispatch(setModalVisibility(!isModalVisible));
   };
@@ -31,14 +35,26 @@ const Channels = () => {
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         <li className="nav-item w-100">
-          {channels.map(({ id, name }) => {
-            const btnClassName = cn('w-100 rounded-0 text-start btn', { 'btn-secondary': id === currentChannelId });
-
-            return (
-              <button key={id} type="button" className={btnClassName} onClick={() => handleChannelClick(id)}>
+          {channels.map(({ id, name, removable }) => {
+            const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': id === currentChannelId });
+            const btnVariant = id === currentChannelId ? 'secondary' : 'light';
+            return removable ? (
+              <ButtonGroup key={id} className="d-flex dropdown btn-group">
+                <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleChannelClick(id)}>
+                  <span className="me-1">#</span>
+                  {name}
+                  remove
+                </Button>
+                <DropdownButton title="" as={ButtonGroup} variant={btnVariant} id="bg-nested-dropdown">
+                  <Dropdown.Item eventKey="1">Удалить</Dropdown.Item>
+                  <Dropdown.Item eventKey="2">Переименовать</Dropdown.Item>
+                </DropdownButton>
+              </ButtonGroup>
+            ) : (
+              <Button variant={btnVariant} key={id} type="button" className={btnClassName} onClick={() => handleChannelClick(id)}>
                 <span className="me-1">#</span>
                 {name}
-              </button>
+              </Button>
             );
           })}
         </li>
