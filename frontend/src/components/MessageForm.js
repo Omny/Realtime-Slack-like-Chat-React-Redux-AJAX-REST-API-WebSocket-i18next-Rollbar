@@ -12,10 +12,11 @@ const MessageForm = () => {
   return (
     <Formik
       initialValues={{ body: '' }}
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         const { body } = values;
         dispatch(sendNewMessage({ body, channelId: currentChannelId, username }));
         resetForm();
+        setSubmitting(false);
       }}
       validate={(values) => {
         const errors = {};

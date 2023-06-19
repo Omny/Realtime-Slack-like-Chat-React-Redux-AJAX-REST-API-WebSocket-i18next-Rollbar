@@ -47,7 +47,7 @@ const LoginForm = () => {
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={SignupSchema}
-      onSubmit={async (values, { setFieldError }) => {
+      onSubmit={async (values, { setSubmitting, setFieldError }) => {
         const { username, password } = values;
         const { token, user } = await loginUsingApi(username, password);
         if (token && user) {
@@ -59,6 +59,7 @@ const LoginForm = () => {
           setFieldError('username', 'Неверные имя пользователя или пароль');
           setFieldError('password', 'Неверные имя пользователя или пароль');
         }
+        setSubmitting(false);
       }}
     >
       {({ errors, touched, isSubmitting }) => (
