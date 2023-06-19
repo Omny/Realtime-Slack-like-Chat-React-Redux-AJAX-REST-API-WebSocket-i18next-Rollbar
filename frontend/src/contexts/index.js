@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
-const AppContext = createContext({
+const AuthContext = createContext({
   userGroup: 'guest',
   setUserGroup: () => {},
 });
 
-export default AppContext;
+export default AuthContext;
