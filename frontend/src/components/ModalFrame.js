@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import {
@@ -7,22 +8,26 @@ import cn from 'classnames';
 import { sendNewChannel } from '../slices/channelsSlice';
 import { setModalVisibility, setModalType } from '../slices/modalStateSlice';
 
-const ModalFrame = () => {
-  // const modalType = useSelector((state) => state.modalState.modalType);
-
+const ModalAdd = () => {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modalState.isModalVisible);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      const input = document.querySelector('[name="name"]');
+      if (input) {
+        input.focus();
+      }
+    }
+  }, [isModalVisible]);
 
   const handleClose = () => {
     dispatch(setModalVisibility(false));
     dispatch(setModalType(null));
   };
 
-  const ModalAdd = (
+  return (
     <Modal show={isModalVisible} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
-      </Modal.Header>
       <Formik
         initialValues={{ name: '' }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -45,6 +50,9 @@ const ModalFrame = () => {
           errors, touched, values, isSubmitting,
         }) => (
           <Form noValidate className="py-1 border rounded-2">
+            <Modal.Header closeButton>
+              <Modal.Title>Добавить канал</Modal.Title>
+            </Modal.Header>
             <Modal.Body>
               <div className={cn('input-group', { 'has-validation': errors.name && touched.name })}>
                 <Field
@@ -75,7 +83,16 @@ const ModalFrame = () => {
       </Formik>
     </Modal>
   );
-  return ModalAdd;
+};
+
+const ModalFrame = () => {
+  const modalType = useSelector((state) => state.modalState.modalType);
+  switch (modalType) {
+    case 'addChannel':
+      return <ModalAdd />;
+    default:
+      return null;
+  }
 };
 
 export default ModalFrame;
