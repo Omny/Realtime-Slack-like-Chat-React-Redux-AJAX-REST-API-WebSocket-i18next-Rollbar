@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { Formik, Form } from 'formik';
 import { selectors as channelsSelectors, sendRemoveChannel } from '../slices/channelsSlice';
-import { setModalRemoveChannelVisibility } from '../slices/modalSlice';
+import { setIdToProcess, setModalRemoveChannelVisibility } from '../slices/modalSlice';
 
 const RemoveChannelForm = ({ handleClose }) => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const RemoveChannelForm = ({ handleClose }) => {
 
   const handleSubmit = (values, { setSubmitting }) => {
     dispatch(sendRemoveChannel({ id }));
+    dispatch(setIdToProcess(null));
     handleClose();
     setSubmitting(false);
   };
