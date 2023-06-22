@@ -6,15 +6,17 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import cn from 'classnames';
-import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
-import { setModalAddChannelVisibility } from '../slices/modalSlice';
+import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
+import { setModalRenameChannelVisibility } from '../slices/modalSlice';
 
-const AddChannelForm = ({ handleClose }) => {
+const RenameChannelForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+  const id = useSelector((state) => state.modal.idToProcess);
+  const { name } = channels.find((channel) => channel.id === id);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    dispatch(sendNewChannel({ name: values.name }));
+    dispatch(sendRenameChannel({ id, name: values.name }));
     handleClose();
     setSubmitting(false);
   };
@@ -32,7 +34,7 @@ const AddChannelForm = ({ handleClose }) => {
 
   return (
     <Formik
-      initialValues={{ name: '' }}
+      initialValues={{ name }}
       onSubmit={handleSubmit}
       validate={validateForm}
       validateOnBlur={false}
@@ -41,6 +43,12 @@ const AddChannelForm = ({ handleClose }) => {
         errors, touched, values, isSubmitting,
       }) => (
         <Form noValidate className="py-1">
+          <div className="input-group pb-3">
+            Переименовать канал
+            {' '}
+            {name}
+            ?
+          </div>
           <div className={cn('input-group', { 'has-validation': errors.name && touched.name })}>
             <Field
               type="text"
@@ -80,9 +88,9 @@ const AddChannelForm = ({ handleClose }) => {
   );
 };
 
-const ModalAddChannel = () => {
+const ModalRenameChannel = () => {
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isModalAddChannelVisible);
+  const isModalVisible = useSelector((state) => state.modal.isModalRenameChannelVisible);
 
   useEffect(() => {
     if (isModalVisible) {
@@ -94,19 +102,19 @@ const ModalAddChannel = () => {
   }, [isModalVisible]);
 
   const handleClose = () => {
-    dispatch(setModalAddChannelVisibility(false));
+    dispatch(setModalRenameChannelVisibility(false));
   };
 
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AddChannelForm handleClose={handleClose} />
+        <RenameChannelForm handleClose={handleClose} />
       </Modal.Body>
     </Modal>
   );
 };
 
-export default ModalAddChannel;
+export default ModalRenameChannel;

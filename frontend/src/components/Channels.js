@@ -8,7 +8,12 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import { setModalAddChannelVisibility, setModalRemoveChannelVisibility, setIdToProcess } from '../slices/modalSlice';
+import {
+  setModalAddChannelVisibility,
+  setModalRemoveChannelVisibility,
+  setModalRenameChannelVisibility,
+  setIdToProcess,
+} from '../slices/modalSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -28,6 +33,10 @@ const Channels = () => {
   const handleShowRemoveChannelModal = (id) => {
     dispatch(setIdToProcess(id));
     dispatch(setModalRemoveChannelVisibility(true));
+  };
+  const handleShowRenameChannelModal = (id) => {
+    dispatch(setIdToProcess(id));
+    dispatch(setModalRenameChannelVisibility(true));
   };
 
   return (
@@ -54,7 +63,9 @@ const Channels = () => {
                   <Dropdown.Item onClick={() => handleShowRemoveChannelModal(id)} eventKey="1">
                     Удалить
                   </Dropdown.Item>
-                  <Dropdown.Item eventKey="2">Переименовать</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleShowRenameChannelModal(id)} eventKey="2">
+                    Переименовать
+                  </Dropdown.Item>
                 </DropdownButton>
               </ButtonGroup>
             ) : (

@@ -27,8 +27,8 @@ const RemoveChannelForm = ({ handleClose }) => {
       {({
         isSubmitting,
       }) => (
-        <Form noValidate className="py-2">
-          <div className="input-group">
+        <Form noValidate className="py-1">
+          <div className="input-group pb-3">
             Удалить канал
             {' '}
             {name}
@@ -47,6 +47,7 @@ const RemoveChannelForm = ({ handleClose }) => {
               type="submit"
               disabled={isSubmitting}
               variant="danger"
+              default
             >
               Отправить
             </Button>

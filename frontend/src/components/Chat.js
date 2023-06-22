@@ -15,54 +15,7 @@ import Channels from './Channels';
 import Messages from './Messages';
 import ModalAddChannel from './ModalAddChannel';
 import ModalRemoveChannel from './ModalRemoveChannel';
-
-// const ChatComponent = () => {
-//   const dispatch = useDispatch();
-//   const [message, setMessage] = useState('');
-//   const [channelName, setChannelName] = useState('');
-
-//   const handleSendMessage = () => {
-//     dispatch(sendMessage({ body: message, channelId: 1, username: 'admin' }));
-//     setMessage('');
-//   };
-
-//   const handleCreateChannel = () => {
-//     dispatch(sendChannel({ name: channelName }));
-//     setChannelName('');
-//   };
-
-//   const handleRemoveChannel = () => {
-//     dispatch(sendRemoveChannel({ id: 6 }));
-//   };
-
-//   const handleRenameChannel = () => {
-//     dispatch(sendRenameChannel({ id: 7, name: 'new name channel' }));
-//   };
-//   return (
-//     <div>
-//       <div>
-//         <input
-//           type="text"
-//           value={message}
-//           onChange={(e) => setMessage(e.target.value)}
-//           placeholder="Enter message"
-//         />
-//         <button type="button" onClick={handleSendMessage}>Send Message</button>
-//       </div>
-//       <div>
-//         <input
-//           type="text"
-//           value={channelName}
-//           onChange={(e) => setChannelName(e.target.value)}
-//           placeholder="Enter channel name"
-//         />
-//         <button type="button" onClick={handleCreateChannel}>Create Channel</button>
-//         <button type="button" onClick={handleRemoveChannel}>Remove Channel</button>
-//         <button type="button" onClick={handleRenameChannel}>Rename Channel</button>
-//       </div>
-//     </div>
-//   );
-// };
+import ModalRenameChannel from './ModalRenameChannel';
 
 const Chat = () => {
   const { userGroup } = useContext(AppContext);
@@ -97,16 +50,17 @@ const Chat = () => {
   const {
     isModalAddChannelVisible,
     isModalRemoveChannelVisible,
+    isModalRenameChannelVisible,
   } = useSelector((state) => state.modal);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
-        {/* <ChatComponent /> */}
         <Channels />
         <Messages />
         {isModalAddChannelVisible ? <ModalAddChannel /> : null}
         {isModalRemoveChannelVisible ? <ModalRemoveChannel /> : null}
+        {isModalRenameChannelVisible ? <ModalRenameChannel /> : null}
       </div>
     </div>
   );
