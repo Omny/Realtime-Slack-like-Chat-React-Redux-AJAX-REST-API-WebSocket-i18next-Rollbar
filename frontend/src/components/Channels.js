@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import { setModalAddChannelVisibility, setModalType } from '../slices/modalSlice';
+import { setModalAddChannelVisibility } from '../slices/modalSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -20,8 +20,7 @@ const Channels = () => {
   };
 
   const isModalAddChannelVisible = useSelector((state) => state.modal.isModalAddChannelVisible);
-  const handleShowModal = () => {
-    dispatch(setModalType('addChannel'));
+  const handleShowAddChannelModal = () => {
     dispatch(setModalAddChannelVisibility(!isModalAddChannelVisible));
   };
 
@@ -29,7 +28,7 @@ const Channels = () => {
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <button type="button" onClick={handleShowModal} className="p-0 text-primary btn btn-group-vertical">
+        <button type="button" onClick={handleShowAddChannelModal} className="p-0 text-primary btn btn-group-vertical">
           <PlusSquare size={20} />
           <span className="visually-hidden">+</span>
         </button>
