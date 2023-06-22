@@ -64,7 +64,7 @@ socketManager.subscribe('newChannel', (payload) => {
 });
 socketManager.subscribe('removeChannel', (payload) => {
   console.log('Received removeChannel:', payload);
-  store.dispatch(removeChannel(payload));
+  store.dispatch(removeChannel(payload.id));
 });
 socketManager.subscribe('renameChannel', (payload) => {
   console.log('Received renameChannel:', payload);

@@ -14,6 +14,7 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 import ModalAddChannel from './ModalAddChannel';
+import ModalRemoveChannel from './ModalRemoveChannel';
 
 // const ChatComponent = () => {
 //   const dispatch = useDispatch();
@@ -93,7 +94,10 @@ const Chat = () => {
     fetchData();
   }, [dispatch, userGroup]);
 
-  const isModalAddChannelVisible = useSelector((state) => state.modal.isModalAddChannelVisible);
+  const {
+    isModalAddChannelVisible,
+    isModalRemoveChannelVisible,
+  } = useSelector((state) => state.modal);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -102,6 +106,7 @@ const Chat = () => {
         <Channels />
         <Messages />
         {isModalAddChannelVisible ? <ModalAddChannel /> : null}
+        {isModalRemoveChannelVisible ? <ModalRemoveChannel /> : null}
       </div>
     </div>
   );

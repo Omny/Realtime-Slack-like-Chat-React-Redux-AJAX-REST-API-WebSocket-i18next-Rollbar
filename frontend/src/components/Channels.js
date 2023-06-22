@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import { setModalAddChannelVisibility } from '../slices/modalSlice';
+import { setModalAddChannelVisibility, setModalRemoveChannelVisibility, setIdToProcess } from '../slices/modalSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -19,9 +19,15 @@ const Channels = () => {
     dispatch(setCurrentChannelId(selectedID));
   };
 
-  const isModalAddChannelVisible = useSelector((state) => state.modal.isModalAddChannelVisible);
+  const {
+    isModalAddChannelVisible,
+  } = useSelector((state) => state.modal);
   const handleShowAddChannelModal = () => {
     dispatch(setModalAddChannelVisibility(!isModalAddChannelVisible));
+  };
+  const handleShowRemoveChannelModal = (id) => {
+    dispatch(setIdToProcess(id));
+    dispatch(setModalRemoveChannelVisibility(true));
   };
 
   return (
@@ -45,7 +51,9 @@ const Channels = () => {
                   {name}
                 </Button>
                 <DropdownButton title="" as={ButtonGroup} variant={btnVariant} id="bg-nested-dropdown">
-                  <Dropdown.Item eventKey="1">Удалить</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleShowRemoveChannelModal(id)} eventKey="1">
+                    Удалить
+                  </Dropdown.Item>
                   <Dropdown.Item eventKey="2">Переименовать</Dropdown.Item>
                 </DropdownButton>
               </ButtonGroup>
