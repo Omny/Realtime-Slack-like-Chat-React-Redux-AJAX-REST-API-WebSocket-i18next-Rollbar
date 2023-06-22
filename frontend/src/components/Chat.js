@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import routes from '../routes';
 import getAuthHeader from '../helpers/auth';
@@ -13,7 +13,7 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 import Channels from './Channels';
 import Messages from './Messages';
-import ModalFrame from './ModalFrame';
+import ModalAddChannel from './ModalAddChannel';
 
 // const ChatComponent = () => {
 //   const dispatch = useDispatch();
@@ -93,13 +93,15 @@ const Chat = () => {
     fetchData();
   }, [dispatch, userGroup]);
 
+  const isModalAddChannelVisible = useSelector((state) => state.modal.isModalAddChannelVisible);
+
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
         {/* <ChatComponent /> */}
         <Channels />
         <Messages />
-        <ModalFrame />
+        {isModalAddChannelVisible ? <ModalAddChannel /> : null}
       </div>
     </div>
   );

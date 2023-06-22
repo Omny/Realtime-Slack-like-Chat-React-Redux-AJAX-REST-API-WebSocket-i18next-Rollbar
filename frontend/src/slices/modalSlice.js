@@ -2,15 +2,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 // import { newChannel, removeChannel } from './channelsSlice';
 
-const modalStateSlice = createSlice({
-  name: 'modalState',
+const modalSlice = createSlice({
+  name: 'modal',
   initialState: {
-    isModalVisible: false,
+    isModalAddChannelVisible: false,
     modalType: null,
   },
   reducers: {
-    setModalVisibility: (state, action) => {
-      state.isModalVisible = action.payload;
+    setModalAddChannelVisibility: (state, action) => {
+      state.isModalAddChannelVisible = action.payload;
     },
     setModalType: (state, action) => {
       state.modalType = action.payload;
@@ -19,15 +19,15 @@ const modalStateSlice = createSlice({
     //   builder
     //     .addCase(newChannel, (state) => {
     //       state.modalType = null;
-    //       state.isModalVisible = false;
+    //       state.isModalAddChannelVisible = false;
     //     })
     //     .addCase(removeChannel, (state) => {
     //       state.modalType = null;
-    //       state.isModalVisible = false;
+    //       state.isModalAddChannelVisible = false;
     //     });
     // },
   },
 });
 
-export const { setModalVisibility, setModalType } = modalStateSlice.actions;
-export default modalStateSlice.reducer;
+export const { setModalAddChannelVisibility, setModalType } = modalSlice.actions;
+export default modalSlice.reducer;

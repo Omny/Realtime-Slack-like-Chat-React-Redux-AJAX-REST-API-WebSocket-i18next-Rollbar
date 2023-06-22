@@ -13,7 +13,7 @@ import messagesReducer, {
   newMessage,
 } from './messagesSlice';
 import setCurrentChannelIdReducer from './currentChannelIdSlice';
-import modalStateReducer from './modalStateSlice';
+import modalReducer from './modalSlice';
 
 const socket = io();
 
@@ -49,7 +49,7 @@ const store = configureStore({
     channels: channelsReducer,
     messages: messagesReducer,
     currentChannelId: setCurrentChannelIdReducer,
-    modalState: modalStateReducer,
+    modal: modalReducer,
   },
   middleware: [socketMiddleware(socketManager)],
 });
