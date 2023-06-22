@@ -6,14 +6,22 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     isModalAddChannelVisible: false,
-    modalType: null,
+    isModalRemoveChannelVisible: false,
+    isModalRenameChannelVisible: false,
+    idToProcess: null,
   },
   reducers: {
     setModalAddChannelVisibility: (state, action) => {
       state.isModalAddChannelVisible = action.payload;
     },
-    setModalType: (state, action) => {
-      state.modalType = action.payload;
+    setModalRemoveChannelVisibility: (state, action) => {
+      state.isModalRemoveChannelVisible = action.payload;
+    },
+    setModalRenameChannelVisibility: (state, action) => {
+      state.isModalRenameChannelVisible = action.payload;
+    },
+    setIdToProcess: (state, action) => {
+      state.idToProcess = action.payload;
     },
     // extraReducers: (builder) => {
     //   builder
@@ -29,5 +37,10 @@ const modalSlice = createSlice({
   },
 });
 
-export const { setModalAddChannelVisibility, setModalType } = modalSlice.actions;
+export const {
+  setModalAddChannelVisibility,
+  setModalRemoveChannelVisibility,
+  setModalRenameChannelVisibility,
+  setIdToProcess,
+} = modalSlice.actions;
 export default modalSlice.reducer;
