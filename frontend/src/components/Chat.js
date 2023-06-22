@@ -6,9 +6,7 @@ import getAuthHeader from '../helpers/auth';
 import AppContext from '../contexts';
 
 import { newMessages } from '../slices/messagesSlice';
-import {
-  newChannels,
-} from '../slices/channelsSlice';
+import { newChannels } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 import Channels from './Channels';

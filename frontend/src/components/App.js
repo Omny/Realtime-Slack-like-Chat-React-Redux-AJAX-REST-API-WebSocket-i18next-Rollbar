@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import {
   BrowserRouter as Router, Route, Routes, Navigate,
 } from 'react-router-dom';
@@ -19,10 +19,8 @@ const AuthProvider = ({ children }) => {
   const [userGroup, setUserGroup] = useState(token ? 'user' : 'guest');
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <AuthContext.Provider value={{
-      userGroup, setUserGroup,
-    }}
+    <AuthContext.Provider
+      value={useMemo(() => ({ userGroup, setUserGroup }), [userGroup, setUserGroup])}
     >
       {children}
     </AuthContext.Provider>
