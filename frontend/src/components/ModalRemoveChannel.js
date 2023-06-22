@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
 import { selectors as channelsSelectors, sendRemoveChannel } from '../slices/channelsSlice';
 import { setIdToProcess, setModalRemoveChannelVisibility } from '../slices/modalSlice';
@@ -34,16 +35,21 @@ const RemoveChannelForm = ({ handleClose }) => {
             ?
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <button type="button" className="me-2 btn btn-secondary" onClick={handleClose}>
+            <Button
+              type="button"
+              variant="secondary"
+              className="me-2"
+              onClick={handleClose}
+            >
               Отменить
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary"
+              variant="danger"
             >
               Отправить
-            </button>
+            </Button>
           </div>
         </Form>
       )}

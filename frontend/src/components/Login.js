@@ -10,9 +10,9 @@ import cn from 'classnames';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
+import Button from 'react-bootstrap/Button';
 import AppContext from '../contexts';
 import routes from '../routes';
-
 import loginImg from '../images/login.jpg';
 
 const SignupSchema = Yup.object().shape({
@@ -101,13 +101,14 @@ const LoginForm = () => {
             </label>
             <ErrorMessage name="password" component="div" className="invalid-tooltip" />
           </div>
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
+            variant="outline-primary"
             className="w-100 mb-3 btn btn-outline-primary"
           >
             Войти
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>

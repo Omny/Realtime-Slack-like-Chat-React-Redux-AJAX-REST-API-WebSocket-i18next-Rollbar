@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
+import Button from 'react-bootstrap/Button';
 import { sendNewMessage } from '../slices/messagesSlice';
 
 const MessageForm = () => {
@@ -39,14 +40,15 @@ const MessageForm = () => {
               data-last-active-input
               autoFocus
             />
-            <button
+            <Button
               type="submit"
               disabled={!values.body || errors.body || isSubmitting}
-              className="btn btn-primary btn-group-vertical"
+              variant="primary"
+              className="btn-group-vertical"
             >
               <ArrowRightSquare size={20} />
               <span className="visually-hidden">Отправить</span>
-            </button>
+            </Button>
           </div>
         </Form>
       )}

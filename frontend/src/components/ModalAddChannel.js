@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
@@ -53,16 +54,21 @@ const AddChannelForm = ({ handleClose }) => {
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <button type="button" className="me-2 btn btn-secondary" onClick={handleClose}>
+            <Button
+              type="button"
+              variant="secondary"
+              className="me-2"
+              onClick={handleClose}
+            >
               Отменить
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               disabled={!values.name || (errors.name && touched.name) || isSubmitting}
-              className="btn btn-primary"
+              variant="primary"
             >
               Отправить
-            </button>
+            </Button>
           </div>
         </Form>
       )}
