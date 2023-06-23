@@ -8,13 +8,24 @@ import {
 import cn from 'classnames';
 import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
 import { setModalAddChannelVisibility } from '../slices/modalSlice';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+import { socketManager } from '../slices';
 
 const AddChannelForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
 
+  const handleMakeNewChannelCurrent = (newName) => (payload) => {
+    const { id, name } = payload;
+    if (name === newName) {
+      dispatch(setCurrentChannelId(id));
+    }
+  };
+
   const handleSubmit = (values, { setSubmitting }) => {
-    dispatch(sendNewChannel({ name: values.name }));
+    const newName = values.name;
+    dispatch(sendNewChannel({ name: newName }));
+    socketManager.subscribe('newChannel', handleMakeNewChannelCurrent(newName));
     handleClose();
     setSubmitting(false);
   };

@@ -35,7 +35,7 @@ const socketMiddleware = (socketManager) => () => (next) => (action) => {
   return next(action);
 };
 
-const socketManager = {
+export const socketManager = {
   subscribe: (event, callback) => {
     socket.on(event, callback);
   },
