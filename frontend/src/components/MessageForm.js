@@ -22,7 +22,7 @@ const MessageForm = () => {
       validate={(values) => {
         const errors = {};
         if (!values.body) {
-          errors.body = 'Поле обязательно для заполнения';
+          errors.body = 'Обязательное поле';
         }
         return errors;
       }}

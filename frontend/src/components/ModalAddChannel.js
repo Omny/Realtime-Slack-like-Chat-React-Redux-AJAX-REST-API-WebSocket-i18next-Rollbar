@@ -22,7 +22,7 @@ const AddChannelForm = ({ handleClose }) => {
   const validateForm = (values) => {
     const errors = {};
     if (!values.name) {
-      errors.name = 'Поле обязательно для заполнения';
+      errors.name = 'Обязательное поле';
     }
     if (channels.some((channel) => channel.name === values.name)) {
       errors.name = 'Такой канал уже существует';

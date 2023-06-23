@@ -15,18 +15,6 @@ import AppContext from '../contexts';
 import routes from '../routes';
 import loginImg from '../images/login.jpg';
 
-const SignupSchema = Yup.object().shape({
-  username: Yup.string()
-    // .min(3, 'Минимум 3 символа')
-    // .max(50, 'Максимум 50 символов')
-    .required('Обязательное поле'),
-  password: Yup.string()
-    // .min(6, 'Минимум 6 символов')
-    // .max(50, 'Максимум 50 символов')
-    // .matches(/\d+/, 'Одна или более цифра')
-    .required('Обязательное поле'),
-});
-
 const loginUsingApi = async (username, password) => {
   try {
     console.log(username, password);
@@ -43,10 +31,22 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { setUserGroup } = useContext(AppContext);
 
+  const LoginSchema = Yup.object().shape({
+    username: Yup.string()
+      // .min(3, 'Минимум 3 символа')
+      // .max(50, 'Максимум 50 символов')
+      .required('Обязательное поле'),
+    password: Yup.string()
+      // .min(6, 'Минимум 6 символов')
+      // .max(50, 'Максимум 50 символов')
+      // .matches(/\d+/, 'Одна или более цифра')
+      .required('Обязательное поле'),
+  });
+
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
-      validationSchema={SignupSchema}
+      validationSchema={LoginSchema}
       onSubmit={async (values, { setSubmitting, setFieldError }) => {
         const { username, password } = values;
         const { token, user } = await loginUsingApi(username, password);
