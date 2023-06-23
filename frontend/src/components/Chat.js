@@ -2,7 +2,6 @@ import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import routes from '../routes';
-import getAuthHeader from '../helpers/auth';
 import AppContext from '../contexts';
 
 import { newMessages } from '../slices/messagesSlice';
@@ -16,7 +15,7 @@ import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
 const Chat = () => {
-  const { userGroup } = useContext(AppContext);
+  const { userGroup, getAuthHeader } = useContext(AppContext);
 
   const dispatch = useDispatch();
 
@@ -43,7 +42,7 @@ const Chat = () => {
     };
 
     fetchData();
-  }, [dispatch, userGroup]);
+  }, [dispatch, userGroup, getAuthHeader]);
 
   const {
     isModalAddChannelVisible,
