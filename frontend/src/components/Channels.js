@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
-import { PlusSquare } from 'react-bootstrap-icons';
+import { Plus } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -43,8 +43,8 @@ const Channels = () => {
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <Button type="button" onClick={handleShowAddChannelModal} variant="text-primary" className="p-0 btn-group-vertical">
-          <PlusSquare size={20} />
+        <Button type="button" onClick={handleShowAddChannelModal} variant="outline-secondary" className="p-0 btn-group-vertical">
+          <Plus size={20} />
           <span className="visually-hidden">+</span>
         </Button>
       </div>
