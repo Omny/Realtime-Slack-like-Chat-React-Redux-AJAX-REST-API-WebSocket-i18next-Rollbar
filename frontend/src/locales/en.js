@@ -1,9 +1,11 @@
 export default {
   translation: {
-    welcome: 'Welcome',
-    hexletChat: 'Hexlet Chat',
-    logout: 'Log out',
-    // loading: 'Loading...',
+    nav: {
+      welcome: 'Welcome',
+      hexletChat: 'Hexlet Chat',
+      logout: 'Log out',
+      // loading: 'Loading...',
+    },
     channels: {
       //   menu: 'Channel control',
       remove: 'Remove',
@@ -71,9 +73,9 @@ export default {
       message: 'You can go ',
       linkText: 'to the main page',
     },
-    // errors: {
-    //   network: 'Network Error',
-    //   unknown: 'Unknown Error',
-    // },
+    errors: {
+      network: 'No connection to server',
+      unknown: 'Unknown Error',
+    },
   },
 };

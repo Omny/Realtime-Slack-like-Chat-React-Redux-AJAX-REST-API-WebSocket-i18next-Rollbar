@@ -1,9 +1,11 @@
 export default {
   translation: {
-    welcome: 'Добро пожаловать',
-    hexletChat: 'Hexlet Chat',
-    logout: 'Выйти',
-    // loading: 'Загрузка...',
+    nav: {
+      welcome: 'Добро пожаловать',
+      hexletChat: 'Hexlet Chat',
+      logout: 'Выйти',
+      // loading: 'Загрузка...',
+    },
     channels: {
       //   menu: 'Управление каналом',
       remove: 'Удалить',
@@ -74,9 +76,9 @@ export default {
       message: 'Но вы можете перейти ',
       linkText: 'на главную страницу',
     },
-    // errors: {
-    //   network: 'Ошибка соединения',
-    //   unknown: 'Неизвестная ошибка',
-    // },
+    errors: {
+      network: 'Нет связи с сервером',
+      unknown: 'Неизвестная ошибка',
+    },
   },
 };

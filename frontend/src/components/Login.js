@@ -11,6 +11,7 @@ import cn from 'classnames';
 import axios from 'axios';
 import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
 import AppContext from '../contexts';
 import routes from '../routes';
 import loginImg from '../images/login.jpg';
@@ -32,16 +33,22 @@ const LoginForm = () => {
       validationSchema={LoginSchema}
       onSubmit={async (values, { setSubmitting, setFieldError }) => {
         const { username, password } = values;
-        console.log(username, password);
         try {
           const response = await axios.post(routes.loginPath(), { username, password });
           console.log(response);
           handleLogin(response.data.username, response.data.token);
         } catch (error) {
           console.log(error);
+          if (!error.isAxiosError) {
+            toast.error(t('errors.unknown'));
+            setSubmitting(false);
+            return;
+          }
           if (error.response?.status === 401) {
             setFieldError('username', t('login.authFailed'));
             setFieldError('password', t('login.authFailed'));
+          } else {
+            toast.error(t('errors.network'));
           }
         }
         setSubmitting(false);

@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import '../i18n';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { Provider } from 'react-redux';
 import store from '../slices';
 import AuthProvider from '../contexts/AuthProvider';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Nav from './Nav';
 import Login from './Login';
@@ -26,6 +28,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
+        <ToastContainer />
       </AuthProvider>
     </Provider>
   </Router>
