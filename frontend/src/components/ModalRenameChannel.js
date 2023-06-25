@@ -6,10 +6,12 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
 import { setModalRenameChannelVisibility } from '../slices/modalSlice';
 
 const RenameChannelForm = ({ handleClose }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const id = useSelector((state) => state.modal.idToProcess);
@@ -24,10 +26,10 @@ const RenameChannelForm = ({ handleClose }) => {
   const validateForm = (values) => {
     const errors = {};
     if (!values.name) {
-      errors.name = 'Обязательное поле';
+      errors.name = t('modals.required');
     }
     if (channels.some((channel) => channel.name === values.name)) {
-      errors.name = 'Такой канал уже существует';
+      errors.name = t('modals.uniq');
     }
     return errors;
   };
@@ -44,7 +46,7 @@ const RenameChannelForm = ({ handleClose }) => {
       }) => (
         <Form noValidate className="py-1">
           <div className="input-group pb-3">
-            Переименовать канал
+            {t('modals.rename')}
             {' '}
             {name}
             ?
@@ -54,8 +56,8 @@ const RenameChannelForm = ({ handleClose }) => {
               type="text"
               name="name"
               value={values.name}
-              aria-label="Название канала"
-              placeholder="Введите название канала…"
+              aria-label={t('modals.channelName')}
+              placeholder={t('modals.enter')}
               className={cn('mb-4 form-control', {
                 'is-invalid': (errors.name && touched.name),
               })}
@@ -71,7 +73,7 @@ const RenameChannelForm = ({ handleClose }) => {
               className="me-2"
               onClick={handleClose}
             >
-              Отменить
+              {t('modals.cancel')}
             </Button>
             <Button
               type="submit"
@@ -79,7 +81,7 @@ const RenameChannelForm = ({ handleClose }) => {
               variant="primary"
               default
             >
-              Отправить
+              {t('modals.submit')}
             </Button>
           </div>
         </Form>
@@ -89,6 +91,7 @@ const RenameChannelForm = ({ handleClose }) => {
 };
 
 const ModalRenameChannel = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modal.isModalRenameChannelVisible);
 
@@ -108,7 +111,9 @@ const ModalRenameChannel = () => {
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>
+          {t('modals.rename')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <RenameChannelForm handleClose={handleClose} />

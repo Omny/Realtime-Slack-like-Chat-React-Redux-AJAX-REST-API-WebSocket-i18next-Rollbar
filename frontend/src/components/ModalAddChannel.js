@@ -6,12 +6,14 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
 import { setModalAddChannelVisibility } from '../slices/modalSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 import { socketManager } from '../slices';
 
 const AddChannelForm = ({ handleClose }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
 
@@ -33,10 +35,10 @@ const AddChannelForm = ({ handleClose }) => {
   const validateForm = (values) => {
     const errors = {};
     if (!values.name) {
-      errors.name = 'Обязательное поле';
+      errors.name = t('modals.required');
     }
     if (channels.some((channel) => channel.name === values.name)) {
-      errors.name = 'Такой канал уже существует';
+      errors.name = t('modals.uniq');
     }
     return errors;
   };
@@ -57,8 +59,8 @@ const AddChannelForm = ({ handleClose }) => {
               type="text"
               name="name"
               value={values.name}
-              aria-label="Название канала"
-              placeholder="Введите название канала…"
+              aria-label={t('modals.channelName')}
+              placeholder={t('modals.enter')}
               className={cn('mb-4 form-control', {
                 'is-invalid': (errors.name && touched.name),
               })}
@@ -74,7 +76,7 @@ const AddChannelForm = ({ handleClose }) => {
               className="me-2"
               onClick={handleClose}
             >
-              Отменить
+              {t('modals.cancel')}
             </Button>
             <Button
               type="submit"
@@ -82,7 +84,7 @@ const AddChannelForm = ({ handleClose }) => {
               variant="primary"
               default
             >
-              Отправить
+              {t('modals.submit')}
             </Button>
           </div>
         </Form>
@@ -92,6 +94,7 @@ const AddChannelForm = ({ handleClose }) => {
 };
 
 const ModalAddChannel = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modal.isModalAddChannelVisible);
 
@@ -111,7 +114,9 @@ const ModalAddChannel = () => {
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>
+          {t('modals.add')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <AddChannelForm handleClose={handleClose} />

@@ -9,26 +9,26 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import AppContext from '../contexts';
 import routes from '../routes';
 import registrationImg from '../images/registration.jpg';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const { handleLogin } = useContext(AppContext);
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, 'Минимум 3 символа')
-      .max(20, 'Максимум 20 символов')
-      .required('Обязательное поле'),
+      .min(3, t('signup.passMin3'))
+      .max(20, t('signup.passMax20'))
+      .required(t('signup.required')),
     password: Yup.string()
-      .min(6, 'Минимум 6 символов')
-      // .max(50, 'Максимум 50 символов')
-      // .matches(/\d+/, 'Одна или более цифра')
-      .required('Обязательное поле'),
+      .min(6, t('signup.passMin6'))
+      .required(t('signup.required')),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Пароли не совпадают'),
+      .oneOf([Yup.ref('password'), null], t('signup.mustMatch')),
   });
 
   return (
@@ -45,7 +45,7 @@ const LoginForm = () => {
         } catch (error) {
           console.log(error);
           if (error.response?.status === 409) {
-            setFieldError('username', 'Такой пользователь уже существует');
+            setFieldError('username', t('signup.alreadyExists'));
           }
         }
         setSubmitting(false);
@@ -53,14 +53,16 @@ const LoginForm = () => {
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
-          <h1 className="text-center mb-4">Регистрация</h1>
+          <h1 className="text-center mb-4">
+            {t('signup.title')}
+          </h1>
           <div className="form-floating mb-3">
             <Field
               type="username"
               name="username"
               autoComplete="username"
               required
-              placeholder="Ваш ник"
+              placeholder={t('signup.username')}
               id="username"
               className={cn('form-control', {
                 'is-invalid': (errors.username && touched.username),
@@ -69,7 +71,7 @@ const LoginForm = () => {
               autoFocus
             />
             <label className="form-label" htmlFor="username">
-              Ваш ник
+              {t('signup.username')}
             </label>
             <ErrorMessage name="username" component="div" className="invalid-tooltip" />
           </div>
@@ -79,14 +81,14 @@ const LoginForm = () => {
               name="password"
               autoComplete="current-password"
               required
-              placeholder="Пароль"
+              placeholder={t('signup.password')}
               id="password"
               className={cn('form-control', {
                 'is-invalid': (errors.password && touched.password),
               })}
             />
             <label className="form-label" htmlFor="password">
-              Пароль
+              {t('signup.password')}
             </label>
             <ErrorMessage name="password" component="div" className="invalid-tooltip" />
           </div>
@@ -96,14 +98,14 @@ const LoginForm = () => {
               name="passwordConfirm"
               autoComplete="current-password"
               required
-              placeholder="Подтвердите пароль"
+              placeholder={t('signup.confirm')}
               id="passwordConfirm"
               className={cn('form-control', {
                 'is-invalid': (errors.passwordConfirm && touched.passwordConfirm),
               })}
             />
             <label className="form-label" htmlFor="passwordConfirm">
-              Подтвердите пароль
+              {t('signup.confirm')}
             </label>
             <ErrorMessage name="passwordConfirm" component="div" className="invalid-tooltip" />
           </div>
@@ -113,7 +115,7 @@ const LoginForm = () => {
             variant="outline-primary"
             className="w-100 mb-3 btn btn-outline-primary"
           >
-            Зарегистрироваться
+            {t('signup.submit')}
           </Button>
         </Form>
       )}
@@ -121,28 +123,35 @@ const LoginForm = () => {
   );
 };
 
-const Login = () => (
-  <div className="container-fluid h-100">
-    <div className="row justify-content-center align-content-center h-100">
-      <div className="col-12 col-md-8 col-xxl-6">
-        <div className="card shadow-sm">
-          <div className="card-body row p-5">
-            <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <img src={registrationImg} className="rounded-circle" alt="signup" />
+const Login = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="card-body row p-5">
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <img src={registrationImg} className="rounded-circle" alt="signup" />
+              </div>
+              <LoginForm />
             </div>
-            <LoginForm />
-          </div>
-          <div className="card-footer p-4">
-            <div className="text-center">
-              <span>Есть аккаунт?</span>
-              {' '}
-              <a href="/login">Войти</a>
+            <div className="card-footer p-4">
+              <div className="text-center">
+                <span>
+                  {t('signup.alreadyHaveAccount')}
+                </span>
+                {' '}
+                <a href="/login">
+                  {t('signup.login')}
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Login;

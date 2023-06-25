@@ -2,10 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import { sendNewMessage } from '../slices/messagesSlice';
 
 const MessageForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const username = localStorage.getItem('user');
@@ -22,7 +24,7 @@ const MessageForm = () => {
       validate={(values) => {
         const errors = {};
         if (!values.body) {
-          errors.body = 'Обязательное поле';
+          errors.body = t('messages.required');
         }
         return errors;
       }}
@@ -34,8 +36,8 @@ const MessageForm = () => {
               type="text"
               name="body"
               value={values.body}
-              aria-label="Новое сообщение"
-              placeholder="Введите сообщение…"
+              aria-label={t('messages.required')}
+              placeholder={t('messages.enter')}
               className="border-0 p-0 ps-2 form-control"
               data-last-active-input
               autoFocus
@@ -47,7 +49,7 @@ const MessageForm = () => {
               className="btn-group-vertical"
             >
               <ArrowRightSquare size={20} />
-              <span className="visually-hidden">Отправить</span>
+              <span className="visually-hidden">{t('messages.send')}</span>
             </Button>
           </div>
         </Form>

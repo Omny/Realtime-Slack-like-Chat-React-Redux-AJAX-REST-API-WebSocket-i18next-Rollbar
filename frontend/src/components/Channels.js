@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -16,6 +17,7 @@ import {
 } from '../slices/modalSlice';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const channels = useSelector(channelsSelectors.selectAll);
@@ -42,7 +44,7 @@ const Channels = () => {
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('channels.channels')}</b>
         <Button type="button" onClick={handleShowAddChannelModal} variant="outline-secondary" className="p-0 btn-group-vertical">
           <Plus size={20} />
           <span className="visually-hidden">+</span>
@@ -61,10 +63,10 @@ const Channels = () => {
                 </Button>
                 <DropdownButton title="" as={ButtonGroup} variant={btnVariant} id="bg-nested-dropdown">
                   <Dropdown.Item onClick={() => handleShowRemoveChannelModal(id)} eventKey="1">
-                    Удалить
+                    {t('channels.remove')}
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => handleShowRenameChannelModal(id)} eventKey="2">
-                    Переименовать
+                    {t('channels.rename')}
                   </Dropdown.Item>
                 </DropdownButton>
               </ButtonGroup>

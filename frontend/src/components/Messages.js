@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-
+import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
 
 import MessageForm from './MessageForm';
 
 const Messages = () => {
-  // const dispatch = useDispatch();
+  const { t } = useTranslation();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
@@ -24,7 +24,8 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {'Сообщений: '}
+            {t('messages.messages')}
+            {': '}
             {currentMessages && currentMessages.length}
           </span>
         </div>

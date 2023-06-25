@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendRemoveChannel } from '../slices/channelsSlice';
 import { setIdToProcess, setModalRemoveChannelVisibility } from '../slices/modalSlice';
 
 const RemoveChannelForm = ({ handleClose }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const id = useSelector((state) => state.modal.idToProcess);
@@ -29,7 +31,7 @@ const RemoveChannelForm = ({ handleClose }) => {
       }) => (
         <Form noValidate className="py-1">
           <div className="input-group pb-3">
-            Удалить канал
+            {t('modals.remove')}
             {' '}
             {name}
             ?
@@ -41,7 +43,7 @@ const RemoveChannelForm = ({ handleClose }) => {
               className="me-2"
               onClick={handleClose}
             >
-              Отменить
+              {t('modals.cancel')}
             </Button>
             <Button
               type="submit"
@@ -49,7 +51,7 @@ const RemoveChannelForm = ({ handleClose }) => {
               variant="danger"
               default
             >
-              Отправить
+              {t('modals.submit')}
             </Button>
           </div>
         </Form>
@@ -59,6 +61,7 @@ const RemoveChannelForm = ({ handleClose }) => {
 };
 
 const ModalRemoveChannel = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modal.isModalRemoveChannelVisible);
 
@@ -78,7 +81,9 @@ const ModalRemoveChannel = () => {
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>
+          {t('modals.remove')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <RemoveChannelForm handleClose={handleClose} />

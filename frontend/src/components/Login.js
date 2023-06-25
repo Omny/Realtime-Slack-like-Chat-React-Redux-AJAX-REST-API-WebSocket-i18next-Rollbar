@@ -6,6 +6,7 @@ import {
   ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import axios from 'axios';
 import { useContext } from 'react';
@@ -15,13 +16,14 @@ import routes from '../routes';
 import loginImg from '../images/login.jpg';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const { handleLogin } = useContext(AppContext);
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string()
-      .required('Обязательное поле'),
+      .required(t('login.required')),
     password: Yup.string()
-      .required('Обязательное поле'),
+      .required(t('login.required')),
   });
 
   return (
@@ -38,8 +40,8 @@ const LoginForm = () => {
         } catch (error) {
           console.log(error);
           if (error.response?.status === 401) {
-            setFieldError('username', 'Неверные имя пользователя или пароль');
-            setFieldError('password', 'Неверные имя пользователя или пароль');
+            setFieldError('username', t('login.authFailed'));
+            setFieldError('password', t('login.authFailed'));
           }
         }
         setSubmitting(false);
@@ -47,14 +49,14 @@ const LoginForm = () => {
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
-          <h1 className="text-center mb-4">Войти</h1>
+          <h1 className="text-center mb-4">{t('login.login')}</h1>
           <div className="form-floating mb-3">
             <Field
               type="username"
               name="username"
               autoComplete="username"
               required
-              placeholder="Ваш ник"
+              placeholder={t('login.username')}
               id="username"
               className={cn('form-control', {
                 'is-invalid': (errors.username && touched.username),
@@ -63,7 +65,7 @@ const LoginForm = () => {
               autoFocus
             />
             <label className="form-label" htmlFor="username">
-              Ваш ник
+              {t('login.username')}
             </label>
             <ErrorMessage name="username" component="div" className="invalid-tooltip" />
           </div>
@@ -73,14 +75,14 @@ const LoginForm = () => {
               name="password"
               autoComplete="current-password"
               required
-              placeholder="Пароль"
+              placeholder={t('login.password')}
               id="password"
               className={cn('form-control', {
                 'is-invalid': (errors.password && touched.password),
               })}
             />
             <label className="form-label" htmlFor="password">
-              Пароль
+              {t('login.password')}
             </label>
             <ErrorMessage name="password" component="div" className="invalid-tooltip" />
           </div>
@@ -90,7 +92,7 @@ const LoginForm = () => {
             variant="outline-primary"
             className="w-100 mb-3 btn btn-outline-primary"
           >
-            Войти
+            {t('login.submit')}
           </Button>
         </Form>
       )}
@@ -98,28 +100,32 @@ const LoginForm = () => {
   );
 };
 
-const Login = () => (
-  <div className="container-fluid h-100">
-    <div className="row justify-content-center align-content-center h-100">
-      <div className="col-12 col-md-8 col-xxl-6">
-        <div className="card shadow-sm">
-          <div className="card-body row p-5">
-            <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <img src={loginImg} className="rounded-circle" alt="login" />
+const Login = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="card-body row p-5">
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <img src={loginImg} className="rounded-circle" alt="login" />
+              </div>
+              <LoginForm />
             </div>
-            <LoginForm />
-          </div>
-          <div className="card-footer p-4">
-            <div className="text-center">
-              <span>Нет аккаунта?</span>
-              {' '}
-              <a href="/signup">Регистрация</a>
+            <div className="card-footer p-4">
+              <div className="text-center">
+                <span>{t('login.newToChat')}</span>
+                {' '}
+                <a href="/signup">{t('login.signup')}</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Login;
