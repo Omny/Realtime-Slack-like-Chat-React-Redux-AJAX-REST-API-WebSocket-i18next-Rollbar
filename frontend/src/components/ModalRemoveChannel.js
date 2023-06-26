@@ -1,29 +1,37 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { selectors as channelsSelectors, sendRemoveChannel } from '../slices/channelsSlice';
+import { sendRemoveChannel } from '../slices/channelsSlice';
 import { setIdToProcess, setModalRemoveChannelVisibility } from '../slices/modalSlice';
+import { socketManager } from '../slices';
 
 const RemoveChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const channels = useSelector(channelsSelectors.selectAll);
-  const id = useSelector((state) => state.modal.idToProcess);
-  const { name } = channels.find((channel) => channel.id === id);
+  const idToDelete = useSelector((state) => state.modal.idToProcess);
+
+  const handleMakeAfter = (setSubmitting) => (payload) => {
+    if (payload.id === idToDelete) {
+      dispatch(setIdToProcess(null));
+      toast.success(t('channels.removed'));
+    }
+    setSubmitting(false);
+    handleClose();
+  };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    dispatch(sendRemoveChannel({ id }));
-    dispatch(setIdToProcess(null));
-    handleClose();
-    setSubmitting(false);
+    setTimeout(() => {
+      dispatch(sendRemoveChannel({ id: idToDelete }));
+      socketManager.subscribe('removeChannel', handleMakeAfter(setSubmitting));
+    }, 400);
   };
 
   return (
     <Formik
-      initialValues={{ name }}
+      initialValues={{ id: idToDelete }}
       onSubmit={handleSubmit}
     >
       {({
@@ -32,8 +40,6 @@ const RemoveChannelForm = ({ handleClose }) => {
         <Form noValidate className="py-1">
           <div className="input-group pb-3">
             {t('modals.remove')}
-            {' '}
-            {name}
             ?
           </div>
           <div className="d-flex justify-content-end align-items-center">
@@ -64,15 +70,6 @@ const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modal.isModalRemoveChannelVisible);
-
-  useEffect(() => {
-    if (isModalVisible) {
-      const input = document.querySelector('[name="name"]');
-      if (input) {
-        input.focus();
-      }
-    }
-  }, [isModalVisible]);
 
   const handleClose = () => {
     dispatch(setModalRemoveChannelVisibility(false));

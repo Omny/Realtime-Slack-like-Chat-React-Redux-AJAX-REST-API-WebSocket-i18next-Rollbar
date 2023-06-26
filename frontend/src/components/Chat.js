@@ -1,9 +1,11 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+
 import routes from '../routes';
 import AppContext from '../contexts';
-
 import { newMessages } from '../slices/messagesSlice';
 import { newChannels } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
@@ -15,8 +17,8 @@ import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
 const Chat = () => {
+  const { t } = useTranslation();
   const { userGroup, getAuthHeader } = useContext(AppContext);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,11 +40,16 @@ const Chat = () => {
         dispatch(setCurrentChannelId(currentChannelId));
       } catch (error) {
         console.log(error);
+        if (error.isAxiosError) {
+          toast.error(t('errors.network'));
+        } else {
+          toast.error(t('errors.unknown'));
+        }
       }
     };
 
     fetchData();
-  }, [dispatch, userGroup, getAuthHeader]);
+  }, [dispatch, userGroup, getAuthHeader, t]);
 
   const {
     isModalAddChannelVisible,

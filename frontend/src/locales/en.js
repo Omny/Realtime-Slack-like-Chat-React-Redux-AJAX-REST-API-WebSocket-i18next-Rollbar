@@ -11,9 +11,9 @@ export default {
       remove: 'Remove',
       rename: 'Rename',
       channels: 'Channels',
-      //   created: 'Channel created',
-      //   renamed: 'Channel renamed',
-      //   removed: 'Channel removed',
+      created: 'Channel created',
+      renamed: 'Channel renamed',
+      removed: 'Channel removed',
     },
     login: {
       required: 'Required',
@@ -35,8 +35,8 @@ export default {
     modals: {
       add: 'Add channel',
       required: 'Required',
-      //   min: 'Must be 3 to 20 characters',
-      //   max: 'Must be 3 to 20 characters',
+      passMin3: 'Min 3 characters',
+      passMax20: 'Max 20 characters',
       uniq: 'This channel already exists',
       cancel: 'Cancel',
       submit: 'Submit',

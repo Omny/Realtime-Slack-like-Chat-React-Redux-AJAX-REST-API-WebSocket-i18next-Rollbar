@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
 import AppContext from '../contexts';
 import routes from '../routes';
 import registrationImg from '../images/registration.jpg';
@@ -21,10 +22,12 @@ const LoginForm = () => {
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string()
+      .trim()
       .min(3, t('signup.passMin3'))
       .max(20, t('signup.passMax20'))
       .required(t('signup.required')),
     password: Yup.string()
+      .trim()
       .min(6, t('signup.passMin6'))
       .required(t('signup.required')),
     passwordConfirm: Yup.string()
@@ -46,6 +49,13 @@ const LoginForm = () => {
           console.log(error);
           if (error.response?.status === 409) {
             setFieldError('username', t('signup.alreadyExists'));
+            setSubmitting(false);
+            return;
+          }
+          if (error.isAxiosError) {
+            toast.error(t('errors.network'));
+          } else {
+            toast.error(t('errors.unknown'));
           }
         }
         setSubmitting(false);

@@ -5,7 +5,9 @@ import Button from 'react-bootstrap/Button';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import * as Yup from 'yup';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
 import { setModalAddChannelVisibility } from '../slices/modalSlice';
@@ -17,38 +19,40 @@ const AddChannelForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
 
-  const handleMakeNewChannelCurrent = (newName) => (payload) => {
-    const { id, name } = payload;
-    if (name === newName) {
-      dispatch(setCurrentChannelId(id));
+  const handleMakeAfter = (newName, setSubmitting) => (payload) => {
+    if (payload.name === newName) {
+      dispatch(setCurrentChannelId(payload.id));
+      toast.success(t('channels.created'));
     }
+    setSubmitting(false);
+    handleClose();
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const newName = values.name;
-    dispatch(sendNewChannel({ name: newName }));
-    socketManager.subscribe('newChannel', handleMakeNewChannelCurrent(newName));
-    handleClose();
-    setSubmitting(false);
+    setTimeout(() => {
+      const newName = values.name;
+      dispatch(sendNewChannel({ name: newName }));
+      socketManager.subscribe('newChannel', handleMakeAfter(newName, setSubmitting));
+    }, 400);
   };
 
-  const validateForm = (values) => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = t('modals.required');
-    }
-    if (channels.some((channel) => channel.name === values.name)) {
-      errors.name = t('modals.uniq');
-    }
-    return errors;
-  };
+  const ChannelsSchema = Yup.object().shape({
+    name: Yup
+      .string()
+      .trim()
+      .min(3, t('modals.passMin3'))
+      .max(20, t('modals.passMax20'))
+      .required(t('modals.required'))
+      .test('unique', t('modals.uniq'), (value) => !channels.some((channel) => channel.name === value)),
+  });
 
   return (
     <Formik
       initialValues={{ name: '' }}
       onSubmit={handleSubmit}
-      validate={validateForm}
+      validationSchema={ChannelsSchema}
       validateOnBlur={false}
+      validateOnChange={false}
     >
       {({
         errors, touched, values, isSubmitting,
@@ -80,7 +84,7 @@ const AddChannelForm = ({ handleClose }) => {
             </Button>
             <Button
               type="submit"
-              disabled={!values.name || (errors.name && touched.name) || isSubmitting}
+              disabled={isSubmitting}
               variant="primary"
               default
             >

@@ -5,10 +5,13 @@ import Button from 'react-bootstrap/Button';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import * as Yup from 'yup';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
 import { setModalRenameChannelVisibility } from '../slices/modalSlice';
+import { socketManager } from '../slices';
 
 const RenameChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -17,29 +20,39 @@ const RenameChannelForm = ({ handleClose }) => {
   const id = useSelector((state) => state.modal.idToProcess);
   const { name } = channels.find((channel) => channel.id === id);
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    dispatch(sendRenameChannel({ id, name: values.name }));
-    handleClose();
+  const handleMakeAfter = (newName, setSubmitting) => (payload) => {
+    if (payload.name === newName) {
+      toast.success(t('channels.renamed'));
+    }
     setSubmitting(false);
+    handleClose();
   };
 
-  const validateForm = (values) => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = t('modals.required');
-    }
-    if (channels.some((channel) => channel.name === values.name)) {
-      errors.name = t('modals.uniq');
-    }
-    return errors;
+  const handleSubmit = (values, { setSubmitting }) => {
+    setTimeout(() => {
+      const newName = values.name;
+      dispatch(sendRenameChannel({ id, name: newName }));
+      socketManager.subscribe('renameChannel', handleMakeAfter(newName, setSubmitting));
+    }, 400);
   };
+
+  const ChannelsSchema = Yup.object().shape({
+    name: Yup
+      .string()
+      .trim()
+      .min(3, t('modals.passMin3'))
+      .max(20, t('modals.passMax20'))
+      .required(t('modals.required'))
+      .test('unique', t('modals.uniq'), (value) => !channels.some((channel) => channel.name === value)),
+  });
 
   return (
     <Formik
       initialValues={{ name }}
       onSubmit={handleSubmit}
-      validate={validateForm}
+      validationSchema={ChannelsSchema}
       validateOnBlur={false}
+      validateOnChange={false}
     >
       {({
         errors, touched, values, isSubmitting,
@@ -77,7 +90,7 @@ const RenameChannelForm = ({ handleClose }) => {
             </Button>
             <Button
               type="submit"
-              disabled={!values.name || (errors.name && touched.name) || isSubmitting}
+              disabled={isSubmitting}
               variant="primary"
               default
             >

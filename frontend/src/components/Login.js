@@ -39,16 +39,16 @@ const LoginForm = () => {
           handleLogin(response.data.username, response.data.token);
         } catch (error) {
           console.log(error);
-          if (!error.isAxiosError) {
-            toast.error(t('errors.unknown'));
-            setSubmitting(false);
-            return;
-          }
           if (error.response?.status === 401) {
             setFieldError('username', t('login.authFailed'));
             setFieldError('password', t('login.authFailed'));
-          } else {
+            setSubmitting(false);
+            return;
+          }
+          if (error.isAxiosError) {
             toast.error(t('errors.network'));
+          } else {
+            toast.error(t('errors.unknown'));
           }
         }
         setSubmitting(false);
