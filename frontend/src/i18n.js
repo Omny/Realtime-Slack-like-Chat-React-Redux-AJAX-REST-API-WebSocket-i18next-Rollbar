@@ -2,8 +2,10 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import resources from './locales/index.js';
 
-i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+const i18nInstance = i18n.createInstance();
+
+i18nInstance
+  .use(initReactI18next) // передаем i18n в react-i18next
   .init({
     resources,
     lng: 'ru',
@@ -11,8 +13,8 @@ i18n
     debug: true,
 
     interpolation: {
-      escapeValue: false, // react already safes from xss
+      escapeValue: false, // react уже защищает от XSS
     },
   });
 
-export default i18n;
+export default i18nInstance;
