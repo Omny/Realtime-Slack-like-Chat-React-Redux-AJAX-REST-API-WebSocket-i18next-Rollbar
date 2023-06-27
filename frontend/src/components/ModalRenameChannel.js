@@ -11,7 +11,6 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
 import { setModalRenameChannelVisibility } from '../slices/modalSlice';
-import { socketManager } from '../slices';
 
 const RenameChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -20,19 +19,20 @@ const RenameChannelForm = ({ handleClose }) => {
   const id = useSelector((state) => state.modal.idToProcess);
   const { name } = channels.find((channel) => channel.id === id);
 
-  const handleMakeAfter = (newName, setSubmitting) => (payload) => {
-    if (payload.name === newName) {
-      toast.success(t('channels.renamed'));
-    }
-    setSubmitting(false);
+  const handleMakeAfter = () => {
+    toast.success(t('channels.renamed'));
     handleClose();
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
     setTimeout(() => {
       const newName = values.name;
-      dispatch(sendRenameChannel({ id, name: newName }));
-      socketManager.subscribe('renameChannel', handleMakeAfter(newName, setSubmitting));
+      dispatch(sendRenameChannel({
+        id,
+        name: newName,
+        callback: () => handleMakeAfter(),
+      }));
+      setSubmitting(false);
     }, 400);
   };
 

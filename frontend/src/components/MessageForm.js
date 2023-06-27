@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import { sendNewMessage } from '../slices/messagesSlice';
-import { socketManager } from '../slices';
+// import { socketManager } from '../slices';
 
 const MessageForm = () => {
   const { t } = useTranslation();
@@ -13,18 +13,20 @@ const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const username = localStorage.getItem('user');
 
-  const handleMakeAfter = (setSubmitting, resetForm) => (payload) => {
-    if (payload.username === username) {
-      resetForm();
-    }
-    setSubmitting(false);
+  const handleMakeAfter = (resetForm) => {
+    resetForm();
   };
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
       const { body } = values;
-      dispatch(sendNewMessage({ body, channelId: currentChannelId, username }));
-      socketManager.subscribe('newMessage', handleMakeAfter(setSubmitting, resetForm));
+      dispatch(sendNewMessage({
+        body,
+        channelId: currentChannelId,
+        username,
+        callback: () => handleMakeAfter(resetForm),
+      }));
+      setSubmitting(false);
     }, 400);
   };
 

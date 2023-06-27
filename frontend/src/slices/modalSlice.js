@@ -6,7 +6,7 @@ const modalSlice = createSlice({
     isModalAddChannelVisible: false,
     isModalRemoveChannelVisible: false,
     isModalRenameChannelVisible: false,
-    idToProcess: null,
+    idToProcess: 0,
   },
   reducers: {
     setModalAddChannelVisibility: (state, action) => ({

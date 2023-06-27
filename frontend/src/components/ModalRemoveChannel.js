@@ -5,27 +5,22 @@ import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { sendRemoveChannel } from '../slices/channelsSlice';
-import { setIdToProcess, setModalRemoveChannelVisibility } from '../slices/modalSlice';
-import { socketManager } from '../slices';
+import { setModalRemoveChannelVisibility } from '../slices/modalSlice';
 
 const RemoveChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const idToDelete = useSelector((state) => state.modal.idToProcess);
 
-  const handleMakeAfter = (setSubmitting) => (payload) => {
-    if (payload.id === idToDelete) {
-      dispatch(setIdToProcess(null));
-      toast.success(t('channels.removed'));
-    }
-    setSubmitting(false);
+  const handleMakeAfter = () => {
+    toast.success(t('channels.removed'));
     handleClose();
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
     setTimeout(() => {
-      dispatch(sendRemoveChannel({ id: idToDelete }));
-      socketManager.subscribe('removeChannel', handleMakeAfter(setSubmitting));
+      dispatch(sendRemoveChannel({ id: idToDelete, callback: () => handleMakeAfter() }));
+      setSubmitting(false);
     }, 400);
   };
 
