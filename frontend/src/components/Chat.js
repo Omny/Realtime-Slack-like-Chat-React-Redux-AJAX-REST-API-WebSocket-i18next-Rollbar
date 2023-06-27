@@ -30,11 +30,7 @@ const Chat = () => {
       try {
         const authHeader = getAuthHeader();
         const response = await axios.get(routes.dataPath(), { headers: authHeader });
-        const {
-          channels,
-          messages,
-          currentChannelId,
-        } = response.data;
+        const { channels, messages, currentChannelId } = response.data;
         dispatch(newChannels(channels));
         dispatch(newMessages(messages));
         dispatch(setCurrentChannelId(currentChannelId));

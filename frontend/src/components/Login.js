@@ -65,9 +65,7 @@ const LoginForm = () => {
               required
               placeholder={t('login.username')}
               id="username"
-              className={cn('form-control', {
-                'is-invalid': (errors.username && touched.username),
-              })}
+              className={cn('form-control', { 'is-invalid': (errors.username && touched.username) })}
               data-last-active-input
               autoFocus
             />
@@ -84,9 +82,7 @@ const LoginForm = () => {
               required
               placeholder={t('login.password')}
               id="password"
-              className={cn('form-control', {
-                'is-invalid': (errors.password && touched.password),
-              })}
+              className={cn('form-control', { 'is-invalid': (errors.password && touched.password) })}
             />
             <label className="form-label" htmlFor="password">
               {t('login.password')}

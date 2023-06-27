@@ -22,13 +22,11 @@ const Channels = () => {
 
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector((state) => state.currentChannelId);
-  const handleChannelClick = (selectedID) => {
+  const handleClickOnChannel = (selectedID) => {
     dispatch(setCurrentChannelId(selectedID));
   };
 
-  const {
-    isModalAddChannelVisible,
-  } = useSelector((state) => state.modal);
+  const { isModalAddChannelVisible } = useSelector((state) => state.modal);
   const handleShowAddChannelModal = () => {
     dispatch(setModalAddChannelVisibility(!isModalAddChannelVisible));
   };
@@ -57,7 +55,7 @@ const Channels = () => {
             const btnVariant = id === currentChannelId ? 'secondary' : 'light';
             return removable ? (
               <ButtonGroup key={id} className="d-flex dropdown btn-group">
-                <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleChannelClick(id)}>
+                <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleClickOnChannel(id)}>
                   <span className="me-1">#</span>
                   {name}
                 </Button>
@@ -71,7 +69,7 @@ const Channels = () => {
                 </DropdownButton>
               </ButtonGroup>
             ) : (
-              <Button variant={btnVariant} key={id} type="button" className={btnClassName} onClick={() => handleChannelClick(id)}>
+              <Button variant={btnVariant} key={id} type="button" className={btnClassName} onClick={() => handleClickOnChannel(id)}>
                 <span className="me-1">#</span>
                 {name}
               </Button>

@@ -7,17 +7,17 @@ const AuthProvider = ({ children }) => {
   const [userGroup, setUserGroup] = useState(localStorage.getItem('token')
     ? 'user' : 'guest');
 
-  const handleLogout = useCallback(() => {
-    localStorage.clear();
-    setUserGroup('guest');
-  }, []);
-
   const handleLogin = useCallback((user, token) => {
     localStorage.setItem('user', user);
     localStorage.setItem('token', token);
     setUserGroup('user');
     navigate('/');
   }, [navigate]);
+
+  const handleLogout = useCallback(() => {
+    localStorage.clear();
+    setUserGroup('guest');
+  }, []);
 
   const getAuthHeader = useCallback(() => {
     const token = localStorage.getItem('token');

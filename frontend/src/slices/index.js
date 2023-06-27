@@ -8,10 +8,7 @@ import channelsReducer, {
   removeChannel,
   renameChannel,
 } from './channelsSlice';
-import messagesReducer, {
-  sendNewMessage,
-  newMessage,
-} from './messagesSlice';
+import messagesReducer, { sendNewMessage, newMessage } from './messagesSlice';
 import setCurrentChannelIdReducer from './currentChannelIdSlice';
 import modalReducer from './modalSlice';
 

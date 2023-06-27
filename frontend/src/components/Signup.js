@@ -93,9 +93,7 @@ const LoginForm = () => {
               required
               placeholder={t('signup.password')}
               id="password"
-              className={cn('form-control', {
-                'is-invalid': (errors.password && touched.password),
-              })}
+              className={cn('form-control', { 'is-invalid': (errors.password && touched.password) })}
             />
             <label className="form-label" htmlFor="password">
               {t('signup.password')}
@@ -110,9 +108,7 @@ const LoginForm = () => {
               required
               placeholder={t('signup.confirm')}
               id="passwordConfirm"
-              className={cn('form-control', {
-                'is-invalid': (errors.passwordConfirm && touched.passwordConfirm),
-              })}
+              className={cn('form-control', { 'is-invalid': (errors.passwordConfirm && touched.passwordConfirm) })}
             />
             <label className="form-label" htmlFor="passwordConfirm">
               {t('signup.confirm')}

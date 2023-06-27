@@ -31,9 +31,7 @@ const Messages = () => {
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {currentMessages && currentMessages
-            .map(({
-              body, username, id,
-            }) => (
+            .map(({ body, username, id }) => (
               <div key={id} className="text-break mb-2">
                 <b>{username}</b>
                 {': '}
