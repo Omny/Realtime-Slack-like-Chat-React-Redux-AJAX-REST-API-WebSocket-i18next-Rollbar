@@ -1,13 +1,21 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
+import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import { sendNewMessage } from '../slices/messagesSlice';
 
 const MessageForm = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    const currentLanguage = i18n.language;
+    leoProfanity.loadDictionary(currentLanguage);
+  }, [i18n.language]);
+
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const username = localStorage.getItem('user');
@@ -18,13 +26,16 @@ const MessageForm = () => {
     };
 
     setTimeout(() => {
-      const { body } = values;
-      dispatch(sendNewMessage({
-        body,
-        channelId: currentChannelId,
-        username,
-        callback: handleAfterResponse,
-      }));
+      const cleanedBody = leoProfanity.clean(values.body);
+
+      dispatch(
+        sendNewMessage({
+          body: cleanedBody,
+          channelId: currentChannelId,
+          username,
+          callback: handleAfterResponse,
+        }),
+      );
       setSubmitting(false);
     }, 400);
   };
