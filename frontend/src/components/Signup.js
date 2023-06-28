@@ -16,7 +16,7 @@ import AppContext from '../contexts';
 import routes from '../routes';
 import registrationImg from '../images/registration.jpg';
 
-const LoginForm = () => {
+const SignupForm = () => {
   const { t } = useTranslation();
   const { handleLogin } = useContext(AppContext);
 
@@ -129,7 +129,7 @@ const LoginForm = () => {
   );
 };
 
-const Login = () => {
+const Signup = () => {
   const { t } = useTranslation();
   return (
     <div className="container-fluid h-100">
@@ -140,7 +140,7 @@ const Login = () => {
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <img src={registrationImg} className="rounded-circle" alt="signup" />
               </div>
-              <LoginForm />
+              <SignupForm />
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
@@ -160,4 +160,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
