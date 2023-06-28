@@ -10,7 +10,7 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
-import { setModalRenameChannelVisibility } from '../slices/modalSlice';
+import { setIdToProcess, setModalRenameChannelVisibility } from '../slices/modalSlice';
 
 const RenameChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -119,6 +119,7 @@ const ModalRenameChannel = () => {
 
   const handleClose = () => {
     dispatch(setModalRenameChannelVisibility(false));
+    dispatch(setIdToProcess(0));
   };
 
   return (

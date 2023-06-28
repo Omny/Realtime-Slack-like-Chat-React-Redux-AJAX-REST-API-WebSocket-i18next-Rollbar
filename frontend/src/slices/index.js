@@ -10,7 +10,7 @@ import channelsReducer, {
 } from './channelsSlice';
 import messagesReducer, { sendNewMessage, newMessage } from './messagesSlice';
 import setCurrentChannelIdReducer, { setCurrentChannelId } from './currentChannelIdSlice';
-import modalReducer, { setIdToProcess } from './modalSlice';
+import modalReducer from './modalSlice';
 
 const socket = io();
 
@@ -26,41 +26,34 @@ export const socketManager = {
 const socketMiddleware = (store) => (next) => (action) => {
   const { callback, ...payload } = action.payload;
   if (action.type === sendNewMessage.type) {
-    console.log(action);
-    console.log('Sending newMessage:', action.payload);
+    console.log('Sending newMessage:', payload);
     socketManager.emit('newMessage', payload, (response) => {
       console.log('Received response:', response);
-      // Handle the response if needed
       if (callback && response.status === 'ok') {
         callback();
       }
     });
   } else if (action.type === sendNewChannel.type) {
-    console.log('Sending newChannel:', action.payload);
+    console.log('Sending newChannel:', payload);
     socketManager.emit('newChannel', payload, (response) => {
       console.log('Received response:', response);
-      // Handle the response if needed
       if (callback && response.status === 'ok') {
         callback();
-        console.log(response.data.id);
-        store.dispatch(setCurrentChannelId(response.data.id)); // Set default id
+        store.dispatch(setCurrentChannelId(response.data.id));
       }
     });
   } else if (action.type === sendRemoveChannel.type) {
-    console.log('Sending removeChannel:', action.payload);
+    console.log('Sending removeChannel:', payload);
     socketManager.emit('removeChannel', payload, (response) => {
       console.log('Received response:', response);
-      // Handle the response if needed
       if (callback && response.status === 'ok') {
         callback();
-        store.dispatch(setIdToProcess(0));
       }
     });
   } else if (action.type === sendRenameChannel.type) {
-    console.log('Sending renameChannel:', action.payload);
+    console.log('Sending renameChannel:', payload);
     socketManager.emit('renameChannel', payload, (response) => {
       console.log('Received response:', response);
-      // Handle the response if needed
       if (callback && response.status === 'ok') {
         callback();
       }
@@ -77,7 +70,11 @@ const store = configureStore({
     currentChannelId: setCurrentChannelIdReducer,
     modal: modalReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActionPaths: ['payload.callback'],
+    },
+  }).concat(socketMiddleware),
 });
 
 socketManager.subscribe('newMessage', (payload) => {
