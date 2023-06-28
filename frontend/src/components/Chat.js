@@ -18,7 +18,7 @@ import ModalRenameChannel from './ModalRenameChannel';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { userGroup, getAuthHeader } = useContext(AppContext);
+  const { userGroup, getAuthHeader, handleLogout } = useContext(AppContext);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,6 +36,10 @@ const Chat = () => {
         dispatch(setCurrentChannelId(currentChannelId));
       } catch (error) {
         console.log(error);
+        if (error.response?.status === 401) {
+          handleLogout();
+          return;
+        }
         if (error.isAxiosError) {
           toast.error(t('errors.network'));
         } else {
