@@ -5,7 +5,6 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import { sendNewMessage } from '../slices/messagesSlice';
-// import { socketManager } from '../slices';
 
 const MessageForm = () => {
   const { t } = useTranslation();
