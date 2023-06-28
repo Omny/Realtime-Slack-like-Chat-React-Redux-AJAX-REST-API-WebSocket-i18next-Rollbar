@@ -13,18 +13,18 @@ const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const username = localStorage.getItem('user');
 
-  const handleMakeAfter = (resetForm) => {
-    resetForm();
-  };
-
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    const handleAfterResponse = () => {
+      resetForm();
+    };
+
     setTimeout(() => {
       const { body } = values;
       dispatch(sendNewMessage({
         body,
         channelId: currentChannelId,
         username,
-        callback: () => handleMakeAfter(resetForm),
+        callback: handleAfterResponse,
       }));
       setSubmitting(false);
     }, 400);

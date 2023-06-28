@@ -9,7 +9,7 @@ import channelsReducer, {
   renameChannel,
 } from './channelsSlice';
 import messagesReducer, { sendNewMessage, newMessage } from './messagesSlice';
-import setCurrentChannelIdReducer, { setCurrentChannelId } from './currentChannelIdSlice';
+import setCurrentChannelIdReducer from './currentChannelIdSlice';
 import modalReducer from './modalSlice';
 
 const socket = io();
@@ -19,45 +19,24 @@ export const socketManager = {
     socket.on(event, callback);
   },
   emit: (event, payload, callback) => {
-    socket.emit(event, payload, callback);
+    socket.emit(event, payload, (response) => callback(response));
   },
 };
 
-const socketMiddleware = (store) => (next) => (action) => {
+const socketMiddleware = () => (next) => (action) => {
   const { callback, ...payload } = action.payload;
   if (action.type === sendNewMessage.type) {
     console.log('Sending newMessage:', payload);
-    socketManager.emit('newMessage', payload, (response) => {
-      console.log('Received response:', response);
-      if (callback && response.status === 'ok') {
-        callback();
-      }
-    });
+    socketManager.emit('newMessage', payload, callback);
   } else if (action.type === sendNewChannel.type) {
     console.log('Sending newChannel:', payload);
-    socketManager.emit('newChannel', payload, (response) => {
-      console.log('Received response:', response);
-      if (callback && response.status === 'ok') {
-        callback();
-        store.dispatch(setCurrentChannelId(response.data.id));
-      }
-    });
+    socketManager.emit('newChannel', payload, callback);
   } else if (action.type === sendRemoveChannel.type) {
     console.log('Sending removeChannel:', payload);
-    socketManager.emit('removeChannel', payload, (response) => {
-      console.log('Received response:', response);
-      if (callback && response.status === 'ok') {
-        callback();
-      }
-    });
+    socketManager.emit('removeChannel', payload, callback);
   } else if (action.type === sendRenameChannel.type) {
     console.log('Sending renameChannel:', payload);
-    socketManager.emit('renameChannel', payload, (response) => {
-      console.log('Received response:', response);
-      if (callback && response.status === 'ok') {
-        callback();
-      }
-    });
+    socketManager.emit('renameChannel', payload, callback);
   }
 
   return next(action);

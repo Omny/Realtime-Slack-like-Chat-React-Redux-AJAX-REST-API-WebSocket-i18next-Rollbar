@@ -19,18 +19,18 @@ const RenameChannelForm = ({ handleClose }) => {
   const id = useSelector((state) => state.modal.idToProcess);
   const { name } = channels.find((channel) => channel.id === id);
 
-  const handleMakeAfter = () => {
-    toast.success(t('channels.renamed'));
-    handleClose();
-  };
-
   const handleSubmit = (values, { setSubmitting }) => {
+    const handleAfterResponse = () => {
+      toast.success(t('channels.renamed'));
+      handleClose();
+    };
+
     setTimeout(() => {
       const newName = values.name;
       dispatch(sendRenameChannel({
         id,
         name: newName,
-        callback: () => handleMakeAfter(),
+        callback: handleAfterResponse,
       }));
       setSubmitting(false);
     }, 400);

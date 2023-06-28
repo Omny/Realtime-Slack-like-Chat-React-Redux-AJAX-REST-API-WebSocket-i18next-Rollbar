@@ -11,21 +11,24 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
 import { setModalAddChannelVisibility } from '../slices/modalSlice';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 const AddChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
 
-  const handleMakeAfter = () => {
-    toast.success(t('channels.created'));
-    handleClose();
-  };
-
   const handleSubmit = (values, { setSubmitting }) => {
+    const handleAfterResponse = (response) => {
+      console.log(response);
+      dispatch(setCurrentChannelId(response.data.id));
+      toast.success(t('channels.created'));
+      handleClose();
+    };
+
     setTimeout(() => {
       const newName = values.name;
-      dispatch(sendNewChannel({ name: newName, callback: () => handleMakeAfter() }));
+      dispatch(sendNewChannel({ name: newName, callback: handleAfterResponse }));
       setSubmitting(false);
     }, 400);
   };

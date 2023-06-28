@@ -12,14 +12,14 @@ const RemoveChannelForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const idToDelete = useSelector((state) => state.modal.idToProcess);
 
-  const handleMakeAfter = () => {
-    toast.success(t('channels.removed'));
-    handleClose();
-  };
-
   const handleSubmit = (values, { setSubmitting }) => {
+    const handleAfterResponse = () => {
+      toast.success(t('channels.removed'));
+      handleClose();
+    };
+
     setTimeout(() => {
-      dispatch(sendRemoveChannel({ id: idToDelete, callback: () => handleMakeAfter() }));
+      dispatch(sendRemoveChannel({ id: idToDelete, callback: handleAfterResponse }));
       setSubmitting(false);
     }, 400);
   };
