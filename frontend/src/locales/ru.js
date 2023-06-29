@@ -41,7 +41,7 @@ export default {
       remove: 'Удалить канал',
       rename: 'Переименовать канал',
       channelName: 'Имя канала',
-      enterChannelName: 'Название канала',
+      enterChannelName: 'Введите название канала',
       editChannelName: 'Новое имя канала',
     },
     signup: {

@@ -68,6 +68,9 @@ const AddChannelForm = ({ handleClose }) => {
               data-last-active-input
               autoFocus
             />
+            <label className="visually-hidden" htmlFor="name">
+              {t('modals.channelName')}
+            </label>
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />
           </div>
           <div className="d-flex justify-content-end align-items-center">
