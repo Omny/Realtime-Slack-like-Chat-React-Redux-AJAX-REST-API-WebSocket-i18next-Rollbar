@@ -59,7 +59,7 @@ const MessageForm = () => {
               type="text"
               name="body"
               value={values.body}
-              aria-label={t('messages.required')}
+              aria-label={t('messages.newMessage')}
               placeholder={t('messages.enter')}
               className="border-0 p-0 ps-2 form-control"
               data-last-active-input
