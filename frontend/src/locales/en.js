@@ -76,6 +76,8 @@ export default {
     errors: {
       network: 'No connection to server',
       unknown: 'Unknown Error',
+      title: 'Something went wrong...',
+      text: 'We apologize for the inconvenience. Our development team has been notified of this bug.',
     },
   },
 };

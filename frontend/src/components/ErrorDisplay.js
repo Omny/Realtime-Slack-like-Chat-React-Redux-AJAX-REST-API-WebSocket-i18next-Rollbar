@@ -1,24 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import notFoundImg from '../images/not-found.svg';
 
-const NotFound = () => {
+const ErrorDisplay = () => {
   const { t } = useTranslation();
 
   return (
     <div className="text-center">
-      <img alt={t('notFound.title')} className="img-fluid h-25" src={notFoundImg} />
+      <img alt={t('errors.title')} className="img-fluid h-25" src={notFoundImg} />
       <h1 className="h4 text-muted">
-        {t('notFound.title')}
+        {t('errors.title')}
       </h1>
       <p className="text-muted">
-        {t('notFound.message')}
+        {t('errors.text')}
         {' '}
-        <a href="/">
-          {t('notFound.linkText')}
-        </a>
       </p>
     </div>
   );
 };
 
-export default NotFound;
+export default ErrorDisplay;

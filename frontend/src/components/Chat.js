@@ -49,7 +49,7 @@ const Chat = () => {
     };
 
     fetchData();
-  }, [dispatch, userGroup, getAuthHeader, t]);
+  }, [dispatch, userGroup, getAuthHeader, handleLogout, t]);
 
   const {
     isModalAddChannelVisible,
