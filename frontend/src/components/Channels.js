@@ -3,7 +3,6 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Plus } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
@@ -54,21 +53,23 @@ const Channels = () => {
             const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': id === currentChannelId });
             const btnVariant = id === currentChannelId ? 'secondary' : 'light';
             return removable ? (
-              <ButtonGroup key={id} className="d-flex dropdown btn-group">
+              <Dropdown as={ButtonGroup} key={id} className="d-flex dropdown btn-group">
                 <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleClickOnChannel(id)}>
                   <span className="me-1">#</span>
                   {name}
                 </Button>
-                <DropdownButton title="" as={ButtonGroup} variant={btnVariant} id="bg-nested-dropdown">
+                <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic">
                   <span className="visually-hidden">{t('channels.menu')}</span>
+                </Dropdown.Toggle>
+                <Dropdown.Menu title="" variant={btnVariant} id="bg-nested-dropdown">
                   <Dropdown.Item onClick={() => handleShowRemoveChannelModal(id)} eventKey="1">
                     {t('channels.remove')}
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => handleShowRenameChannelModal(id)} eventKey="2">
                     {t('channels.rename')}
                   </Dropdown.Item>
-                </DropdownButton>
-              </ButtonGroup>
+                </Dropdown.Menu>
+              </Dropdown>
             ) : (
               <Button variant={btnVariant} key={id} type="button" className={btnClassName} onClick={() => handleClickOnChannel(id)}>
                 <span className="me-1">#</span>
