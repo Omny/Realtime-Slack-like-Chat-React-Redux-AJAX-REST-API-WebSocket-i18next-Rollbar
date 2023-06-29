@@ -46,7 +46,7 @@ export default {
     signup: {
       required: 'Обязательное поле',
       passMin3: 'От 3 до 20 символов',
-      passMin6: 'От 6 символов',
+      passMin6: 'Не менее 6 символов',
       passMax20: 'От 3 до 20 символов',
       mustMatch: 'Пароли должны совпадать',
       username: 'Имя пользователя',
