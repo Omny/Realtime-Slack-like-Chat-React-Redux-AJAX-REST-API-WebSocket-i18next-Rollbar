@@ -20,7 +20,6 @@ const AddChannelForm = ({ handleClose }) => {
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
-      console.log(response);
       dispatch(setCurrentChannelId(response.data.id));
       toast.success(t('channels.created'));
       handleClose();

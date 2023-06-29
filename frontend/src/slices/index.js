@@ -26,16 +26,12 @@ export const socketManager = {
 const socketMiddleware = () => (next) => (action) => {
   const { callback, ...payload } = action.payload;
   if (action.type === sendNewMessage.type) {
-    console.log('Sending newMessage:', payload);
     socketManager.emit('newMessage', payload, callback);
   } else if (action.type === sendNewChannel.type) {
-    console.log('Sending newChannel:', payload);
     socketManager.emit('newChannel', payload, callback);
   } else if (action.type === sendRemoveChannel.type) {
-    console.log('Sending removeChannel:', payload);
     socketManager.emit('removeChannel', payload, callback);
   } else if (action.type === sendRenameChannel.type) {
-    console.log('Sending renameChannel:', payload);
     socketManager.emit('renameChannel', payload, callback);
   }
 
@@ -57,19 +53,15 @@ const store = configureStore({
 });
 
 socketManager.subscribe('newMessage', (payload) => {
-  console.log('Received newMessage:', payload);
   store.dispatch(newMessage(payload));
 });
 socketManager.subscribe('newChannel', (payload) => {
-  console.log('Received newChannel:', payload);
   store.dispatch(newChannel(payload));
 });
 socketManager.subscribe('removeChannel', (payload) => {
-  console.log('Received removeChannel:', payload);
   store.dispatch(removeChannel(payload.id));
 });
 socketManager.subscribe('renameChannel', (payload) => {
-  console.log('Received renameChannel:', payload);
   store.dispatch(renameChannel(payload));
 });
 
