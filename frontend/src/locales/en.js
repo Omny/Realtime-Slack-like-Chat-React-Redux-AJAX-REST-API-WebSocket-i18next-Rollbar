@@ -20,7 +20,7 @@ export default {
       submit: 'Submit',
       signup: 'Sign up',
       newToChat: 'New to chat?',
-      authFailed: 'username or password is incorrect',
+      authFailed: 'Username or password is incorrect',
       login: 'Login',
     },
     messages: {

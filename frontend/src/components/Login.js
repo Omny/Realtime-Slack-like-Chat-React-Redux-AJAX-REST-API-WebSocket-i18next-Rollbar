@@ -40,7 +40,7 @@ const LoginForm = () => {
         } catch (error) {
           console.log(error);
           if (error.response?.status === 401) {
-            setFieldError('username', t('login.authFailed'));
+            setFieldError('username', ' ');
             setFieldError('password', t('login.authFailed'));
             setSubmitting(false);
             return;
