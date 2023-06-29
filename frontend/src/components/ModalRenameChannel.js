@@ -69,7 +69,7 @@ const RenameChannelForm = ({ handleClose }) => {
               type="text"
               name="name"
               value={values.name}
-              aria-label={t('modals.channelName')}
+              aria-label={t('modals.editChannelName')}
               placeholder={t('modals.enter')}
               className={cn('mb-4 form-control', {
                 'is-invalid': (errors.name && touched.name),
