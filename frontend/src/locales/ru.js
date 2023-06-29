@@ -12,6 +12,7 @@ export default {
       created: 'Канал создан',
       renamed: 'Канал переименован',
       removed: 'Канал удалён',
+      menu: 'Управление каналом',
     },
     login: {
       required: 'Обязательное поле',

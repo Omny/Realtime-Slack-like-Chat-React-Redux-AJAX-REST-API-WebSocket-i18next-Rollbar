@@ -60,6 +60,7 @@ const Channels = () => {
                   {name}
                 </Button>
                 <DropdownButton title="" as={ButtonGroup} variant={btnVariant} id="bg-nested-dropdown">
+                  <span className="visually-hidden">{t('channels.menu')}</span>
                   <Dropdown.Item onClick={() => handleShowRemoveChannelModal(id)} eventKey="1">
                     {t('channels.remove')}
                   </Dropdown.Item>

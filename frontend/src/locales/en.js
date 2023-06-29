@@ -12,6 +12,7 @@ export default {
       created: 'Channel created',
       renamed: 'Channel renamed',
       removed: 'Channel removed',
+      menu: 'Channel control',
     },
     login: {
       required: 'Required',
