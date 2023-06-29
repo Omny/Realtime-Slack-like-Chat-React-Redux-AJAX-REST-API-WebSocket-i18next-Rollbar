@@ -1,6 +1,7 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Omny/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/Omny/frontend-project-12/actions)
 [![Node CI](https://github.com/Omny/frontend-project-12/actions/workflows/nodeci.yml/badge.svg)](https://github.com/Omny/frontend-project-12/actions/workflows/nodeci.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f559f053a25b11cabcb3/maintainability)](https://codeclimate.com/github/Omny/frontend-project-12/maintainability)
 
 # Realtime Chat
 
