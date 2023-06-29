@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
@@ -9,12 +9,13 @@ import Button from 'react-bootstrap/Button';
 import { sendNewMessage } from '../slices/messagesSlice';
 
 const MessageForm = () => {
-  const { t, i18n } = useTranslation();
+  // const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    const currentLanguage = i18n.language;
-    leoProfanity.loadDictionary(currentLanguage);
-  }, [i18n.language]);
+  // useEffect(() => {
+  //   const currentLanguage = i18n.language;
+  //   leoProfanity.loadDictionary(currentLanguage);
+  // }, [i18n.language]);
 
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.currentChannelId);
