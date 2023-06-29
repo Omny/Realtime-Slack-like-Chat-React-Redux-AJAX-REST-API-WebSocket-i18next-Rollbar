@@ -41,8 +41,8 @@ export default {
       remove: 'Remove channel',
       rename: 'Rename channel',
       channelName: 'Chanel name',
+      enterChannelName: 'Chanel name',
       editChannelName: 'New chanel name',
-      enter: 'Enter channel name',
     },
     signup: {
       required: 'Required',

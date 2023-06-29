@@ -61,7 +61,7 @@ const AddChannelForm = ({ handleClose }) => {
               name="name"
               value={values.name}
               aria-label={t('modals.channelName')}
-              placeholder={t('modals.enter')}
+              placeholder={t('modals.enterChannelName')}
               className={cn('mb-4 form-control', {
                 'is-invalid': (errors.name && touched.name),
               })}
