@@ -4,7 +4,7 @@
 
 # Realtime Chat
 
-A real-time chat application.
+A real-time Slack like chat application.
 
 In this project I improved my skills with React (with hooks), Redux (@reduxjs/toolkit), AJAX, REST API, WebSocket's, i18next, Rollbar.
 
