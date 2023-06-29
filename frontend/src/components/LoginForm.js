@@ -1,8 +1,5 @@
 import {
-  Formik,
-  Form,
-  Field,
-  ErrorMessage,
+  Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -19,37 +16,34 @@ const LoginForm = () => {
   const { handleLogin } = useContext(AppContext);
 
   const LoginSchema = Yup.object().shape({
-    username: Yup.string()
-      .required(t('login.required')),
-    password: Yup.string()
-      .required(t('login.required')),
+    username: Yup.string().required(t('login.required')),
+    password: Yup.string().required(t('login.required')),
   });
+
+  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+    const { username, password } = values;
+    try {
+      const response = await axios.post(routes.loginPath(), { username, password });
+      handleLogin(response.data.username, response.data.token);
+    } catch (error) {
+      console.log(error);
+      if (error.response?.status === 401) {
+        setFieldError('username', ' ');
+        setFieldError('password', t('login.authFailed'));
+      } else if (axios.isAxiosError(error)) {
+        toast.error(t('errors.network'));
+      } else {
+        toast.error(t('errors.unknown'));
+      }
+    }
+    setSubmitting(false);
+  };
 
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={LoginSchema}
-      onSubmit={async (values, { setSubmitting, setFieldError }) => {
-        const { username, password } = values;
-        try {
-          const response = await axios.post(routes.loginPath(), { username, password });
-          handleLogin(response.data.username, response.data.token);
-        } catch (error) {
-          console.log(error);
-          if (error.response?.status === 401) {
-            setFieldError('username', ' ');
-            setFieldError('password', t('login.authFailed'));
-            setSubmitting(false);
-            return;
-          }
-          if (error.isAxiosError) {
-            toast.error(t('errors.network'));
-          } else {
-            toast.error(t('errors.unknown'));
-          }
-        }
-        setSubmitting(false);
-      }}
+      onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">

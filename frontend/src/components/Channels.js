@@ -51,7 +51,7 @@ const Channels = () => {
         <li className="nav-item w-100">
           {channels.map(({ id, name, removable }) => {
             const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': id === currentChannelId });
-            const btnVariant = id === currentChannelId ? 'secondary' : 'light';
+            const btnVariant = (id === currentChannelId) ? 'secondary' : 'light';
             return removable ? (
               <Dropdown as={ButtonGroup} key={id} className="d-flex dropdown btn-group">
                 <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleClickOnChannel(id)}>

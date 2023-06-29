@@ -38,9 +38,7 @@ const Chat = () => {
         console.log(error);
         if (error.response?.status === 401) {
           handleLogout();
-          return;
-        }
-        if (error.isAxiosError) {
+        } else if (axios.isAxiosError(error)) {
           toast.error(t('errors.network'));
         } else {
           toast.error(t('errors.unknown'));

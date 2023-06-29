@@ -29,33 +29,34 @@ const SignupForm = () => {
       .min(6, t('signup.passMin6'))
       .required(t('signup.required')),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password'), null], t('signup.mustMatch')),
+      .oneOf([Yup.ref('password'), null], t('signup.mustMatch'))
+      .required(t('signup.required')),
   });
+
+  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+    const { username, password } = values;
+    try {
+      const response = await axios.post(routes.signupPath(), { username, password });
+      handleLogin(response.data.username, response.data.token);
+    } catch (error) {
+      console.log(error);
+      if (error.response?.status === 409) {
+        setFieldError('username', t('signup.alreadyExists'));
+        setSubmitting(false);
+      } else if (axios.isAxiosError(error)) {
+        toast.error(t('errors.network'));
+      } else {
+        toast.error(t('errors.unknown'));
+      }
+    }
+    setSubmitting(false);
+  };
 
   return (
     <Formik
       initialValues={{ username: '', password: '', passwordConfirm: '' }}
       validationSchema={SignupSchema}
-      onSubmit={async (values, { setSubmitting, setFieldError }) => {
-        const { username, password } = values;
-        try {
-          const response = await axios.post(routes.signupPath(), { username, password });
-          handleLogin(response.data.username, response.data.token);
-        } catch (error) {
-          console.log(error);
-          if (error.response?.status === 409) {
-            setFieldError('username', t('signup.alreadyExists'));
-            setSubmitting(false);
-            return;
-          }
-          if (error.isAxiosError) {
-            toast.error(t('errors.network'));
-          } else {
-            toast.error(t('errors.unknown'));
-          }
-        }
-        setSubmitting(false);
-      }}
+      onSubmit={handleSubmit}
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
