@@ -12,7 +12,11 @@ const ErrorDisplay = () => {
       </h1>
       <p className="text-muted">
         {t('errors.text')}
-        {' '}
+      </p>
+      <p className="text-muted">
+        <a href="/">
+          {t('notFound.linkText')}
+        </a>
       </p>
     </div>
   );
