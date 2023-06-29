@@ -59,6 +59,7 @@ const AddChannelForm = ({ handleClose }) => {
             <Field
               type="text"
               name="name"
+              id="name"
               value={values.name}
               aria-label={t('modals.channelName')}
               placeholder={t('modals.enterChannelName')}

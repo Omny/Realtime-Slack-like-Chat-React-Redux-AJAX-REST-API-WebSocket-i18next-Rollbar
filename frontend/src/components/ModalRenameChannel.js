@@ -68,6 +68,7 @@ const RenameChannelForm = ({ handleClose }) => {
             <Field
               type="text"
               name="name"
+              id="name"
               value={values.name}
               aria-label={t('modals.editChannelName')}
               placeholder={t('modals.editChannelName')}
