@@ -5,7 +5,7 @@ import resources from './locales/index.js';
 const i18nInstance = i18n.createInstance();
 
 i18nInstance
-  .use(initReactI18next) // передаем i18n в react-i18next
+  .use(initReactI18next)
   .init({
     resources,
     lng: 'ru',
@@ -13,7 +13,7 @@ i18nInstance
     debug: true,
 
     interpolation: {
-      escapeValue: false, // react уже защищает от XSS
+      escapeValue: false,
     },
   });
 
