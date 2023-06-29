@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { sendRemoveChannel } from '../slices/channelsSlice';
-import { setIdToProcess, setModalRemoveChannelVisibility } from '../slices/modalSlice';
+import { setIdToProcess, setRemoveChannelModalVisibility } from '../slices/modalSlice';
 
 const RemoveChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -50,10 +50,10 @@ const RemoveChannelForm = ({ handleClose }) => {
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isModalRemoveChannelVisible);
+  const isModalVisible = useSelector((state) => state.modal.isRemoveChannelModalVisible);
 
   const handleClose = () => {
-    dispatch(setModalRemoveChannelVisibility(false));
+    dispatch(setRemoveChannelModalVisibility(false));
     dispatch(setIdToProcess(0));
   };
 

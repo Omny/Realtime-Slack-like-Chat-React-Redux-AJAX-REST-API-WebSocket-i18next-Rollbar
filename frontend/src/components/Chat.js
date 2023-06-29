@@ -12,9 +12,9 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 import Channels from './Channels';
 import Messages from './Messages';
-import ModalAddChannel from './ModalAddChannel';
-import ModalRemoveChannel from './ModalRemoveChannel';
-import ModalRenameChannel from './ModalRenameChannel';
+import AddChannelModal from './AddChannelModal';
+import RemoveChannelModal from './RemoveChannelModal';
+import RenameChannelModal from './RenameChannelModal';
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -52,9 +52,9 @@ const Chat = () => {
   }, [dispatch, userGroup, getAuthHeader, handleLogout, t]);
 
   const {
-    isModalAddChannelVisible,
-    isModalRemoveChannelVisible,
-    isModalRenameChannelVisible,
+    isAddChannelModalVisible,
+    isRemoveChannelModalVisible,
+    isRenameChannelModalVisible,
   } = useSelector((state) => state.modal);
 
   return (
@@ -62,9 +62,9 @@ const Chat = () => {
       <div className="row h-100 bg-white flex-md-row">
         <Channels />
         <Messages />
-        {isModalAddChannelVisible ? <ModalAddChannel /> : null}
-        {isModalRemoveChannelVisible ? <ModalRemoveChannel /> : null}
-        {isModalRenameChannelVisible ? <ModalRenameChannel /> : null}
+        {isAddChannelModalVisible ? <AddChannelModal /> : null}
+        {isRemoveChannelModalVisible ? <RemoveChannelModal /> : null}
+        {isRenameChannelModalVisible ? <RenameChannelModal /> : null}
       </div>
     </div>
   );

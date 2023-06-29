@@ -13,10 +13,7 @@ const currentChannelIdSlice = createSlice({
     builder
       .addCase(removeChannel, (state, action) => {
         const currentChannelId = state;
-        if (currentChannelId === action.payload) {
-          return initialId;
-        }
-        return currentChannelId;
+        return (currentChannelId === action.payload) ? initialId : currentChannelId;
       });
   },
 });

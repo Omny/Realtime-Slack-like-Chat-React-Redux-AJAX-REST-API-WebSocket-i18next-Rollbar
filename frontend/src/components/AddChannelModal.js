@@ -9,25 +9,25 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
-import { setIdToProcess, setModalRenameChannelVisibility } from '../slices/modalSlice';
+import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
+import { setAddChannelModalVisibility } from '../slices/modalSlice';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
-const RenameChannelForm = ({ handleClose }) => {
+const AddChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
-  const id = useSelector((state) => state.modal.idToProcess);
-  const { name } = channels.find((channel) => channel.id === id);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const handleAfterResponse = () => {
-      toast.success(t('channels.renamed'));
+    const handleAfterResponse = (response) => {
+      dispatch(setCurrentChannelId(response.data.id));
+      toast.success(t('channels.created'));
       handleClose();
     };
 
     setTimeout(() => {
       const newName = values.name;
-      dispatch(sendRenameChannel({ id, name: newName, callback: handleAfterResponse }));
+      dispatch(sendNewChannel({ name: newName, callback: handleAfterResponse }));
       setSubmitting(false);
     }, 400);
   };
@@ -44,7 +44,7 @@ const RenameChannelForm = ({ handleClose }) => {
 
   return (
     <Formik
-      initialValues={{ name }}
+      initialValues={{ name: '' }}
       onSubmit={handleSubmit}
       validationSchema={ChannelsSchema}
       validateOnBlur={false}
@@ -54,20 +54,14 @@ const RenameChannelForm = ({ handleClose }) => {
         errors, touched, values, isSubmitting,
       }) => (
         <Form noValidate className="py-1">
-          <div className="input-group pb-3">
-            {t('modals.rename')}
-            {' '}
-            {name}
-            ?
-          </div>
           <div className={cn('input-group', { 'has-validation': errors.name && touched.name })}>
             <Field
               type="text"
               name="name"
               id="name"
               value={values.name}
-              aria-label={t('modals.editChannelName')}
-              placeholder={t('modals.editChannelName')}
+              aria-label={t('modals.channelName')}
+              placeholder={t('modals.enterChannelName')}
               className={cn('mb-4 form-control', { 'is-invalid': (errors.name && touched.name) })}
               data-last-active-input
               autoFocus
@@ -85,10 +79,10 @@ const RenameChannelForm = ({ handleClose }) => {
   );
 };
 
-const ModalRenameChannel = () => {
+const AddChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isModalRenameChannelVisible);
+  const isModalVisible = useSelector((state) => state.modal.isAddChannelModalVisible);
 
   useEffect(() => {
     if (isModalVisible) {
@@ -100,20 +94,19 @@ const ModalRenameChannel = () => {
   }, [isModalVisible]);
 
   const handleClose = () => {
-    dispatch(setModalRenameChannelVisibility(false));
-    dispatch(setIdToProcess(0));
+    dispatch(setAddChannelModalVisibility(false));
   };
 
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modals.rename')}</Modal.Title>
+        <Modal.Title>{t('modals.add')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <RenameChannelForm handleClose={handleClose} />
+        <AddChannelForm handleClose={handleClose} />
       </Modal.Body>
     </Modal>
   );
 };
 
-export default ModalRenameChannel;
+export default AddChannelModal;
