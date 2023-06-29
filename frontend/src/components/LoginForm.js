@@ -66,9 +66,7 @@ const LoginForm = () => {
               data-last-active-input
               autoFocus
             />
-            <label className="form-label" htmlFor="username">
-              {t('login.username')}
-            </label>
+            <label className="form-label" htmlFor="username">{t('login.username')}</label>
             <ErrorMessage name="username" component="div" className="invalid-tooltip" />
           </div>
           <div className="form-floating mb-4">
@@ -81,9 +79,7 @@ const LoginForm = () => {
               id="password"
               className={cn('form-control', { 'is-invalid': (errors.password && touched.password) })}
             />
-            <label className="form-label" htmlFor="password">
-              {t('login.password')}
-            </label>
+            <label className="form-label" htmlFor="password">{t('login.password')}</label>
             <ErrorMessage name="password" component="div" className="invalid-tooltip" />
           </div>
           <Button type="submit" disabled={isSubmitting} variant="outline-primary" className="w-100 mb-3 btn btn-outline-primary">

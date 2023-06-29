@@ -68,24 +68,16 @@ const RenameChannelForm = ({ handleClose }) => {
               value={values.name}
               aria-label={t('modals.editChannelName')}
               placeholder={t('modals.editChannelName')}
-              className={cn('mb-4 form-control', {
-                'is-invalid': (errors.name && touched.name),
-              })}
+              className={cn('mb-4 form-control', { 'is-invalid': (errors.name && touched.name) })}
               data-last-active-input
               autoFocus
             />
-            <label className="visually-hidden" htmlFor="name">
-              {t('modals.channelName')}
-            </label>
+            <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>
-              {t('modals.cancel')}
-            </Button>
-            <Button type="submit" disabled={isSubmitting} variant="primary" default>
-              {t('modals.submit')}
-            </Button>
+            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>{t('modals.cancel')}</Button>
+            <Button type="submit" disabled={isSubmitting} variant="primary" default>{t('modals.submit')}</Button>
           </div>
         </Form>
       )}
@@ -115,9 +107,7 @@ const ModalRenameChannel = () => {
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>
-          {t('modals.rename')}
-        </Modal.Title>
+        <Modal.Title>{t('modals.rename')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <RenameChannelForm handleClose={handleClose} />

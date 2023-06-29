@@ -38,12 +38,8 @@ const RemoveChannelForm = ({ handleClose }) => {
             ?
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>
-              {t('modals.cancel')}
-            </Button>
-            <Button type="submit" disabled={isSubmitting} variant="danger" default>
-              {t('modals.submit')}
-            </Button>
+            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>{t('modals.cancel')}</Button>
+            <Button type="submit" disabled={isSubmitting} variant="danger" default>{t('modals.submit')}</Button>
           </div>
         </Form>
       )}
@@ -64,9 +60,7 @@ const ModalRemoveChannel = () => {
   return (
     <Modal show={isModalVisible} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>
-          {t('modals.remove')}
-        </Modal.Title>
+        <Modal.Title>{t('modals.remove')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <RemoveChannelForm handleClose={handleClose} />

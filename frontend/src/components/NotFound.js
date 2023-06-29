@@ -7,15 +7,11 @@ const NotFound = () => {
   return (
     <div className="text-center">
       <img alt={t('notFound.title')} className="img-fluid h-25" src={notFoundImg} />
-      <h1 className="h4 text-muted">
-        {t('notFound.title')}
-      </h1>
+      <h1 className="h4 text-muted">{t('notFound.title')}</h1>
       <p className="text-muted">
         {t('notFound.message')}
         {' '}
-        <a href="/">
-          {t('notFound.linkText')}
-        </a>
+        <a href="/">{t('notFound.linkText')}</a>
       </p>
     </div>
   );

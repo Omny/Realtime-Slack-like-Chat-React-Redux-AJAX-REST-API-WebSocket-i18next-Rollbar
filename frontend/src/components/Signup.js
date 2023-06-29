@@ -17,13 +17,9 @@ const Signup = () => {
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>
-                  {t('signup.alreadyHaveAccount')}
-                </span>
+                <span>{t('signup.alreadyHaveAccount')}</span>
                 {' '}
-                <a href="/login">
-                  {t('signup.login')}
-                </a>
+                <a href="/login">{t('signup.login')}</a>
               </div>
             </div>
           </div>

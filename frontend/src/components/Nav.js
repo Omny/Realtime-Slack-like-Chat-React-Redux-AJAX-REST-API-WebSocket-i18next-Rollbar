@@ -11,9 +11,7 @@ const Nav = () => {
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">
-          {t('nav.hexletChat')}
-        </a>
+        <a className="navbar-brand" href="/">{t('nav.hexletChat')}</a>
         {userGroup === 'user' ? (
           <>
             <span className="navbar-text">
@@ -21,9 +19,7 @@ const Nav = () => {
               {', '}
               {username}
             </span>
-            <Button variant="outline-primary" onClick={handleLogout}>
-              {t('nav.logout')}
-            </Button>
+            <Button variant="outline-primary" onClick={handleLogout}>{t('nav.logout')}</Button>
           </>
         ) : null}
       </div>

@@ -59,9 +59,7 @@ const SignupForm = () => {
     >
       {({ errors, touched, isSubmitting }) => (
         <Form className="col-12 col-md-6 mt-3 mt-mb-0">
-          <h1 className="text-center mb-4">
-            {t('signup.title')}
-          </h1>
+          <h1 className="text-center mb-4">{t('signup.title')}</h1>
           <div className="form-floating mb-3">
             <Field
               type="username"
@@ -74,9 +72,7 @@ const SignupForm = () => {
               data-last-active-input
               autoFocus
             />
-            <label className="form-label" htmlFor="username">
-              {t('signup.username')}
-            </label>
+            <label className="form-label" htmlFor="username">{t('signup.username')}</label>
             <ErrorMessage name="username" component="div" className="invalid-tooltip" />
           </div>
           <div className="form-floating mb-4">
@@ -89,9 +85,7 @@ const SignupForm = () => {
               id="password"
               className={cn('form-control', { 'is-invalid': (errors.password && touched.password) })}
             />
-            <label className="form-label" htmlFor="password">
-              {t('signup.password')}
-            </label>
+            <label className="form-label" htmlFor="password">{t('signup.password')}</label>
             <ErrorMessage name="password" component="div" className="invalid-tooltip" />
           </div>
           <div className="form-floating mb-4">
@@ -104,9 +98,7 @@ const SignupForm = () => {
               id="passwordConfirm"
               className={cn('form-control', { 'is-invalid': (errors.passwordConfirm && touched.passwordConfirm) })}
             />
-            <label className="form-label" htmlFor="passwordConfirm">
-              {t('signup.confirm')}
-            </label>
+            <label className="form-label" htmlFor="passwordConfirm">{t('signup.confirm')}</label>
             <ErrorMessage name="passwordConfirm" component="div" className="invalid-tooltip" />
           </div>
           <Button type="submit" disabled={isSubmitting} variant="outline-primary" className="w-100 mb-3 btn btn-outline-primary">
