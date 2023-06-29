@@ -14,14 +14,22 @@ import socketManager from '../socketManager';
 
 const socketMiddleware = () => (next) => (action) => {
   const { callback, ...payload } = action.payload;
-  if (action.type === sendNewMessage.type) {
-    socketManager.emit('newMessage', payload, callback);
-  } else if (action.type === sendNewChannel.type) {
-    socketManager.emit('newChannel', payload, callback);
-  } else if (action.type === sendRemoveChannel.type) {
-    socketManager.emit('removeChannel', payload, callback);
-  } else if (action.type === sendRenameChannel.type) {
-    socketManager.emit('renameChannel', payload, callback);
+
+  switch (action.type) {
+    case sendNewMessage.type:
+      socketManager.emit('newMessage', payload, callback);
+      break;
+    case sendNewChannel.type:
+      socketManager.emit('newChannel', payload, callback);
+      break;
+    case sendRemoveChannel.type:
+      socketManager.emit('removeChannel', payload, callback);
+      break;
+    case sendRenameChannel.type:
+      socketManager.emit('renameChannel', payload, callback);
+      break;
+    default:
+      break;
   }
 
   return next(action);
