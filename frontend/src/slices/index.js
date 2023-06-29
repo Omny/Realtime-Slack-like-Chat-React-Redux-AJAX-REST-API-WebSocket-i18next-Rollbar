@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import io from 'socket.io-client';
 import channelsReducer, {
   sendNewChannel,
   sendRemoveChannel,
@@ -11,17 +10,7 @@ import channelsReducer, {
 import messagesReducer, { sendNewMessage, newMessage } from './messagesSlice';
 import setCurrentChannelIdReducer from './currentChannelIdSlice';
 import modalReducer from './modalSlice';
-
-const socket = io();
-
-export const socketManager = {
-  subscribe: (event, callback) => {
-    socket.on(event, callback);
-  },
-  emit: (event, payload, callback) => {
-    socket.emit(event, payload, (response) => callback(response));
-  },
-};
+import socketManager from '../socketManager';
 
 const socketMiddleware = () => (next) => (action) => {
   const { callback, ...payload } = action.payload;
