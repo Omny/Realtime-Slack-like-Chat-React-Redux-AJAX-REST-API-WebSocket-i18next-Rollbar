@@ -26,10 +26,7 @@ const AuthProvider = ({ children }) => {
 
   const authContextValue = useMemo(
     () => ({
-      userGroup,
-      handleLogin,
-      handleLogout,
-      getAuthHeader,
+      userGroup, handleLogin, handleLogout, getAuthHeader,
     }),
     [userGroup, handleLogin, handleLogout, getAuthHeader],
   );

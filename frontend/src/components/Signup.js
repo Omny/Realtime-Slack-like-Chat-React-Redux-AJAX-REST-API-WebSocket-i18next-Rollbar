@@ -39,10 +39,8 @@ const SignupForm = () => {
       validationSchema={SignupSchema}
       onSubmit={async (values, { setSubmitting, setFieldError }) => {
         const { username, password } = values;
-        console.log(username, password);
         try {
           const response = await axios.post(routes.signupPath(), { username, password });
-          console.log(response);
           handleLogin(response.data.username, response.data.token);
         } catch (error) {
           console.log(error);
@@ -73,9 +71,7 @@ const SignupForm = () => {
               required
               placeholder={t('signup.username')}
               id="username"
-              className={cn('form-control', {
-                'is-invalid': (errors.username && touched.username),
-              })}
+              className={cn('form-control', { 'is-invalid': (errors.username && touched.username) })}
               data-last-active-input
               autoFocus
             />
@@ -114,12 +110,7 @@ const SignupForm = () => {
             </label>
             <ErrorMessage name="passwordConfirm" component="div" className="invalid-tooltip" />
           </div>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            variant="outline-primary"
-            className="w-100 mb-3 btn btn-outline-primary"
-          >
+          <Button type="submit" disabled={isSubmitting} variant="outline-primary" className="w-100 mb-3 btn btn-outline-primary">
             {t('signup.submit')}
           </Button>
         </Form>

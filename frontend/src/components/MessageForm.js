@@ -23,7 +23,6 @@ const MessageForm = () => {
 
     setTimeout(() => {
       const cleanedBody = leoProfanity.clean(values.body);
-
       dispatch(
         sendNewMessage({
           body: cleanedBody,

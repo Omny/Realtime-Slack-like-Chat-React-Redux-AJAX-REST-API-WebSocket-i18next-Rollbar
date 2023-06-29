@@ -38,20 +38,10 @@ const RemoveChannelForm = ({ handleClose }) => {
             ?
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button
-              type="button"
-              variant="secondary"
-              className="me-2"
-              onClick={handleClose}
-            >
+            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>
               {t('modals.cancel')}
             </Button>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              variant="danger"
-              default
-            >
+            <Button type="submit" disabled={isSubmitting} variant="danger" default>
               {t('modals.submit')}
             </Button>
           </div>

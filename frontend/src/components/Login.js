@@ -34,7 +34,6 @@ const LoginForm = () => {
         const { username, password } = values;
         try {
           const response = await axios.post(routes.loginPath(), { username, password });
-          console.log(response);
           handleLogin(response.data.username, response.data.token);
         } catch (error) {
           console.log(error);
@@ -88,12 +87,7 @@ const LoginForm = () => {
             </label>
             <ErrorMessage name="password" component="div" className="invalid-tooltip" />
           </div>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            variant="outline-primary"
-            className="w-100 mb-3 btn btn-outline-primary"
-          >
+          <Button type="submit" disabled={isSubmitting} variant="outline-primary" className="w-100 mb-3 btn btn-outline-primary">
             {t('login.submit')}
           </Button>
         </Form>

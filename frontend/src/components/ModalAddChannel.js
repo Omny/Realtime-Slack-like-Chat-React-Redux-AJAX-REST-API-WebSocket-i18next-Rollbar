@@ -75,20 +75,10 @@ const AddChannelForm = ({ handleClose }) => {
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button
-              type="button"
-              variant="secondary"
-              className="me-2"
-              onClick={handleClose}
-            >
+            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>
               {t('modals.cancel')}
             </Button>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              variant="primary"
-              default
-            >
+            <Button type="submit" disabled={isSubmitting} variant="primary" default>
               {t('modals.submit')}
             </Button>
           </div>
