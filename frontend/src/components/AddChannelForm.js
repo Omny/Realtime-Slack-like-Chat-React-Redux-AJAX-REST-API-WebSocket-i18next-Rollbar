@@ -40,10 +40,7 @@ const AddChannelForm = () => {
 
   const ChannelsSchema = Yup.object().shape({
     name: Yup
-      .string()
-      .trim()
-      .min(3, t('modals.passMin3'))
-      .max(20, t('modals.passMax20'))
+      .string().trim().min(3, t('modals.passMin3')).max(20, t('modals.passMax20'))
       .required(t('modals.required'))
       .test('unique', t('modals.uniq'), (value) => !channels.some((channel) => channel.name === value)),
   });
