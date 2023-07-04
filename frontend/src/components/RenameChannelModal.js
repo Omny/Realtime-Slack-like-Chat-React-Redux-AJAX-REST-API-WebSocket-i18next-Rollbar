@@ -9,27 +9,27 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { selectors as channelsSelectors, sendRenameChannel } from '../slices/channelsSlice';
+import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setIdToProcess, setRenameChannelModalVisibility } from '../slices/modalSlice';
+import socketManager from '../socketManager';
 
 const RenameChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const id = useSelector((state) => state.modal.idToProcess);
   const { name } = channels.find((channel) => channel.id === id);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const handleAfterResponse = () => {
-      toast.success(t('channels.renamed'));
-      handleClose();
+    const handleAfterResponse = (response) => {
+      if (response.status === 'ok') {
+        toast.success(t('channels.renamed'));
+        handleClose();
+      }
     };
 
-    setTimeout(() => {
-      const newName = values.name;
-      dispatch(sendRenameChannel({ id, name: newName, callback: handleAfterResponse }));
-      setSubmitting(false);
-    }, 400);
+    const payload = { id, name: values.name };
+    socketManager.emit('renameChannel', payload, handleAfterResponse);
+    setSubmitting(false);
   };
 
   const ChannelsSchema = Yup.object().shape({

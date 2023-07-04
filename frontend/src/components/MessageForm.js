@@ -1,38 +1,35 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
-import { sendNewMessage } from '../slices/messagesSlice';
+import socketManager from '../socketManager';
 
 const MessageForm = () => {
   const { t } = useTranslation();
 
   leoProfanity.add(leoProfanity.getDictionary('ru'));
 
-  const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const username = localStorage.getItem('user');
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    const handleAfterResponse = () => {
-      resetForm();
+    const handleAfterResponse = (response) => {
+      if (response.status === 'ok') {
+        resetForm();
+      }
     };
 
-    setTimeout(() => {
-      const cleanedBody = leoProfanity.clean(values.body);
-      dispatch(
-        sendNewMessage({
-          body: cleanedBody,
-          channelId: currentChannelId,
-          username,
-          callback: handleAfterResponse,
-        }),
-      );
-      setSubmitting(false);
-    }, 400);
+    const cleanedBody = leoProfanity.clean(values.body);
+    const payload = {
+      body: cleanedBody,
+      channelId: currentChannelId,
+      username,
+    };
+    socketManager.emit('newMessage', payload, handleAfterResponse);
+    setSubmitting(false);
   };
 
   return (

@@ -9,9 +9,10 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { selectors as channelsSelectors, sendNewChannel } from '../slices/channelsSlice';
+import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setAddChannelModalVisibility } from '../slices/modalSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+import socketManager from '../socketManager';
 
 const AddChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
@@ -20,16 +21,16 @@ const AddChannelForm = ({ handleClose }) => {
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
-      dispatch(setCurrentChannelId(response.data.id));
-      toast.success(t('channels.created'));
+      if (response.status === 'ok') {
+        dispatch(setCurrentChannelId(response.data.id));
+        toast.success(t('channels.created'));
+      }
       handleClose();
     };
 
-    setTimeout(() => {
-      const newName = values.name;
-      dispatch(sendNewChannel({ name: newName, callback: handleAfterResponse }));
-      setSubmitting(false);
-    }, 400);
+    const payload = { name: values.name };
+    socketManager.emit('newChannel', payload, handleAfterResponse);
+    setSubmitting(false);
   };
 
   const ChannelsSchema = Yup.object().shape({

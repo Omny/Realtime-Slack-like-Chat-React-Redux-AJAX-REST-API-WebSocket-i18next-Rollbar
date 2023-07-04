@@ -7,7 +7,7 @@ const socketManager = {
     socket.on(event, callback);
   },
   emit: (event, payload, callback) => {
-    socket.emit(event, payload, (response) => callback(response));
+    socket.emit(event, payload, callback);
   },
 };
 

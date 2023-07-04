@@ -4,24 +4,24 @@ import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { sendRemoveChannel } from '../slices/channelsSlice';
 import { setIdToProcess, setRemoveChannelModalVisibility } from '../slices/modalSlice';
+import socketManager from '../socketManager';
 
 const RemoveChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const idToDelete = useSelector((state) => state.modal.idToProcess);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    const handleAfterResponse = () => {
-      toast.success(t('channels.removed'));
-      handleClose();
+    const handleAfterResponse = (response) => {
+      if (response.status === 'ok') {
+        toast.success(t('channels.removed'));
+        handleClose();
+      }
     };
 
-    setTimeout(() => {
-      dispatch(sendRemoveChannel({ id: idToDelete, callback: handleAfterResponse }));
-      setSubmitting(false);
-    }, 400);
+    const payload = { id: idToDelete };
+    socketManager.emit('removeChannel', payload, handleAfterResponse);
+    setSubmitting(false);
   };
 
   return (
