@@ -12,7 +12,7 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 import Channels from './Channels';
 import Messages from './Messages';
-import Modal from './Modal';
+import ModalWindow from './ModalWindow';
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -52,7 +52,7 @@ const Chat = () => {
       <div className="row h-100 bg-white flex-md-row">
         <Channels />
         <Messages />
-        <Modal />
+        <ModalWindow />
       </div>
     </div>
   );

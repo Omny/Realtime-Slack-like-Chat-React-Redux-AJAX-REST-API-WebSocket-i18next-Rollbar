@@ -1,10 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
-import Modal from 'react-bootstrap/Modal';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { setIdToProcess, setModalType, setModalVisibility } from '../slices/modalSlice';
 import socketManager from '../socketManager';
 
 const RemoveChannelForm = ({ handleClose }) => {
@@ -47,26 +45,4 @@ const RemoveChannelForm = ({ handleClose }) => {
   );
 };
 
-const ModalRemoveChannel = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-
-  const handleClose = () => {
-    dispatch(setModalVisibility(false));
-    dispatch(setIdToProcess(0));
-    dispatch(setModalType(null));
-  };
-
-  return (
-    <Modal show onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{t('modals.remove')}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <RemoveChannelForm handleClose={handleClose} />
-      </Modal.Body>
-    </Modal>
-  );
-};
-
-export default ModalRemoveChannel;
+export default RemoveChannelForm;

@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Modal from 'react-bootstrap/Modal';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import {
   Formik, Form, Field, ErrorMessage,
@@ -9,26 +7,32 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
-import { setModalType, setModalVisibility } from '../slices/modalSlice';
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 import socketManager from '../socketManager';
 
-const AddChannelForm = ({ handleClose }) => {
+const RenameChannelForm = ({ handleClose }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+  const id = useSelector((state) => state.modal.idToProcess);
+  const { name } = channels.find((channel) => channel.id === id);
+
+  useEffect(() => {
+    const input = document.querySelector('[name="name"]');
+    if (input) {
+      input.focus();
+    }
+  }, []);
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
       if (response.status === 'ok') {
-        dispatch(setCurrentChannelId(response.data.id));
-        toast.success(t('channels.created'));
+        toast.success(t('channels.renamed'));
+        handleClose();
       }
-      handleClose();
     };
-    const payload = { name: values.name };
-    socketManager.emit('newChannel', payload, handleAfterResponse);
+    const payload = { id, name: values.name };
+    socketManager.emit('renameChannel', payload, handleAfterResponse);
     setSubmitting(false);
   };
 
@@ -44,7 +48,7 @@ const AddChannelForm = ({ handleClose }) => {
 
   return (
     <Formik
-      initialValues={{ name: '' }}
+      initialValues={{ name }}
       onSubmit={handleSubmit}
       validationSchema={ChannelsSchema}
       validateOnBlur={false}
@@ -54,14 +58,20 @@ const AddChannelForm = ({ handleClose }) => {
         errors, touched, values, isSubmitting,
       }) => (
         <Form noValidate className="py-1">
+          <div className="input-group pb-3">
+            {t('modals.rename')}
+            {' '}
+            {name}
+            ?
+          </div>
           <div className={cn('input-group', { 'has-validation': errors.name && touched.name })}>
             <Field
               type="text"
               name="name"
               id="name"
               value={values.name}
-              aria-label={t('modals.channelName')}
-              placeholder={t('modals.enterChannelName')}
+              aria-label={t('modals.editChannelName')}
+              placeholder={t('modals.editChannelName')}
               className={cn('mb-4 form-control', { 'is-invalid': (errors.name && touched.name) })}
               data-last-active-input
               autoFocus
@@ -79,32 +89,4 @@ const AddChannelForm = ({ handleClose }) => {
   );
 };
 
-const AddChannelModal = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const input = document.querySelector('[name="name"]');
-    if (input) {
-      input.focus();
-    }
-  }, []);
-
-  const handleClose = () => {
-    dispatch(setModalVisibility(false));
-    dispatch(setModalType(null));
-  };
-
-  return (
-    <Modal show onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{t('modals.add')}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <AddChannelForm handleClose={handleClose} />
-      </Modal.Body>
-    </Modal>
-  );
-};
-
-export default AddChannelModal;
+export default RenameChannelForm;
