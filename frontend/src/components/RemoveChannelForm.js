@@ -18,9 +18,7 @@ const RemoveChannelForm = () => {
         dispatch(closeModal());
       }
     };
-
-    const payload = { id: idToDelete };
-    socketManager.emit('removeChannel', payload, handleAfterResponse);
+    socketManager.emit('removeChannel', { id: idToDelete }, handleAfterResponse);
     setSubmitting(false);
   };
 

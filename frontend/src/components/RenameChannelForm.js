@@ -33,8 +33,7 @@ const RenameChannelForm = () => {
         dispatch(closeModal());
       }
     };
-    const payload = { id, name: values.name };
-    socketManager.emit('renameChannel', payload, handleAfterResponse);
+    socketManager.emit('renameChannel', { id, name: values.name }, handleAfterResponse);
     setSubmitting(false);
   };
 

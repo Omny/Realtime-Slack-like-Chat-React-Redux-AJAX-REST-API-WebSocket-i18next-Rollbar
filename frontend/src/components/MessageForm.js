@@ -21,12 +21,7 @@ const MessageForm = () => {
     };
 
     const cleanedBody = leoProfanity.clean(values.body);
-    const payload = {
-      body: cleanedBody,
-      channelId: currentChannelId,
-      username,
-    };
-    socketManager.emit('newMessage', payload, handleAfterResponse);
+    socketManager.emit('newMessage', { body: cleanedBody, channelId: currentChannelId, username }, handleAfterResponse);
     setSubmitting(false);
   };
 

@@ -33,8 +33,7 @@ const AddChannelForm = () => {
       }
       dispatch(closeModal());
     };
-    const payload = { name: values.name };
-    socketManager.emit('newChannel', payload, handleAfterResponse);
+    socketManager.emit('newChannel', { name: values.name }, handleAfterResponse);
     setSubmitting(false);
   };
 

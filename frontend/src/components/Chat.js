@@ -20,8 +20,7 @@ const Chat = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authHeader = getAuthHeader();
-        const response = await axios.get(routes.dataPath(), { headers: authHeader });
+        const response = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
         const { channels, messages, currentChannelId } = response.data;
         dispatch(newChannels(channels));
         dispatch(newMessages(messages));
@@ -37,7 +36,6 @@ const Chat = () => {
         }
       }
     };
-
     fetchData();
   }, [dispatch, getAuthHeader, handleLogout, t]);
 

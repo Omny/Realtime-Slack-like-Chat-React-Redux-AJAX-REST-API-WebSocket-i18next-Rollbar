@@ -26,18 +26,10 @@ const rollbarConfig = {
 
 const App = () => {
   useEffect(() => {
-    socketManager.subscribe('newMessage', (payload) => {
-      store.dispatch(newMessage(payload));
-    });
-    socketManager.subscribe('newChannel', (payload) => {
-      store.dispatch(newChannel(payload));
-    });
-    socketManager.subscribe('removeChannel', (payload) => {
-      store.dispatch(removeChannel(payload.id));
-    });
-    socketManager.subscribe('renameChannel', (payload) => {
-      store.dispatch(renameChannel(payload));
-    });
+    socketManager.subscribe('newMessage', (payload) => { store.dispatch(newMessage(payload)); });
+    socketManager.subscribe('newChannel', (payload) => { store.dispatch(newChannel(payload)); });
+    socketManager.subscribe('removeChannel', (payload) => { store.dispatch(removeChannel(payload.id)); });
+    socketManager.subscribe('renameChannel', (payload) => { store.dispatch(renameChannel(payload)); });
   }, []);
 
   return (
