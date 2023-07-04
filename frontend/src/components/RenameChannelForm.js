@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import socketManager from '../socketManager';
 import { closeModal } from '../slices/modalSlice';
@@ -19,10 +19,10 @@ const RenameChannelForm = () => {
   const id = useSelector((state) => state.modal.idToProcess);
   const { name } = channels.find((channel) => channel.id === id);
 
+  const inputRef = useRef(null);
   useEffect(() => {
-    const input = document.querySelector('[name="name"]');
-    if (input) {
-      input.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   }, []);
 
@@ -81,6 +81,8 @@ const RenameChannelForm = () => {
               className={cn('mb-4 form-control', { 'is-invalid': (errors.name && touched.name) })}
               data-last-active-input
               autoFocus
+              autoComplete="off"
+              innerRef={inputRef}
             />
             <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />

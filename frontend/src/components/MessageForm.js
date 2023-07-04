@@ -56,6 +56,7 @@ const MessageForm = () => {
               className="border-0 p-0 ps-2 form-control"
               data-last-active-input
               autoFocus
+              autoComplete="off"
             />
             <Button
               type="submit"
