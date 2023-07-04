@@ -8,12 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import {
-  setAddChannelModalVisibility,
-  setRemoveChannelModalVisibility,
-  setRenameChannelModalVisibility,
-  setIdToProcess,
-} from '../slices/modalSlice';
+import { setModalVisibility, setModalType, setIdToProcess } from '../slices/modalSlice';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -25,17 +20,20 @@ const Channels = () => {
     dispatch(setCurrentChannelId(selectedID));
   };
 
-  const { isAddChannelModalVisible } = useSelector((state) => state.modal);
+  const { isVisible } = useSelector((state) => state.modal);
   const handleShowAddChannelModal = () => {
-    dispatch(setAddChannelModalVisibility(!isAddChannelModalVisible));
+    dispatch(setModalType('addChannel'));
+    dispatch(setModalVisibility(!isVisible));
   };
   const handleShowRemoveChannelModal = (id) => {
+    dispatch(setModalType('removeChannel'));
     dispatch(setIdToProcess(id));
-    dispatch(setRemoveChannelModalVisibility(true));
+    dispatch(setModalVisibility(true));
   };
   const handleShowRenameChannelModal = (id) => {
+    dispatch(setModalType('renameChannel'));
     dispatch(setIdToProcess(id));
-    dispatch(setRenameChannelModalVisibility(true));
+    dispatch(setModalVisibility(true));
   };
 
   return (

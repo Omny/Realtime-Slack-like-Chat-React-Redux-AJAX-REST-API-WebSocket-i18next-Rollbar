@@ -10,7 +10,7 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
-import { setIdToProcess, setRenameChannelModalVisibility } from '../slices/modalSlice';
+import { setIdToProcess, setModalType, setModalVisibility } from '../slices/modalSlice';
 import socketManager from '../socketManager';
 
 const RenameChannelForm = ({ handleClose }) => {
@@ -88,24 +88,25 @@ const RenameChannelForm = ({ handleClose }) => {
 const RenameChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isRenameChannelModalVisible);
+  const isVisible = useSelector((state) => state.modal.isVisible);
 
   useEffect(() => {
-    if (isModalVisible) {
+    if (isVisible) {
       const input = document.querySelector('[name="name"]');
       if (input) {
         input.focus();
       }
     }
-  }, [isModalVisible]);
+  }, [isVisible]);
 
   const handleClose = () => {
-    dispatch(setRenameChannelModalVisibility(false));
+    dispatch(setModalVisibility(false));
     dispatch(setIdToProcess(0));
+    dispatch(setModalType(null));
   };
 
   return (
-    <Modal show={isModalVisible} onHide={handleClose}>
+    <Modal show={isVisible} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.rename')}</Modal.Title>
       </Modal.Header>

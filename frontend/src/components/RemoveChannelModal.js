@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { setIdToProcess, setRemoveChannelModalVisibility } from '../slices/modalSlice';
+import { setIdToProcess, setModalType, setModalVisibility } from '../slices/modalSlice';
 import socketManager from '../socketManager';
 
 const RemoveChannelForm = ({ handleClose }) => {
@@ -50,15 +50,16 @@ const RemoveChannelForm = ({ handleClose }) => {
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isRemoveChannelModalVisible);
+  const isVisible = useSelector((state) => state.modal.isVisible);
 
   const handleClose = () => {
-    dispatch(setRemoveChannelModalVisibility(false));
+    dispatch(setModalVisibility(false));
     dispatch(setIdToProcess(0));
+    dispatch(setModalType(null));
   };
 
   return (
-    <Modal show={isModalVisible} onHide={handleClose}>
+    <Modal show={isVisible} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.remove')}</Modal.Title>
       </Modal.Header>

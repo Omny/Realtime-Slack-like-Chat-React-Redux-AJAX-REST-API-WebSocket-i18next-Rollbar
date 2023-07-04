@@ -10,7 +10,7 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
-import { setAddChannelModalVisibility } from '../slices/modalSlice';
+import { setModalType, setModalVisibility } from '../slices/modalSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 import socketManager from '../socketManager';
 
@@ -83,23 +83,24 @@ const AddChannelForm = ({ handleClose }) => {
 const AddChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isAddChannelModalVisible);
+  const isVisible = useSelector((state) => state.modal.isVisible);
 
   useEffect(() => {
-    if (isModalVisible) {
+    if (isVisible) {
       const input = document.querySelector('[name="name"]');
       if (input) {
         input.focus();
       }
     }
-  }, [isModalVisible]);
+  }, [isVisible]);
 
   const handleClose = () => {
-    dispatch(setAddChannelModalVisibility(false));
+    dispatch(setModalVisibility(false));
+    dispatch(setModalType(null));
   };
 
   return (
-    <Modal show={isModalVisible} onHide={handleClose}>
+    <Modal show={isVisible} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.add')}</Modal.Title>
       </Modal.Header>

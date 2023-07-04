@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +12,7 @@ import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 
 import Channels from './Channels';
 import Messages from './Messages';
-import AddChannelModal from './AddChannelModal';
-import RemoveChannelModal from './RemoveChannelModal';
-import RenameChannelModal from './RenameChannelModal';
+import Modal from './Modal';
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -49,20 +47,12 @@ const Chat = () => {
     fetchData();
   }, [dispatch, userGroup, getAuthHeader, handleLogout, t]);
 
-  const {
-    isAddChannelModalVisible,
-    isRemoveChannelModalVisible,
-    isRenameChannelModalVisible,
-  } = useSelector((state) => state.modal);
-
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
         <Channels />
         <Messages />
-        {isAddChannelModalVisible ? <AddChannelModal /> : null}
-        {isRemoveChannelModalVisible ? <RemoveChannelModal /> : null}
-        {isRenameChannelModalVisible ? <RenameChannelModal /> : null}
+        <Modal />
       </div>
     </div>
   );

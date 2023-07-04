@@ -3,23 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 const modalSlice = createSlice({
   name: 'modal',
   initialState: {
-    isAddChannelModalVisible: false,
-    isRemoveChannelModalVisible: false,
-    isRenameChannelModalVisible: false,
+    isVisible: false,
+    modalType: null,
     idToProcess: 0,
   },
   reducers: {
-    setAddChannelModalVisibility: (state, action) => ({
+    setModalVisibility: (state, action) => ({
       ...state,
-      isAddChannelModalVisible: action.payload,
+      isVisible: action.payload,
     }),
-    setRemoveChannelModalVisibility: (state, action) => ({
+    setModalType: (state, action) => ({
       ...state,
-      isRemoveChannelModalVisible: action.payload,
-    }),
-    setRenameChannelModalVisibility: (state, action) => ({
-      ...state,
-      isRenameChannelModalVisible: action.payload,
+      modalType: action.payload,
     }),
     setIdToProcess: (state, action) => ({
       ...state,
@@ -29,9 +24,8 @@ const modalSlice = createSlice({
 });
 
 export const {
-  setAddChannelModalVisibility,
-  setRemoveChannelModalVisibility,
-  setRenameChannelModalVisibility,
+  setModalVisibility,
+  setModalType,
   setIdToProcess,
 } = modalSlice.actions;
 export default modalSlice.reducer;
