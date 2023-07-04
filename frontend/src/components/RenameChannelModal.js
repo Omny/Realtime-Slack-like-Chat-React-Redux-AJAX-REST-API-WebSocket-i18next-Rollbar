@@ -26,7 +26,6 @@ const RenameChannelForm = ({ handleClose }) => {
         handleClose();
       }
     };
-
     const payload = { id, name: values.name };
     socketManager.emit('renameChannel', payload, handleAfterResponse);
     setSubmitting(false);

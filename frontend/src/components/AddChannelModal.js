@@ -27,7 +27,6 @@ const AddChannelForm = ({ handleClose }) => {
       }
       handleClose();
     };
-
     const payload = { name: values.name };
     socketManager.emit('newChannel', payload, handleAfterResponse);
     setSubmitting(false);
