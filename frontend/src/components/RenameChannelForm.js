@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import {
   Formik, Form, Field, ErrorMessage,
@@ -10,9 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import socketManager from '../socketManager';
+import { closeModal } from '../slices/modalSlice';
 
-const RenameChannelForm = ({ handleClose }) => {
+const RenameChannelForm = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const id = useSelector((state) => state.modal.idToProcess);
   const { name } = channels.find((channel) => channel.id === id);
@@ -23,6 +25,10 @@ const RenameChannelForm = ({ handleClose }) => {
       input.focus();
     }
   }, []);
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {

@@ -1,13 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import socketManager from '../socketManager';
+import { closeModal } from '../slices/modalSlice';
 
-const RemoveChannelForm = ({ handleClose }) => {
+const RemoveChannelForm = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const idToDelete = useSelector((state) => state.modal.idToProcess);
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {

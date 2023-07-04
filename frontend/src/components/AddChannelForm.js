@@ -11,8 +11,9 @@ import { useEffect } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 import socketManager from '../socketManager';
+import { closeModal } from '../slices/modalSlice';
 
-const AddChannelForm = ({ handleClose }) => {
+const AddChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
@@ -23,6 +24,10 @@ const AddChannelForm = ({ handleClose }) => {
       input.focus();
     }
   }, []);
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {

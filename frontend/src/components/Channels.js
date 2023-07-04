@@ -5,10 +5,10 @@ import { Plus } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-
+import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-import { setModalVisibility, setModalType, setIdToProcess } from '../slices/modalSlice';
+import { openModal } from '../slices/modalSlice';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -20,21 +20,22 @@ const Channels = () => {
     dispatch(setCurrentChannelId(selectedID));
   };
 
-  const { isVisible } = useSelector((state) => state.modal);
   const handleShowAddChannelModal = () => {
-    dispatch(setModalType('addChannel'));
-    dispatch(setModalVisibility(!isVisible));
+    dispatch(openModal({ modalType: 'addChannel' }));
   };
   const handleShowRemoveChannelModal = (id) => {
-    dispatch(setModalType('removeChannel'));
-    dispatch(setIdToProcess(id));
-    dispatch(setModalVisibility(true));
+    dispatch(openModal({ modalType: 'removeChannel', idToProcess: id }));
   };
   const handleShowRenameChannelModal = (id) => {
-    dispatch(setModalType('renameChannel'));
-    dispatch(setIdToProcess(id));
-    dispatch(setModalVisibility(true));
+    dispatch(openModal({ modalType: 'renameChannel', idToProcess: id }));
   };
+
+  const currentChannelEl = useRef(null);
+  useEffect(() => {
+    if (currentChannelEl.current) {
+      currentChannelEl.current.scrollIntoView({ behavior: 'auto' });
+    }
+  }, [channels]);
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -48,10 +49,11 @@ const Channels = () => {
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         <li className="nav-item w-100">
           {channels.map(({ id, name, removable }) => {
-            const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': id === currentChannelId });
-            const btnVariant = (id === currentChannelId) ? 'secondary' : 'light';
+            const isCurrentChannel = id === currentChannelId;
+            const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': isCurrentChannel });
+            const btnVariant = (isCurrentChannel) ? 'secondary' : 'light';
             return removable ? (
-              <Dropdown as={ButtonGroup} key={id} className="d-flex dropdown btn-group">
+              <Dropdown ref={isCurrentChannel ? currentChannelEl : null} as={ButtonGroup} key={id} className="d-flex dropdown btn-group">
                 <Button type="button" variant={btnVariant} className={btnClassName} onClick={() => handleClickOnChannel(id)}>
                   <span className="me-1">#</span>
                   {name}
@@ -69,7 +71,7 @@ const Channels = () => {
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
-              <Button variant={btnVariant} key={id} type="button" className={btnClassName} onClick={() => handleClickOnChannel(id)}>
+              <Button ref={isCurrentChannel ? currentChannelEl : null} variant={btnVariant} key={id} type="button" className={btnClassName} onClick={() => handleClickOnChannel(id)}>
                 <span className="me-1">#</span>
                 {name}
               </Button>

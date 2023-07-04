@@ -8,24 +8,23 @@ const modalSlice = createSlice({
     idToProcess: 0,
   },
   reducers: {
-    setModalVisibility: (state, action) => ({
+    openModal: (state, action) => ({
       ...state,
-      isVisible: action.payload,
+      isVisible: true,
+      modalType: action.payload.modalType,
+      idToProcess: action.payload.idToProcess ?? 0,
     }),
-    setModalType: (state, action) => ({
+    closeModal: (state) => ({
       ...state,
-      modalType: action.payload,
-    }),
-    setIdToProcess: (state, action) => ({
-      ...state,
-      idToProcess: action.payload,
+      isVisible: false,
+      modalType: null,
+      idToProcess: 0,
     }),
   },
 });
 
 export const {
-  setModalVisibility,
-  setModalType,
-  setIdToProcess,
+  openModal,
+  closeModal,
 } = modalSlice.actions;
 export default modalSlice.reducer;

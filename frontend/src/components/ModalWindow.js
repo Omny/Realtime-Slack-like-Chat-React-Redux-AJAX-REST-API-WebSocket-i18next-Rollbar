@@ -1,35 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-bootstrap/Modal';
-import { setIdToProcess, setModalType, setModalVisibility } from '../slices/modalSlice';
+import { closeModal } from '../slices/modalSlice';
 import AddChannelForm from './AddChannelForm';
 import RenameChannelForm from './RenameChannelForm';
 import RemoveChannelForm from './RemoveChannelForm';
 
 const forms = {
-  addChannel: AddChannelForm,
-  renameChannel: RenameChannelForm,
-  removeChannel: RemoveChannelForm,
-};
-
-const modalTitles = {
-  addChannel: 'modals.add',
-  renameChannel: 'modals.rename',
-  removeChannel: 'modals.remove',
+  addChannel: { form: AddChannelForm, title: 'modals.add' },
+  renameChannel: { form: RenameChannelForm, title: 'modals.rename' },
+  removeChannel: { form: RemoveChannelForm, title: 'modals.remove' },
 };
 
 const ModalWindow = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { isVisible, modalType } = useSelector((state) => state.modal);
-
-  const ModalForm = forms[modalType];
-  const modalTitle = t(modalTitles[modalType]);
+  const ModalForm = forms[modalType]?.form;
+  const modalTitle = t(forms[modalType]?.title);
 
   const handleClose = () => {
-    dispatch(setModalVisibility(false));
-    dispatch(setIdToProcess(0));
-    dispatch(setModalType(null));
+    dispatch(closeModal());
   };
 
   if (!ModalForm || !isVisible || !modalType) {
