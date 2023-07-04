@@ -12,6 +12,7 @@ const Messages = () => {
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const messages = useSelector(messagesSelectors.selectAll);
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
+  const currentUser = localStorage.getItem('user');
 
   return (
     <div className="col p-0 h-100">
@@ -33,7 +34,7 @@ const Messages = () => {
           {currentMessages && currentMessages
             .map(({ body, username, id }) => (
               <div key={id} className="text-break mb-2">
-                <b>{username}</b>
+                {(currentUser === username) ? <b className="text-primary">{username}</b> : <b>{username}</b>}
                 {': '}
                 {body}
               </div>
