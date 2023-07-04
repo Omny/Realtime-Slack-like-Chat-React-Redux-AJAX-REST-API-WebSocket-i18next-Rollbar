@@ -19,20 +19,16 @@ const ModalWindow = () => {
   const ModalForm = forms[modalType]?.form;
   const modalTitle = t(forms[modalType]?.title);
 
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
-
   if (!ModalForm || !isVisible || !modalType) {
     return null;
   }
   return (
-    <Modal show onHide={handleClose}>
+    <Modal show onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ModalForm handleClose={handleClose} />
+        <ModalForm handleClose={() => dispatch(closeModal())} />
       </Modal.Body>
     </Modal>
   );

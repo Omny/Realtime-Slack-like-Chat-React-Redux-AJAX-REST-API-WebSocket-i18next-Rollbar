@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
-
 import MessageForm from './MessageForm';
 
 const Messages = () => {

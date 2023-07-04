@@ -16,8 +16,8 @@ const Channels = () => {
 
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannelId = useSelector((state) => state.currentChannelId);
-  const handleClickOnChannel = (selectedID) => {
-    dispatch(setCurrentChannelId(selectedID));
+  const handleClickOnChannel = (selectedId) => {
+    dispatch(setCurrentChannelId(selectedId));
   };
 
   const handleShowAddChannelModal = () => {

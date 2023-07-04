@@ -25,17 +25,13 @@ const AddChannelForm = () => {
     }
   }, []);
 
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
-
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
       if (response.status === 'ok') {
         dispatch(setCurrentChannelId(response.data.id));
         toast.success(t('channels.created'));
       }
-      handleClose();
+      dispatch(closeModal());
     };
     const payload = { name: values.name };
     socketManager.emit('newChannel', payload, handleAfterResponse);
@@ -82,7 +78,7 @@ const AddChannelForm = () => {
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>{t('modals.cancel')}</Button>
+            <Button type="button" variant="secondary" className="me-2" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
             <Button type="submit" disabled={isSubmitting} variant="primary" default>{t('modals.submit')}</Button>
           </div>
         </Form>

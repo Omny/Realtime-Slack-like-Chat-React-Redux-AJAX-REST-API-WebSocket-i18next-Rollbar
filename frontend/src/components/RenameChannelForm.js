@@ -26,15 +26,11 @@ const RenameChannelForm = () => {
     }
   }, []);
 
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
-
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
       if (response.status === 'ok') {
         toast.success(t('channels.renamed'));
-        handleClose();
+        dispatch(closeModal());
       }
     };
     const payload = { id, name: values.name };
@@ -88,7 +84,7 @@ const RenameChannelForm = () => {
             <ErrorMessage name="name" component="div" className="invalid-tooltip" />
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>{t('modals.cancel')}</Button>
+            <Button type="button" variant="secondary" className="me-2" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
             <Button type="submit" disabled={isSubmitting} variant="primary" default>{t('modals.submit')}</Button>
           </div>
         </Form>

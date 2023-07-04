@@ -9,9 +9,7 @@ import socketManager from '../socketManager';
 
 const MessageForm = () => {
   const { t } = useTranslation();
-
   leoProfanity.add(leoProfanity.getDictionary('ru'));
-
   const currentChannelId = useSelector((state) => state.currentChannelId);
   const username = localStorage.getItem('user');
 

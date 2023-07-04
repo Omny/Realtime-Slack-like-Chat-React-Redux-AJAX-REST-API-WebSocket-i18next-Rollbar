@@ -3,27 +3,21 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-
 import routes from '../routes';
 import AppContext from '../contexts';
 import { newMessages } from '../slices/messagesSlice';
 import { newChannels } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
-
 import Channels from './Channels';
 import Messages from './Messages';
 import ModalWindow from './ModalWindow';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { userGroup, getAuthHeader, handleLogout } = useContext(AppContext);
+  const { getAuthHeader, handleLogout } = useContext(AppContext);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userGroup === 'guest') {
-      return;
-    }
-
     const fetchData = async () => {
       try {
         const authHeader = getAuthHeader();
@@ -45,7 +39,7 @@ const Chat = () => {
     };
 
     fetchData();
-  }, [dispatch, userGroup, getAuthHeader, handleLogout, t]);
+  }, [dispatch, getAuthHeader, handleLogout, t]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

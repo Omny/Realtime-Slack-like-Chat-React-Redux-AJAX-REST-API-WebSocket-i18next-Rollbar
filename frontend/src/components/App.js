@@ -2,18 +2,15 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import '../i18n';
 import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { Provider } from 'react-redux';
 import store from '../slices';
 import AuthProvider from '../contexts/AuthProvider';
 import socketManager from '../socketManager';
 import { newMessage } from '../slices/messagesSlice';
 import { newChannel, removeChannel, renameChannel } from '../slices/channelsSlice';
-
 import routes from '../routes';
 import Nav from './Nav';
 import Login from './Login';

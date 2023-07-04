@@ -11,15 +11,11 @@ const RemoveChannelForm = () => {
   const dispatch = useDispatch();
   const idToDelete = useSelector((state) => state.modal.idToProcess);
 
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
-
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
       if (response.status === 'ok') {
         toast.success(t('channels.removed'));
-        handleClose();
+        dispatch(closeModal());
       }
     };
 
@@ -42,7 +38,7 @@ const RemoveChannelForm = () => {
             ?
           </div>
           <div className="d-flex justify-content-end align-items-center">
-            <Button type="button" variant="secondary" className="me-2" onClick={handleClose}>{t('modals.cancel')}</Button>
+            <Button type="button" variant="secondary" className="me-2" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
             <Button type="submit" disabled={isSubmitting} variant="danger" default>{t('modals.submit')}</Button>
           </div>
         </Form>
