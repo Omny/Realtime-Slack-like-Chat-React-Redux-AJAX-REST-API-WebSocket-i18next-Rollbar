@@ -82,16 +82,13 @@ const AddChannelForm = ({ handleClose }) => {
 const AddChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isVisible = useSelector((state) => state.modal.isVisible);
 
   useEffect(() => {
-    if (isVisible) {
-      const input = document.querySelector('[name="name"]');
-      if (input) {
-        input.focus();
-      }
+    const input = document.querySelector('[name="name"]');
+    if (input) {
+      input.focus();
     }
-  }, [isVisible]);
+  }, []);
 
   const handleClose = () => {
     dispatch(setModalVisibility(false));
@@ -99,7 +96,7 @@ const AddChannelModal = () => {
   };
 
   return (
-    <Modal show={isVisible} onHide={handleClose}>
+    <Modal show onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.add')}</Modal.Title>
       </Modal.Header>

@@ -50,7 +50,6 @@ const RemoveChannelForm = ({ handleClose }) => {
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isVisible = useSelector((state) => state.modal.isVisible);
 
   const handleClose = () => {
     dispatch(setModalVisibility(false));
@@ -59,7 +58,7 @@ const ModalRemoveChannel = () => {
   };
 
   return (
-    <Modal show={isVisible} onHide={handleClose}>
+    <Modal show onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.remove')}</Modal.Title>
       </Modal.Header>
