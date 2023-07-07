@@ -23,6 +23,7 @@ const RenameChannelForm = () => {
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
+      inputRef.current.select();
     }
   }, []);
 
