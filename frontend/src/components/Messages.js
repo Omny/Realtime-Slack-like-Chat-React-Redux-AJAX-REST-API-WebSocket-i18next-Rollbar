@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
 import MessageForm from './MessageForm';
@@ -12,6 +13,17 @@ const Messages = () => {
   const messages = useSelector(messagesSelectors.selectAll);
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
   const currentUser = localStorage.getItem('user');
+
+  const messagesBoxRef = useRef(null);
+
+  useEffect(() => {
+    if (messagesBoxRef.current) {
+      messagesBoxRef.current.scrollTo({
+        top: messagesBoxRef.current.scrollHeight,
+        behavior: 'auto',
+      });
+    }
+  }, [messages]);
 
   return (
     <div className="col p-0 h-100">
@@ -29,7 +41,7 @@ const Messages = () => {
             {currentMessages && currentMessages.length}
           </span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div id="messages-box" ref={messagesBoxRef} className="chat-messages overflow-auto px-5 ">
           {currentMessages && currentMessages
             .map(({ body, username, id }) => (
               <div key={id} className="text-break mb-2">
