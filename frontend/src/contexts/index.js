@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 const AuthContext = createContext({
-  userGroup: 'guest',
+  userGroup: null,
   setUserGroup: () => {},
 });
 
