@@ -14,13 +14,15 @@ import ModalWindow from './ModalWindow';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { getAuthHeader, handleLogout } = useContext(AppContext);
+  const { getToken, handleLogout } = useContext(AppContext);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
+        const token = getToken();
+        const authHeader = { Authorization: `Bearer ${token}` };
+        const response = await axios.get(routes.dataPath(), { headers: authHeader });
         const { channels, messages, currentChannelId } = response.data;
         dispatch(newChannels(channels));
         dispatch(newMessages(messages));
@@ -37,7 +39,7 @@ const Chat = () => {
       }
     };
     fetchData();
-  }, [dispatch, getAuthHeader, handleLogout, t]);
+  }, [dispatch, getToken, handleLogout, t]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

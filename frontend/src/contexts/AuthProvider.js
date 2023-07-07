@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '.';
-import routes from '../../routes';
+import routes from '../routes';
 
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -12,26 +12,23 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem('user', user);
     localStorage.setItem('token', token);
     setUserGroup('user');
-    navigate(routes.homePagePath);
+    navigate(routes.homePagePath());
   }, [navigate]);
 
   const handleLogout = useCallback(() => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setUserGroup('guest');
-    navigate(routes.loginPagePath);
+    navigate(routes.loginPagePath());
   }, [navigate]);
 
-  const getAuthHeader = useCallback(() => {
-    const token = localStorage.getItem('token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  }, []);
+  const getToken = useCallback(() => localStorage.getItem('token'), []);
 
   const authContextValue = useMemo(
     () => ({
-      userGroup, handleLogin, handleLogout, getAuthHeader,
+      handleLogin, handleLogout, getToken, userGroup,
     }),
-    [userGroup, handleLogin, handleLogout, getAuthHeader],
+    [handleLogin, handleLogout, getToken, userGroup],
   );
 
   return (

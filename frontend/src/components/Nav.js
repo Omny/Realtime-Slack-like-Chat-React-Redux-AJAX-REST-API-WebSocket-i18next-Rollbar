@@ -5,14 +5,14 @@ import AuthContext from '../contexts';
 
 const Nav = () => {
   const { t } = useTranslation();
-  const { userGroup, handleLogout } = useContext(AuthContext);
+  const { getToken, handleLogout } = useContext(AuthContext);
   const username = localStorage.getItem('user');
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <a className="navbar-brand" href="/">{t('nav.hexletChat')}</a>
-        {userGroup === 'user' ? (
+        {getToken() ? (
           <>
             <span className="navbar-text">
               {t('nav.welcome')}
