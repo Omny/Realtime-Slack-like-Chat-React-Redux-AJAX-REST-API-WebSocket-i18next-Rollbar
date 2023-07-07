@@ -5,13 +5,16 @@ import cn from 'classnames';
 import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
+import { useContext } from 'react';
 import socketManager from '../socketManager';
+import AppContext from '../contexts';
 
 const MessageForm = () => {
   const { t } = useTranslation();
   leoProfanity.add(leoProfanity.getDictionary('ru'));
   const currentChannelId = useSelector((state) => state.currentChannelId);
-  const username = localStorage.getItem('user');
+  const { getUsername } = useContext(AppContext);
+  const username = getUsername();
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     const handleAfterResponse = (response) => {

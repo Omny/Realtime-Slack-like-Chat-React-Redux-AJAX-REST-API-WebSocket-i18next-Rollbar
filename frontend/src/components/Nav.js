@@ -5,8 +5,8 @@ import AuthContext from '../contexts';
 
 const Nav = () => {
   const { t } = useTranslation();
-  const { getToken, handleLogout } = useContext(AuthContext);
-  const username = localStorage.getItem('user');
+  const { getToken, getUsername, handleLogout } = useContext(AuthContext);
+  const username = getUsername();
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">

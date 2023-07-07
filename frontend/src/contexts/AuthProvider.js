@@ -24,11 +24,13 @@ const AuthProvider = ({ children }) => {
 
   const getToken = useCallback(() => localStorage.getItem('token'), []);
 
+  const getUsername = useCallback(() => localStorage.getItem('user'), []);
+
   const authContextValue = useMemo(
     () => ({
-      handleLogin, handleLogout, getToken, userGroup,
+      handleLogin, handleLogout, getToken, getUsername, userGroup,
     }),
-    [handleLogin, handleLogout, getToken, userGroup],
+    [handleLogin, handleLogout, getToken, getUsername, userGroup],
   );
 
   return (
