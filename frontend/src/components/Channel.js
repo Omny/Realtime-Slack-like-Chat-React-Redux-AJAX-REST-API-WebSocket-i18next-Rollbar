@@ -14,11 +14,11 @@ const Channel = ({ id, name, removable }) => {
   const currentChannelId = useSelector((state) => state.currentChannelId);
 
   const handleShowRemoveChannelModal = (clickedId) => {
-    dispatch(openModal({ modalType: 'removeChannel', idToProcess: clickedId }));
+    dispatch(openModal({ modalType: 'removeChannel', channelIdToUpdate: clickedId }));
   };
 
   const handleShowRenameChannelModal = (clickedId) => {
-    dispatch(openModal({ modalType: 'renameChannel', idToProcess: clickedId }));
+    dispatch(openModal({ modalType: 'renameChannel', channelIdToUpdate: clickedId }));
   };
 
   const handleClickOnChannel = (clickedId) => {

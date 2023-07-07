@@ -9,7 +9,7 @@ import { closeModal } from '../slices/modalSlice';
 const RemoveChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const idToDelete = useSelector((state) => state.modal.idToProcess);
+  const idToDelete = useSelector((state) => state.modal.channelIdToUpdate);
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
