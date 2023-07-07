@@ -44,7 +44,7 @@ const App = () => {
                   <Route path={routes.loginPagePath()} element={<Login />} />
                   <Route path={routes.signupPagePath()} element={<Signup />} />
                   <Route path={routes.homePagePath()} element={<ChatOrLogin />} />
-                  <Route path={routes.notFoundPagePath()} element={<NotFound />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
                 <ToastContainer />
               </AuthProvider>
