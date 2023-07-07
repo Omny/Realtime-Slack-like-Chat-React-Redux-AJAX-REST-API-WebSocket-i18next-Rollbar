@@ -16,7 +16,7 @@ const RenameChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
-  const id = useSelector((state) => state.modal.channelIdToUpdate);
+  const id = useSelector((state) => state.modal.idToUpdate);
   const { name } = channels.find((channel) => channel.id === id);
 
   const inputRef = useRef(null);
