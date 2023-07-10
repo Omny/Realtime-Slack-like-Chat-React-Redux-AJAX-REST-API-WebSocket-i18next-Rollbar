@@ -15,8 +15,9 @@ import routes from '../routes';
 import Nav from './Nav';
 import Login from './Login';
 import Signup from './Signup';
+import Chat from './Chat';
 import NotFound from './NotFound';
-import ChatOrLogin from './ChatOrLogin';
+import PrivateRoute from './PrivateRoute';
 import ErrorDisplay from './ErrorDisplay';
 
 const rollbarConfig = {
@@ -43,7 +44,14 @@ const App = () => {
                 <Routes>
                   <Route path={routes.loginPagePath()} element={<Login />} />
                   <Route path={routes.signupPagePath()} element={<Signup />} />
-                  <Route path={routes.homePagePath()} element={<ChatOrLogin />} />
+                  <Route
+                    path={routes.homePagePath()}
+                    element={(
+                      <PrivateRoute>
+                        <Chat />
+                      </PrivateRoute>
+                  )}
+                  />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
                 <ToastContainer />

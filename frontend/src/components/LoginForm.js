@@ -3,6 +3,7 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -13,6 +14,7 @@ import routes from '../routes';
 const LoginForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required(t('login.required')),
@@ -24,6 +26,7 @@ const LoginForm = () => {
     try {
       const response = await axios.post(routes.loginPath(), { username, password });
       auth.handleLogin(response.data.username, response.data.token);
+      navigate(routes.homePagePath());
     } catch (error) {
       console.log(error);
       if (error.response?.status === 401) {
