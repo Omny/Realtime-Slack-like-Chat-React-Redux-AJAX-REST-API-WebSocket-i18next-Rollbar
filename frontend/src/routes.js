@@ -1,7 +1,9 @@
+const apiPath = '/api/v1';
+
 const routes = {
-  loginPath: () => '/api/v1/login',
-  signupPath: () => '/api/v1/signup',
-  dataPath: () => '/api/v1/data',
+  loginPath: () => [apiPath, 'login'].join('/'),
+  signupPath: () => [apiPath, 'signup'].join('/'),
+  dataPath: () => [apiPath, 'data'].join('/'),
   homePagePath: () => '/',
   loginPagePath: () => '/login',
   signupPagePath: () => '/signup',
