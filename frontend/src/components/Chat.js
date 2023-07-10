@@ -33,6 +33,7 @@ const Chat = () => {
           auth.handleLogout();
         } else if (axios.isAxiosError(error)) {
           toast.error(t('errors.network'));
+          auth.handleLogout();
         } else {
           toast.error(t('errors.unknown'));
         }
