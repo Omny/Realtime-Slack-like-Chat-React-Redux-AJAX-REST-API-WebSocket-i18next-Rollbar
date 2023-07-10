@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
 import MessageForm from './MessageForm';
-import AppContext from '../contexts';
+import useAuth from '../hooks';
 
 const Messages = () => {
   const { t } = useTranslation();
@@ -13,8 +13,8 @@ const Messages = () => {
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const messages = useSelector(messagesSelectors.selectAll);
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
-  const { getUsername } = useContext(AppContext);
-  const currentUser = getUsername();
+  const auth = useAuth();
+  const currentUser = auth.getUsername();
 
   const messagesBoxRef = useRef(null);
 

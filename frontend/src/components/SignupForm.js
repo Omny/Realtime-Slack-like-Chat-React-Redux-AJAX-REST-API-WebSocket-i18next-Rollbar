@@ -7,16 +7,15 @@ import {
 import * as Yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
-import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
-import AppContext from '../contexts';
+import useAuth from '../hooks';
 import routes from '../routes';
 
 const SignupForm = () => {
   const { t } = useTranslation();
-  const { handleLogin } = useContext(AppContext);
+  const auth = useAuth();
 
   const SignupSchema = Yup.object().shape({
     username: Yup.string().trim().min(3, t('signup.passMin3')).max(20, t('signup.passMax20'))
@@ -31,7 +30,7 @@ const SignupForm = () => {
     const { username, password } = values;
     try {
       const response = await axios.post(routes.signupPath(), { username, password });
-      handleLogin(response.data.username, response.data.token);
+      auth.handleLogin(response.data.username, response.data.token);
     } catch (error) {
       console.log(error);
       if (error.response?.status === 409) {

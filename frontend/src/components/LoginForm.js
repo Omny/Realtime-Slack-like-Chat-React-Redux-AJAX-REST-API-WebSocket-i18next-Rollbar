@@ -5,15 +5,14 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import axios from 'axios';
-import { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
-import AppContext from '../contexts';
+import useAuth from '../hooks';
 import routes from '../routes';
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const { handleLogin } = useContext(AppContext);
+  const auth = useAuth();
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required(t('login.required')),
@@ -24,7 +23,7 @@ const LoginForm = () => {
     const { username, password } = values;
     try {
       const response = await axios.post(routes.loginPath(), { username, password });
-      handleLogin(response.data.username, response.data.token);
+      auth.handleLogin(response.data.username, response.data.token);
     } catch (error) {
       console.log(error);
       if (error.response?.status === 401) {

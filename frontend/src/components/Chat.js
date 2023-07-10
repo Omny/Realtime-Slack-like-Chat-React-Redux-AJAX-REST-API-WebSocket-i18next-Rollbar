@@ -1,26 +1,26 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import routes from '../routes';
-import AppContext from '../contexts';
 import { newMessages } from '../slices/messagesSlice';
 import { newChannels } from '../slices/channelsSlice';
 import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 import ModalWindow from './ModalWindow';
+import useAuth from '../hooks';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { getToken, handleLogout } = useContext(AppContext);
+  const auth = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = getToken();
+        const token = auth.getToken();
         const authHeader = { Authorization: `Bearer ${token}` };
         const response = await axios.get(routes.dataPath(), { headers: authHeader });
         const { channels, messages, currentChannelId } = response.data;
@@ -30,7 +30,7 @@ const Chat = () => {
       } catch (error) {
         console.log(error);
         if (error.response?.status === 401) {
-          handleLogout();
+          auth.handleLogout();
         } else if (axios.isAxiosError(error)) {
           toast.error(t('errors.network'));
         } else {
@@ -39,7 +39,7 @@ const Chat = () => {
       }
     };
     fetchData();
-  }, [dispatch, getToken, handleLogout, t]);
+  }, [dispatch, auth, t]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
