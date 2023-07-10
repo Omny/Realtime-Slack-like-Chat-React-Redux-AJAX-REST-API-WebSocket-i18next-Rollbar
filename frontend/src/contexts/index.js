@@ -1,8 +1,5 @@
 import { createContext } from 'react';
 
-const AuthContext = createContext({
-  userGroup: null,
-  setUserGroup: () => {},
-});
+const AuthContext = createContext({});
 
 export default AuthContext;
