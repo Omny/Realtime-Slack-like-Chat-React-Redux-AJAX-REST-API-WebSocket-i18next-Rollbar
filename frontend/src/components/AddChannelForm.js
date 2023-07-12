@@ -8,8 +8,7 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
-import { selectors as channelsSelectors } from '../slices/channelsSlice';
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+import { selectors as channelsSelectors, setCurrentChannelId } from '../slices/channelsSlice';
 import socketManager from '../socketManager';
 import { closeModal } from '../slices/modalSlice';
 

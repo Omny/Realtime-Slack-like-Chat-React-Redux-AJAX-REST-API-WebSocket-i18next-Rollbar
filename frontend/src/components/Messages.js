@@ -9,7 +9,7 @@ import useAuth from '../hooks';
 const Messages = () => {
   const { t } = useTranslation();
   const channels = useSelector(channelsSelectors.selectAll);
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const messages = useSelector(messagesSelectors.selectAll);
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);

@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice';
+import { setCurrentChannelId } from '../slices/channelsSlice';
 import { openModal } from '../slices/modalSlice';
 
 const Channel = ({ id, name, removable }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const handleShowRemoveChannelModal = (clickedId) => {
     dispatch(openModal({ modalType: 'removeChannel', idToUpdate: clickedId }));
