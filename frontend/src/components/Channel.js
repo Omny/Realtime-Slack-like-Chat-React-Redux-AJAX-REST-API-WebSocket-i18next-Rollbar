@@ -45,7 +45,7 @@ const Channel = ({ id, name, removable }) => {
       <Dropdown.Toggle split variant={btnVariant} id="dropdown-split-basic">
         <span className="visually-hidden">{t('channels.menu')}</span>
       </Dropdown.Toggle>
-      <Dropdown.Menu title="" variant={btnVariant} id="bg-nested-dropdown">
+      <Dropdown.Menu variant={btnVariant} id="bg-nested-dropdown">
         <Dropdown.Item onClick={() => handleShowRemoveChannelModal(id)} eventKey="1">
           {t('channels.remove')}
         </Dropdown.Item>
