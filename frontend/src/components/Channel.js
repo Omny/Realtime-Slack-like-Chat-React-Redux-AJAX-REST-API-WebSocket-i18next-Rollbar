@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { setCurrentChannelId } from '../slices/channelsSlice';
+import { setCurrentChannelId, defaultChannelId } from '../slices/channelsSlice';
 import { openModal } from '../slices/modalSlice';
 
 const Channel = ({ id, name, removable }) => {
@@ -26,11 +26,12 @@ const Channel = ({ id, name, removable }) => {
   };
 
   const currentChannelEl = useRef(null);
+  const isCurrentChannelDefault = currentChannelId === defaultChannelId;
   useEffect(() => {
     if (currentChannelEl.current) {
       currentChannelEl.current.scrollIntoView({ behavior: 'auto' });
     }
-  }, []);
+  }, [isCurrentChannelDefault]);
 
   const isCurrentChannel = id === currentChannelId;
   const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': isCurrentChannel });
