@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import registrationImg from '../images/registration.jpg';
 import SignupForm from './SignupForm';
+import routes from '../routes';
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ const Signup = () => {
               <div className="text-center">
                 <span>{t('signup.alreadyHaveAccount')}</span>
                 {' '}
-                <a href="/login">{t('signup.login')}</a>
+                <a href={routes.loginPagePath()}>{t('signup.login')}</a>
               </div>
             </div>
           </div>
