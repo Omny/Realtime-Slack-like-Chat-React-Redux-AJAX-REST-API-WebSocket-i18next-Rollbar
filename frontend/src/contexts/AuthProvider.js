@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import AuthContext from '.';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = useCallback((user, token) => {
     localStorage.setItem('user', user);
@@ -22,9 +22,9 @@ const AuthProvider = ({ children }) => {
 
   const authContextValue = useMemo(
     () => ({
-      loggedIn, handleLogin, handleLogout, getToken, getUsername,
+      isLoggedIn, handleLogin, handleLogout, getToken, getUsername,
     }),
-    [loggedIn, handleLogin, handleLogout, getToken, getUsername],
+    [isLoggedIn, handleLogin, handleLogout, getToken, getUsername],
   );
 
   return (

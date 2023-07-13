@@ -11,7 +11,7 @@ const Nav = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <a className="navbar-brand" href="/">{t('nav.hexletChat')}</a>
-        {auth.loggedIn ? (
+        {auth.isLoggedIn ? (
           <>
             <span className="navbar-text">
               {t('nav.welcome')}
