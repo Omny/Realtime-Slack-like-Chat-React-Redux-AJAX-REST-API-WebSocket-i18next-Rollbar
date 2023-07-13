@@ -5,13 +5,12 @@ import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { setCurrentChannelId, defaultChannelId } from '../slices/channelsSlice';
+import { selectors as channelsSelectors, setCurrentChannelId, defaultChannelId } from '../slices/channelsSlice';
 import { openModal } from '../slices/modalSlice';
 
 const Channel = ({ id, name, removable }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const handleShowRemoveChannelModal = (clickedId) => {
     dispatch(openModal({ modalType: 'removeChannel', idToUpdate: clickedId }));
@@ -26,12 +25,15 @@ const Channel = ({ id, name, removable }) => {
   };
 
   const currentChannelEl = useRef(null);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+
   const isCurrentChannelDefault = currentChannelId === defaultChannelId;
+  const isCurrentChannelLast = currentChannelId === useSelector(channelsSelectors.selectIds).at(-1);
   useEffect(() => {
-    if (currentChannelEl.current) {
+    if (currentChannelEl.current && (isCurrentChannelDefault || isCurrentChannelLast)) {
       currentChannelEl.current.scrollIntoView({ behavior: 'auto' });
     }
-  }, [isCurrentChannelDefault]);
+  }, [isCurrentChannelDefault, isCurrentChannelLast]);
 
   const isCurrentChannel = id === currentChannelId;
   const btnClassName = cn('w-100 rounded-0 text-start text-truncate', { 'btn-secondary': isCurrentChannel });
