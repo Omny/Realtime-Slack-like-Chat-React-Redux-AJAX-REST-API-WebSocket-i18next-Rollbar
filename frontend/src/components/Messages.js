@@ -28,34 +28,32 @@ const Messages = () => {
   }, [messages]);
 
   return (
-    <div className="col p-0 h-100">
-      <div className="d-flex flex-column h-100">
-        <div className="bg-light mb-4 p-3 shadow-sm small">
-          <p className="m-0">
-            <b>
-              {'# '}
-              {currentChannel && currentChannel.name}
-            </b>
-          </p>
-          <span className="text-muted">
-            {t('messages.messages')}
-            {': '}
-            {currentMessages && currentMessages.length}
-          </span>
-        </div>
-        <div id="messages-box" ref={messagesBoxRef} className="chat-messages overflow-auto px-5 ">
-          {currentMessages && currentMessages
-            .map(({ body, username, id }) => (
-              <div key={id} className="text-break mb-2">
-                {(currentUser === username) ? <b className="text-primary">{username}</b> : <b>{username}</b>}
-                {': '}
-                {body}
-              </div>
-            ))}
-        </div>
-        <div className="mt-auto px-5 py-3">
-          <MessageForm />
-        </div>
+    <div className="col p-0 d-flex flex-column h-100">
+      <div className="bg-light mb-4 p-3 shadow-sm small">
+        <p className="m-0">
+          <b>
+            {'# '}
+            {currentChannel && currentChannel.name}
+          </b>
+        </p>
+        <span className="text-muted">
+          {t('messages.messages')}
+          {': '}
+          {currentMessages && currentMessages.length}
+        </span>
+      </div>
+      <div id="messages-box" ref={messagesBoxRef} className="chat-messages overflow-auto px-5 ">
+        {currentMessages && currentMessages
+          .map(({ body, username, id }) => (
+            <div key={id} className="text-break mb-2">
+              {(currentUser === username) ? <b className="text-primary">{username}</b> : <b>{username}</b>}
+              {': '}
+              {body}
+            </div>
+          ))}
+      </div>
+      <div className="mt-auto px-5 py-3">
+        <MessageForm />
       </div>
     </div>
   );
