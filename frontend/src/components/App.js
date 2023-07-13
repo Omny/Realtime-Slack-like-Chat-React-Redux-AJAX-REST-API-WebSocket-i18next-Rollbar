@@ -19,7 +19,7 @@ import PrivateRoute from './PrivateRoute';
 import ErrorDisplay from './ErrorDisplay';
 
 const rollbarConfig = {
-  accessToken: 'f42e1f74f582468985d440c4d65b1b18',
+  accessToken: 'process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN',
   environment: 'testenv',
 };
 
