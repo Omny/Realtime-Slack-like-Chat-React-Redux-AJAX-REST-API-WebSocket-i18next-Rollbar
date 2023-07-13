@@ -22,6 +22,7 @@ const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   environment: 'testenv',
 };
+console.log(process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN);
 
 const App = () => {
   useEffect(() => {
