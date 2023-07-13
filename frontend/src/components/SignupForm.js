@@ -35,7 +35,6 @@ const SignupForm = () => {
       auth.handleLogin(response.data.username, response.data.token);
       navigate(routes.homePagePath());
     } catch (error) {
-      console.log(error);
       if (error.response?.status === 409) {
         setFieldError('username', t('signup.alreadyExists'));
         setSubmitting(false);

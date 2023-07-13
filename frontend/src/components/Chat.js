@@ -27,7 +27,6 @@ const Chat = () => {
         dispatch(newMessages(messages));
         dispatch(setCurrentChannelId(currentChannelId));
       } catch (error) {
-        console.log(error);
         if (error.response?.status === 401) {
           auth.handleLogout();
         } else if (axios.isAxiosError(error)) {

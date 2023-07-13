@@ -28,7 +28,6 @@ const LoginForm = () => {
       auth.handleLogin(response.data.username, response.data.token);
       navigate(routes.homePagePath());
     } catch (error) {
-      console.log(error);
       if (error.response?.status === 401) {
         setFieldError('username', ' ');
         setFieldError('password', t('login.authFailed'));
