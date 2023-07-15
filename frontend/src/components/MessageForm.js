@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 import cn from 'classnames';
 import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,10 @@ const MessageForm = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const auth = useAuth();
   const username = auth.getUsername();
+
+  const MessageSchema = Yup.object().shape({
+    body: Yup.string().required(t('messages.required')),
+  });
 
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     const handleAfterResponse = (response) => {
@@ -30,14 +35,8 @@ const MessageForm = () => {
   return (
     <Formik
       initialValues={{ body: '' }}
+      validationSchema={MessageSchema}
       onSubmit={handleSubmit}
-      validate={(values) => {
-        const errors = {};
-        if (!values.body) {
-          errors.body = t('messages.required');
-        }
-        return errors;
-      }}
     >
       {({ errors, values, isSubmitting }) => (
         <Form noValidate className="py-1 border rounded-2">
