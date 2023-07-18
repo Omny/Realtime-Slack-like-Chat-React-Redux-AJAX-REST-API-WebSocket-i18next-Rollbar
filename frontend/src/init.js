@@ -4,8 +4,9 @@ import { Provider as RollbarProvider } from '@rollbar/react';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import filter from 'leo-profanity';
+import io from 'socket.io-client';
 import resources from './locales/index.js';
-// import socketManager from '../socketManager';
+import { ApiContext } from './contexts';
 import store from './slices';
 import App from './components/App';
 
@@ -31,12 +32,25 @@ const rollbarConfig = {
 
 filter.add(filter.getDictionary('ru'));
 
+const socket = io();
+
+const socketApi = {
+  subscribe: (event, callback) => {
+    socket.on(event, callback);
+  },
+  emit: (event, payload, callback) => {
+    socket.emit(event, payload, callback);
+  },
+};
+
 export default async () => (
   <RollbarProvider config={rollbarConfig}>
     <I18nextProvider i18n={i18n}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <ApiContext.Provider value={socketApi}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ApiContext.Provider>
     </I18nextProvider>
   </RollbarProvider>
 );

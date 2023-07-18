@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
-import useAuth from '../hooks';
+import { useAuth } from '../hooks';
 import routes from '../routes';
 
 const SignupForm = () => {

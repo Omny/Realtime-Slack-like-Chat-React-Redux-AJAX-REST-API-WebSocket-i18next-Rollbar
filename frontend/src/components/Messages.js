@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
 import { selectors as messagesSelectors } from '../slices/messagesSlice';
 import MessageForm from './MessageForm';
-import useAuth from '../hooks';
+import { useAuth } from '../hooks';
 
 const Messages = () => {
   const { t } = useTranslation();

@@ -4,7 +4,6 @@ import { ErrorBoundary } from '@rollbar/react';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import AuthProvider from '../contexts/AuthProvider';
-import socketManager from '../socketManager';
 import { newMessage } from '../slices/messagesSlice';
 import { newChannel, removeChannel, renameChannel } from '../slices/channelsSlice';
 import routes from '../routes';
@@ -15,16 +14,18 @@ import Chat from './Chat';
 import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
 import ErrorDisplay from './ErrorDisplay';
+import { useApi } from '../hooks';
 
 const App = () => {
   const dispatch = useDispatch();
+  const socketApi = useApi();
 
   useEffect(() => {
-    socketManager.subscribe('newMessage', (payload) => { dispatch(newMessage(payload)); });
-    socketManager.subscribe('newChannel', (payload) => { dispatch(newChannel(payload)); });
-    socketManager.subscribe('removeChannel', (payload) => { dispatch(removeChannel(payload.id)); });
-    socketManager.subscribe('renameChannel', (payload) => { dispatch(renameChannel(payload)); });
-  }, [dispatch]);
+    socketApi.subscribe('newMessage', (payload) => { dispatch(newMessage(payload)); });
+    socketApi.subscribe('newChannel', (payload) => { dispatch(newChannel(payload)); });
+    socketApi.subscribe('removeChannel', (payload) => { dispatch(removeChannel(payload.id)); });
+    socketApi.subscribe('renameChannel', (payload) => { dispatch(renameChannel(payload)); });
+  }, [socketApi, dispatch]);
 
   return (
     <div className="d-flex flex-column h-100">

@@ -3,13 +3,14 @@ import Button from 'react-bootstrap/Button';
 import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import socketManager from '../socketManager';
 import { closeModal } from '../slices/modalSlice';
+import { useApi } from '../hooks';
 
 const RemoveChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const idToDelete = useSelector((state) => state.modal.idToUpdate);
+  const socketApi = useApi();
 
   const handleSubmit = (values, { setSubmitting }) => {
     const handleAfterResponse = (response) => {
@@ -18,7 +19,7 @@ const RemoveChannelForm = () => {
         dispatch(closeModal());
       }
     };
-    socketManager.emit('removeChannel', { id: idToDelete }, handleAfterResponse);
+    socketApi.emit('removeChannel', { id: idToDelete }, handleAfterResponse);
     setSubmitting(false);
   };
 

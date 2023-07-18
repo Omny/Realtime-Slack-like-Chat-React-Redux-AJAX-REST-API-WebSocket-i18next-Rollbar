@@ -9,8 +9,8 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors } from '../slices/channelsSlice';
-import socketManager from '../socketManager';
 import { closeModal } from '../slices/modalSlice';
+import { useApi } from '../hooks';
 
 const RenameChannelForm = () => {
   const { t } = useTranslation();
@@ -18,6 +18,7 @@ const RenameChannelForm = () => {
   const channels = useSelector(channelsSelectors.selectAll);
   const id = useSelector((state) => state.modal.idToUpdate);
   const { name } = channels.find((channel) => channel.id === id);
+  const socketApi = useApi();
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -34,7 +35,7 @@ const RenameChannelForm = () => {
         dispatch(closeModal());
       }
     };
-    socketManager.emit('renameChannel', { id, name: values.name }, handleAfterResponse);
+    socketApi.emit('renameChannel', { id, name: values.name }, handleAfterResponse);
     setSubmitting(false);
   };
 

@@ -6,14 +6,14 @@ import cn from 'classnames';
 import leoProfanity from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
-import socketManager from '../socketManager';
-import useAuth from '../hooks';
+import { useApi, useAuth } from '../hooks';
 
 const MessageForm = () => {
   const { t } = useTranslation();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const auth = useAuth();
   const username = auth.getUsername();
+  const socketApi = useApi();
 
   const MessageSchema = Yup.object().shape({
     body: Yup.string().required(t('messages.required')),
@@ -27,7 +27,7 @@ const MessageForm = () => {
     };
 
     const cleanedBody = leoProfanity.clean(values.body);
-    socketManager.emit('newMessage', { body: cleanedBody, channelId: currentChannelId, username }, handleAfterResponse);
+    socketApi.emit('newMessage', { body: cleanedBody, channelId: currentChannelId, username }, handleAfterResponse);
     setSubmitting(false);
   };
 

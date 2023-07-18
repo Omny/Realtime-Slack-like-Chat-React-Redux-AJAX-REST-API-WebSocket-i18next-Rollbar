@@ -9,13 +9,14 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 import { selectors as channelsSelectors, setCurrentChannelId } from '../slices/channelsSlice';
-import socketManager from '../socketManager';
 import { closeModal } from '../slices/modalSlice';
+import { useApi } from '../hooks';
 
 const AddChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
+  const socketApi = useApi();
 
   const inputRef = useRef(null);
   useEffect(() => {
@@ -32,7 +33,7 @@ const AddChannelForm = () => {
       }
       dispatch(closeModal());
     };
-    socketManager.emit('newChannel', { name: values.name }, handleAfterResponse);
+    socketApi.emit('newChannel', { name: values.name }, handleAfterResponse);
     setSubmitting(false);
   };
 

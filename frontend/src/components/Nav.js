@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks';
+import { useAuth } from '../hooks';
 import routes from '../routes';
 
 const Nav = () => {

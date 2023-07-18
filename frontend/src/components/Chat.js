@@ -9,7 +9,7 @@ import { newChannels, setCurrentChannelId } from '../slices/channelsSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 import ModalWindow from './ModalWindow';
-import useAuth from '../hooks';
+import { useAuth } from '../hooks';
 
 const Chat = () => {
   const { t } = useTranslation();
