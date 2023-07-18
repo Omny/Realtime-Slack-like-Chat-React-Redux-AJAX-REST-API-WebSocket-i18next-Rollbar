@@ -1,0 +1,34 @@
+import React from 'react';
+import { Provider as RollbarProvider } from '@rollbar/react';
+import i18next from 'i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
+import resources from './locales/index.js';
+import App from './components/App';
+
+const i18n = i18next.createInstance();
+
+await i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: 'ru',
+    fallbackLng: 'ru',
+    debug: true,
+
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+const rollbarConfig = {
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+  environment: 'testenv',
+};
+
+export default async () => (
+  <RollbarProvider config={rollbarConfig}>
+    <I18nextProvider i18n={i18n}>
+      <App />
+    </I18nextProvider>
+  </RollbarProvider>
+);

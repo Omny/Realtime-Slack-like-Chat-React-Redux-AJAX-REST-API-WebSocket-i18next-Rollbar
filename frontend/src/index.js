@@ -1,13 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import init from './init';
 
-const root = createRoot(document.getElementById('root'));
+const app = async () => {
+  const root = createRoot(document.getElementById('root'));
+  const vdom = await init();
 
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+  root.render(
+    <React.StrictMode>
+      {vdom}
+    </React.StrictMode>,
+  );
+};
+
+app();

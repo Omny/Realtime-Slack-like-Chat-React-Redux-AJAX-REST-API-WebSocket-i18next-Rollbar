@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import '../i18n';
-import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
+import { ErrorBoundary } from '@rollbar/react';
 import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import store from '../slices';
@@ -18,11 +17,6 @@ import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
 import ErrorDisplay from './ErrorDisplay';
 
-const rollbarConfig = {
-  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
-  environment: 'testenv',
-};
-
 const App = () => {
   useEffect(() => {
     socketManager.subscribe('newMessage', (payload) => { store.dispatch(newMessage(payload)); });
@@ -33,31 +27,29 @@ const App = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <RollbarProvider config={rollbarConfig}>
-        <ErrorBoundary fallbackUI={ErrorDisplay}>
-          <Router>
-            <Provider store={store}>
-              <AuthProvider>
-                <Nav />
-                <Routes>
-                  <Route path={routes.loginPagePath()} element={<Login />} />
-                  <Route path={routes.signupPagePath()} element={<Signup />} />
-                  <Route
-                    path={routes.homePagePath()}
-                    element={(
-                      <PrivateRoute>
-                        <Chat />
-                      </PrivateRoute>
+      <ErrorBoundary fallbackUI={ErrorDisplay}>
+        <Router>
+          <Provider store={store}>
+            <AuthProvider>
+              <Nav />
+              <Routes>
+                <Route path={routes.loginPagePath()} element={<Login />} />
+                <Route path={routes.signupPagePath()} element={<Signup />} />
+                <Route
+                  path={routes.homePagePath()}
+                  element={(
+                    <PrivateRoute>
+                      <Chat />
+                    </PrivateRoute>
                   )}
-                  />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <ToastContainer />
-              </AuthProvider>
-            </Provider>
-          </Router>
-        </ErrorBoundary>
-      </RollbarProvider>
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <ToastContainer />
+            </AuthProvider>
+          </Provider>
+        </Router>
+      </ErrorBoundary>
     </div>
   );
 };
