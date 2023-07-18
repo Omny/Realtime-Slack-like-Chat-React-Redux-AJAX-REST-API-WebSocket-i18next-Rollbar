@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider as RollbarProvider } from '@rollbar/react';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import filter from 'leo-profanity';
 import resources from './locales/index.js';
 import App from './components/App';
 
@@ -24,6 +25,8 @@ const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   environment: 'testenv',
 };
+
+filter.add(filter.getDictionary('ru'));
 
 export default async () => (
   <RollbarProvider config={rollbarConfig}>

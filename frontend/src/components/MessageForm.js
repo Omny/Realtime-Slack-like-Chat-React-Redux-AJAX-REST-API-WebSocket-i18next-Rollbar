@@ -11,7 +11,6 @@ import useAuth from '../hooks';
 
 const MessageForm = () => {
   const { t } = useTranslation();
-  leoProfanity.add(leoProfanity.getDictionary('ru'));
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const auth = useAuth();
   const username = auth.getUsername();
