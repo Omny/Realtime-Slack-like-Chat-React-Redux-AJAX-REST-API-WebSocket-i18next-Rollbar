@@ -10,7 +10,7 @@ In this project I improved my skills with React (with hooks), Redux (@reduxjs/to
 
 ## Deployed app link
 
-https://frontend-project-12-production-4f51.up.railway.app/
+https://frontend-project-12-chi.vercel.app/
 
 ## Requirements
 
